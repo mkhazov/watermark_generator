@@ -27,7 +27,7 @@ gulp.task('server', function() {
 
 // Watch
 gulp.task('watch', function () {
-    gulp.watch('./app/css/**/*.scss', ['sass', reload]);
+    gulp.watch('./app/styles/**/*.scss', ['sass', reload]);
     gulp.watch([
         './app/*.html',
         './app/js/*.js'
@@ -37,9 +37,9 @@ gulp.task('watch', function () {
 
 // Sass
 gulp.task('sass', function () {
-  gulp.src('./app/css/**/*.scss')
+  gulp.src('./app/styles/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./app/css'));
+    .pipe(gulp.dest('./app/styles'));
 });
 
 // Bower (wiredep)
