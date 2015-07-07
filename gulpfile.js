@@ -1,5 +1,5 @@
 var gulp        = require('gulp'),
-    wiredep     = require('wiredep').stream;
+    wiredep     = require('wiredep').stream,
     sass        = require('gulp-sass'),
     clean       = require('gulp-clean'),
     useref      = require('gulp-useref'),
