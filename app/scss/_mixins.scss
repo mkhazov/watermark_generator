@@ -1,0 +1,64 @@
+
+@mixin border-radius ($radius){
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
+	border-radius: $radius;
+}
+
+@mixin transition ($prop, $time, $bez){
+	-webkit-transition: $prop $time $bez;
+	-moz-transition: $prop $time $bez;
+	-ms-transition: $prop $time $bez;
+	transition: $prop $time $bez;
+}
+
+
+@mixin box-shadow ($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $color;
+    -moz-box-shadow:inset $top $left $blur $color;
+    box-shadow:inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
+@mixin fontfamily ($font) {
+	@font-face {
+	    font-family: $font;
+	    src: url($fonts_tmp + $font + '.eot');
+	    src: url($fonts_tmp + $font + '.eot?#iefix') format('embedded-opentype'),
+	         url($fonts_tmp + $font + '.woff2') format('woff2'),
+	         url($fonts_tmp + $font + '.woff') format('woff'),
+	         url($fonts_tmp + $font + '.ttf') format('truetype'),
+	         url($fonts_tmp + $font + '.svg#' + $font) format('svg');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+}
+
+
+
+.clearfix {
+	&:after, &:before {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+
+.sprite {
+    background-image: url($img_tmp + 'sprite.png');
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.font-size-zero {
+	font-size: 0;
+}

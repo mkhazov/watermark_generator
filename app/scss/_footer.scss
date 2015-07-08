@@ -1,0 +1,14 @@
+@include fontfamily (firasans-light);
+.footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	color:#fff;
+	text-align: center;
+	width:100%;
+}
+
+.footer__copy {
+	padding: $global_padding;
+	font-family: firasans-light;
+}
