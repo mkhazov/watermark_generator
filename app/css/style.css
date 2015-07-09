@@ -30,7 +30,6 @@ body {
 html {
   background: url("../img/page_bg.jpg") fixed;
   background-size: cover;
-  overflow-y: scroll;
   font-family: elektra_light_proregular, sans-serif;
   color: #2E3641;
   font-size: 15px; }
@@ -52,25 +51,36 @@ a {
   background: none; }
 
 .wrapper {
-  position: relative;
-  min-height: 100%; }
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
+  text-align: center; }
+  .wrapper:after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    widht: 0;
+    vertical-align: middle; }
 
 .page {
+  text-align: left;
+  position: relative;
   max-width: 960px;
   min-width: 960px;
   margin: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  height: 675px; }
+  display: inline-block;
+  vertical-align: middle;
+  height: 670px;
+  z-index: 10; }
 
 .main {
   width: 700px;
   float: left;
   background: #6A6664;
-  height: 675px;
+  height: 670px;
   box-sizing: border-box;
   padding: 25px; }
 
@@ -80,17 +90,41 @@ a {
   color: #fff;
   font-weight: normal;
   margin: 0;
-  line-height: 36px; }
+  line-height: 36px;
+  margin-bottom: 55px; }
 
 .sidebar {
   width: 260px;
   background: #F1F1F5;
-  height: 675px;
+  height: 670px;
   box-sizing: border-box;
   padding: 25px; }
 
 .sidebar_right {
   float: right; }
+
+.image-container {
+  width: 650px;
+  height: 534px;
+  overflow: auto;
+  background: #ff0000;
+  text-align: center;
+  position: relative; }
+
+.image-container__workspace {
+  width: 650px;
+  height: 534px;
+  display: table-cell;
+  vertical-align: middle; }
+
+.image-container__main-image {
+  display: inline-block;
+  position: relative; }
+
+.image-container__watermark {
+  position: absolute;
+  top: 0;
+  left: 0; }
 
 @font-face {
   font-family: roboto-light-webfont;
@@ -106,7 +140,7 @@ a {
   font-family: SegoeUI-Light, arial;
   line-height: 36px;
   vertical-align: text-bottom;
-  margin-bottom: 20px;
+  margin-bottom: 27px;
   padding-top: 4px; }
 
 .form__item {
@@ -140,6 +174,7 @@ a {
   border: 1px solid #9EB2C0;
   border-radius: 3px;
   padding: 5px 39px 6px 4px;
+  white-space: nowrap;
   box-sizing: border-box;
   color: #9EB2C0;
   font-size: 12px;
