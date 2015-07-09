@@ -3,3 +3,5 @@ app/bower
 dist
 .idea
 Thumbs.db
+
+/vendor/

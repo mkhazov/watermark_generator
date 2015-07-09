@@ -1,0 +1,11 @@
+{
+    "name": "loftschool3/watermark-generator",
+    "require": {
+    },
+    "authors": [
+        {
+            "name": "Mikhail Khazov",
+            "email": "mikhailkhazov@gmail.com"
+        }
+    ]
+}
