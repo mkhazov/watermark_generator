@@ -4,5 +4,13 @@
     "jquery": "1.11",
     "jquery-ui": "~1.11.4",
     "normalize.css": "~3.0.3"
+  },
+  "overrides": {
+    "jquery-ui": {
+      "main": [
+	    "jquery-ui.js",
+	    "themes/base/all.css"
+	  ]
+    }
   }
 }
