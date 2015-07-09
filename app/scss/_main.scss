@@ -1,0 +1,95 @@
+@include fontfamily (SegoeUI-Light);
+
+:focus{outline:none;}
+html,
+body {
+  height: 100%;
+  
+}
+html {
+  background: url($img_tmp + 'page_bg.jpg') fixed;
+  background-size: cover;
+  overflow-y:scroll; 
+  font-family: elektra_light_proregular, sans-serif;
+  color:$text_color;
+  font-size: 15px;
+}
+ul {
+	margin-right: 0;
+	padding:0;
+}
+li{
+  list-style: none;
+}
+
+a {
+	color:$link_color;
+	&:hover{
+		color:$link_color_hover;
+	}
+}
+
+
+.no-borderimage {
+	select {
+		padding-right: 0;
+		background: none;	
+	}
+
+}
+
+
+.wrapper {
+  position: relative;
+  min-height: 100%;
+  @extend .clearfix;
+}
+
+.page {
+	max-width: $page_width;
+	min-width: $page_width;
+	margin:auto;
+	// padding-bottom: $footer_height + 80;
+	
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: $app_height;
+	@extend .clearfix;
+}
+
+.main {
+	@extend .clearfix;
+	width: $main_width;
+	float: left;
+	background: $main_bg_color;
+	height: $app_height;
+	box-sizing: border-box;
+	padding: $global_padding;
+}
+
+
+.main__title {
+	font-size: 36px;
+	font-family: SegoeUI-Light, arial;
+	color:#fff;
+	font-weight: normal;
+	margin: 0;
+	line-height: 36px;
+}
+
+.sidebar {
+	width: $sidebar_width;
+	background: $sidebar_bg_color;
+	height: $app_height;
+	box-sizing: border-box;
+	padding: $global_padding;
+}
+
+.sidebar_right{
+	float:right;
+}
+
+

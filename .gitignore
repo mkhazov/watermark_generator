@@ -2,3 +2,4 @@ node_modules
 app/bower
 dist
 .idea
+Thumbs.db

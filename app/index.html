@@ -8,19 +8,57 @@
     <meta name="keywords" content="Генератор водяных знаков">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- build:css css/vendor.css -->
+    <!-- build:css css/vendor.min.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower/normalize.css/normalize.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:css css/style.css -->
+    <!-- build:css css/style.min.css -->
     <link rel="stylesheet" href="css/style.css" />
     <!-- endbuild -->
-
+    <!-- build:js js/modernizr.min.js -->
+    <script src="bower/modernizr/modernizr.js"></script>
+    <!-- endbuild -->   
 </head>
-<body>
 
+<body>
+    <div class="wrapper">
+    
+        <div class="page">
+        	<main class="main">
+        		<h1 class="main__title">Генератор водяных знаков</h1>
+        	</main>
+        	<aside class="sidebar sidebar_right">
+        		<div class="settings">
+        			<div class="settings__title">Настройки</div>
+					<section class="settings__upload">
+                        <form action="" class="form">
+                            <div class="form__item">
+                                <label for="source-image" class="form__label">Картинка проекта</label>
+                                <label for="source-image" class="form__file-label">Вставить файл</label>
+                                <input type="file" name="source-image" id="source-image" class="form__file">
+                            </div>
+                            <div class="form__item">
+                                <label for="watermark-image" class="form__label">Водяной знак</label>
+                                <label for="watermark-image" class="form__file-label">Вставить файл</label>
+                                <input type="file" name="watermark-image" id="watermark-image" class="form__file">
+                            </div>                            
+                        </form>
+                    </section>
+                    <section class="settings__position">
+                        
+                    </section>
+                    <section class="settings__opacity"></section>
+                    <section class="settings__download"></section>
+        		</div>
+        	</aside>
+        </div>
+        <footer class="footer">
+        	<div class="footer__copy">Это наш сайт, пожалуйста не воруйте его</div>
+        </footer>
+
+    </div>
     <!-- build:js js/vendor.js -->
     <!-- bower:js -->
     <script src="bower/jquery/dist/jquery.js"></script>
