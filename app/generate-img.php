@@ -10,8 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $position_x = $_POST['position_x'];
     $position_y = $_POST['position_y'];
+    $opacity = $_POST['opacity'];
+    // @todo validate POST data
 
-    process_image($image, $watermark, $position_x, $position_y);
+    process_image($image, $watermark);
 }
 
 else {
@@ -31,7 +33,7 @@ function process_image($image, $watermark, $position_x = 0, $position_y = 0) {
     $watermark_string = file_get_contents($watermark['tmp_name']);
 
     // генерация изображения
-    $result_image = generate_img($image_string, $watermark_string, $position_x, $position_y);
+    $result_image = generate_img($image['tmp_name'], $watermark['tmp_name'], $position_x, $position_y);
     // генерация имени файла, предлагаемого для сохранения
     $result_filename = generate_filename($image);
     // диалог сохранения файла
@@ -93,30 +95,23 @@ function check_file_name($filename) {
 /**
  * Генерация изображения.
  *
- * @param string $image_file основное изображение (binary string).
- * @param string $watermark_file водяной знак (binary string).
+ * @param string $image_file файл основного изображения.
+ * @param string $watermark_file файл водяного знака.
  * @param int $position_x требуемая позиция водяного знака по оси X.
  * @param int $position_y требуемая позиция водяного знака по оси Y.
  * @return binary сгенерированное изображение.
  */
-function generate_img($image_file, $watermark_file, $position_x = 0, $position_y = 0) {
-    $imagine = new Imagine\Imagick\Imagine();
+function generate_img($image_file, $watermark_file, $position_x = 0, $position_y = 0, $opacity = 100) {
+    $jpeg_quality = 80;
 
-    $image = $imagine->load($image_file);
-    $watermark = $imagine->load($watermark_file);
-    $image_size = $image->getSize();
-    $watermark_size = $watermark->getSize();
+    $wi = new WideImage\WideImage();
+    $image = $wi->load($image_file);
+    $watermark = $wi->load($watermark_file);
 
-    $position = new Imagine\Image\Point($position_x, $position_y);
+    $generated_image = $image->merge($watermark, $position_x, $position_y, $opacity);
+    $result_image = $generated_image->asString('jpg', $jpeg_quality);
 
-    $image->paste($watermark, $position);
-
-    $extension = 'jpg';
-    $options = array(
-        'jpeg_quality' => 75,
-    );
-
-    return $image->get($options);
+    return $result_image;
 }
 
 function download_img($img, $filename, $filesize = 0) {
