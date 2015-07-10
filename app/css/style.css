@@ -143,25 +143,25 @@ a {
   margin-bottom: 27px;
   padding-top: 4px; }
 
-.form__item {
+.settings__form-item {
   position: relative;
   margin-bottom: 20px; }
 
-.form__label {
+.settings__form-label {
   font-size: 14px;
   color: #2E3641;
   font-family: roboto-light-webfont, arial;
   display: block;
   text-align: left; }
 
-.form__file {
+.settings__form-file {
   width: 100%;
   max-width: 188px;
   border-radius: 3px;
   padding: 4px;
   box-sizing: border-box; }
 
-.form__file-label {
+.settings__form-file-label {
   display: block;
   position: absolute;
   left: 0;
@@ -179,7 +179,7 @@ a {
   color: #9EB2C0;
   font-size: 12px;
   font-family: arial; }
-  .form__file-label:after {
+  .settings__form-file-label:after {
     content: '';
     position: absolute;
     right: -1px;
