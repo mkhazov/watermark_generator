@@ -10,12 +10,14 @@
 
     <!-- build:css css/vendor.min.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower/jquery-ui/themes/base/all.css" />
     <link rel="stylesheet" href="bower/normalize.css/normalize.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css css/style.min.css -->
     <link rel="stylesheet" href="css/style.css" />
+
     <!-- endbuild -->
     <!-- build:js js/modernizr.min.js -->
     <script src="bower/modernizr/modernizr.js"></script>
@@ -24,40 +26,88 @@
 
 <body>
     <div class="wrapper">
-    
         <div class="page">
         	<main class="main">
         		<h1 class="main__title">Генератор водяных знаков</h1>
+                <div class="image-container">
+                    <div class="image-container__workspace">
+                        <div class="image-container__main-image">
+                            <!-- <img src="http://dummyimage.com/600x400/000/0011ff.png" alt="Main Image"> -->
+                            <!-- <img src="http://dummyimage.com/1000x800/000/0011ff.png" alt="Main Image"> -->
+                            <div class="image-container__watermark">
+                                <!-- <img src="http://dummyimage.com/100x50/fff/0011ff.png" alt="Watermark"> -->
+                            </div>
+                        </div>
+                    </div> 
+                </div>
         	</main>
         	<aside class="sidebar sidebar_right">
         		<div class="settings">
-        			<div class="settings__title">Настройки</div>
-					<section class="settings__upload">
-                        <form action="" class="form">
-                            <div class="form__item">
-                                <label for="source-image" class="form__label">Картинка проекта</label>
-                                <label for="source-image" class="form__file-label">Вставить файл</label>
-                                <input type="file" name="source-image" id="source-image" class="form__file">
+                    <div class="settings__title">Настройки</div>
+                    <form class="settings__form" name="workform" id="workform" action="">            			
+    					<section class="settings__upload">            
+                            <div class="settings__form-item">
+                                <label for="source-image" class="settings__form-label">Картинка проекта</label>
+                                <label for="source-image" class="settings__form-file-label">Вставить файл</label>
+                                <input type="file" name="source-image" id="source-image" class="settings__form-file">
                             </div>
-                            <div class="form__item">
-                                <label for="watermark-image" class="form__label">Водяной знак</label>
-                                <label for="watermark-image" class="form__file-label">Вставить файл</label>
-                                <input type="file" name="watermark-image" id="watermark-image" class="form__file">
-                            </div>                            
-                        </form>
-                    </section>
-                    <section class="settings__position">
-                        
-                    </section>
-                    <section class="settings__opacity"></section>
-                    <section class="settings__download"></section>
+                            <div class="settings__form-item">
+                                <label for="watermark-image" class="settings__form-label">Водяной знак</label>
+                                <label for="watermark-image" class="settings__form-file-label">Вставить файл</label>
+                                <input type="file" name="watermark-image" id="watermark-image" class="settings__form-file">
+                            </div>                                
+                        </section>
+                        <section class="settings__position">
+                            <div class="settings__section-title">Положение</div>
+                            <div class="settings__position-buttons">
+    	                        <a class="settings__position-button settings__position-button_top-left"></a>
+    	                        <a class="settings__position-button settings__position-button_top-center"></a>
+    	                        <a class="settings__position-button settings__position-button_top-right"></a>
+    	                        <a class="settings__position-button settings__position-button_middle-left"></a>
+    	                        <a class="settings__position-button settings__position-button_middle-center"></a>
+    	                        <a class="settings__position-button settings__position-button_middle-right"></a>
+    	                        <a class="settings__position-button settings__position-button_bottom-left"></a>
+    	                        <a class="settings__position-button settings__position-button_bottom-center"></a>
+    	                        <a class="settings__position-button settings__position-button_bottom-right"></a>
+                            </div>
+                            <div class="settings__form-items">                        
+                                <div class="settings__form-item">
+                                    <label for="position-x" class="settings__form-label-position">x</label>
+                                    <input type="text" name="position-x" id="position-x" class="settings__text-position settings__text-position_x">
+                                    <div class="settings__arrows">
+                                        <div class="settings__arrow-up settings__arrow-up_x"></div>
+                                        <div class="settings__arrow-down settings__arrow-down_x"></div>
+                                    </div>
+                                </div>
+                                <div class="settings__form-item">
+                                    <label for="position-y" class="settings__form-label-position">y</label>
+                                    <input type="text" name="position-y" id="position-y"  class="settings__text-position settings__text-position_y">
+                                    <div class="settings__arrows">
+                                        <div class="settings__arrow-up settings__arrow-up_y"></div>
+                                        <div class="settings__arrow-down settings__arrow-down_y"></div>
+                                    </div>
+                                </div>
+                            </div>                          
+                        </section> 
+                        <section class="settings__opacity">
+                            <div class="settings__section-title">Прозрачность</div>
+                            <!-- Сюда встанет бегунок -->
+                            <div class="settings__runner"></div> 
+                        </section>
+                        <section class="settings__download">                
+                        	<input type="hidden" class="settings__hidden" name="send-position-x" id="send-position-x">
+                        	<input type="hidden" class="settings__hidden" name="send-position-y" id="send-position-y">
+                            <input type="hidden" class="settings__hidden" name="send-opacity" id="send-opacity">
+                            <button class="settings__button settings__button_reset">Сброс</button>
+                            <button class="settings__button settings__button_download">Скачать</button>
+                        </section>
+                    </form>
         		</div>
         	</aside>
         </div>
         <footer class="footer">
         	<div class="footer__copy">Это наш сайт, пожалуйста не воруйте его</div>
         </footer>
-
     </div>
     <!-- build:js js/vendor.js -->
     <!-- bower:js -->
@@ -66,8 +116,9 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:js js/main.js -->
-
+    <!-- build:js js/main.min.js -->
+    <script src="js/app.js"></script>
+    <script src="js/main.js"></script>
     <!-- endbuild -->
 </body>
 </html>
