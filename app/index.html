@@ -32,10 +32,10 @@
                 <div class="image-container">
                     <div class="image-container__workspace">
                         <div class="image-container__main-image">
-                            <img src="http://dummyimage.com/600x400/000/0011ff.png" alt="Main Image">
+                            <!-- <img src="http://dummyimage.com/600x400/000/0011ff.png" alt="Main Image"> -->
                             <!-- <img src="http://dummyimage.com/1000x800/000/0011ff.png" alt="Main Image"> -->
                             <div class="image-container__watermark">
-                                <img src="http://dummyimage.com/100x50/fff/0011ff.png" alt="Watermark">
+                                <!-- <img src="http://dummyimage.com/100x50/fff/0011ff.png" alt="Watermark"> -->
                             </div>
                         </div>
                     </div> 
@@ -69,18 +69,24 @@
     	                        <a class="settings__position-button settings__position-button_bottom-left"></a>
     	                        <a class="settings__position-button settings__position-button_bottom-center"></a>
     	                        <a class="settings__position-button settings__position-button_bottom-right"></a>
-                            </div>                        
-                            <div class="settings__form-item">
-                                <label for="position-x" class="settings__form-label-position">x</label>
-                                <input type="text" name="position-x" id="position-x" class="settings__text-position settings__text-position_x">
-                                <div class="settings__arrow-up settings__arrow-up_x">▲</div>
-                                <div class="settings__arrow-down settings__arrow-down_x">▼</div>
                             </div>
-                            <div class="settings__form-item">
-                                <label for="position-y" class="settings__form-label-position">y</label>
-                                <input type="text" name="position-y" id="position-y"  class="settings__text-position settings__text-position_y">
-                                <div class="settings__arrow-up settings__arrow-up_y">▲</div>
-                                <div class="settings__arrow-down settings__arrow-down_y">▼</div>
+                            <div class="settings__form-items">                        
+                                <div class="settings__form-item">
+                                    <label for="position-x" class="settings__form-label-position">x</label>
+                                    <input type="text" name="position-x" id="position-x" class="settings__text-position settings__text-position_x">
+                                    <div class="settings__arrows">
+                                        <div class="settings__arrow-up settings__arrow-up_x"></div>
+                                        <div class="settings__arrow-down settings__arrow-down_x"></div>
+                                    </div>
+                                </div>
+                                <div class="settings__form-item">
+                                    <label for="position-y" class="settings__form-label-position">y</label>
+                                    <input type="text" name="position-y" id="position-y"  class="settings__text-position settings__text-position_y">
+                                    <div class="settings__arrows">
+                                        <div class="settings__arrow-up settings__arrow-up_y"></div>
+                                        <div class="settings__arrow-down settings__arrow-down_y"></div>
+                                    </div>
+                                </div>
                             </div>                          
                         </section> 
                         <section class="settings__opacity">

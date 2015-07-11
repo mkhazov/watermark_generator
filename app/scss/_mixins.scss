@@ -13,6 +13,12 @@
 	transition: $prop $time $bez;
 }
 
+@mixin transition ($prop, $time, $bez){
+	-webkit-transition: $prop $time $bez;
+	-moz-transition: $prop $time $bez;
+	-ms-transition: $prop $time $bez;
+	transition: $prop $time $bez;
+}
 
 @mixin box-shadow ($top, $left, $blur, $color, $inset: false) {
   @if $inset {
@@ -52,13 +58,3 @@
 	}
 }
 
-
-.sprite {
-    background-image: url($img_tmp + 'sprite.png');
-    background-repeat: no-repeat;
-    display: block;
-}
-
-.font-size-zero {
-	font-size: 0;
-}
