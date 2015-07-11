@@ -84,7 +84,7 @@ function download_img($img, $filename, $filesize = 0) {
 
 /**
  * Генерация имени итогового файла.
- * @param array $file POST-массив файла основного изображения.
+ * @param array $filename имя файла загруженного изображения.
  * @return string имя итогового файла.
  */
 function generate_filename($filename) {
@@ -99,13 +99,30 @@ function generate_filename($filename) {
  * @return array $file
  */
 function check_file($file) {
-    if (check_file_size($file['size']) && check_file_name($file['name'])) {
+    if (check_file_size($file['size']) && check_file_name($file['name']) && check_file_extension($file['name'])) {
         return $file;
     }
     else {
         header("HTTP/1.1 302 Moved Temporarily");
         header("Location: /");
         exit;
+    }
+}
+
+/**
+ * Валидация расширения файла.
+ * @param string $filename имя файла.
+ * @return bool валидно ли расширение файла.
+ */
+function check_file_extension($filename) {
+    $allowed_extensions = array('gif', 'png', 'jpg', 'bmp');
+    $path_parts = pathinfo($filename);
+    $extension = strtolower($path_parts['extension']);
+    if (in_array($extension, $allowed_extensions)) {
+        return TRUE;
+    }
+    else {
+        return FALSE;
     }
 }
 
@@ -128,8 +145,8 @@ function check_file_size($filesize) {
 */
 function check_file_name($filename) {
     return
-        // имя может содержать только англ. и рус. буквы, цифры, символы "-", "_" и "."
-        (!preg_match("{^[-0-9a-zA-Zа-яА-Я_\. ]+$}i", $filename)
+        // имя может содержать только англ. и рус. буквы, цифры, символы "_(.)- "
+        (!preg_match("{^[-0-9a-zA-Zа-яА-Я_\. \(\)]+$}i", $filename)
         // длина не более 255 символов
         || mb_strlen($filename,"UTF-8") > 225)
         ? false : true;
