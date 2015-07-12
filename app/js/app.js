@@ -17,6 +17,16 @@ var formApp = (function() {
         fileLabel.text(fileValue);
     };
 
+    //Включение слайдера на изменение прозрачности
+    var _opacitySliderOn = function (block) {
+        runner.slider({
+            slide: function(event, ui) {
+                var opacity = (100 - ui.value) / 100;
+                $(block).css('opacity', opacity);
+            }
+        })
+    }
+
     var _checkFormat = function(file) {
         var mymeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'],
             trueFormat = false;
@@ -75,6 +85,7 @@ var formApp = (function() {
     return {
         init: function() {
             _addEventListeners();
+            _opacitySliderOn('.image-container__watermark');
         }
     }
 })();
