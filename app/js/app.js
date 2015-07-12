@@ -74,6 +74,10 @@ var formApp = (function() {
                     watermarkContainer.find('img').attr('src', dataUri);
                 }
             }
+
+            var block = moveIt();
+            block.init('.image-container__watermark', '.image-container__main-image');
+            block.dragNDropEnable();
         }
 
         reader.onerror = function() {
