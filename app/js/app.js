@@ -17,6 +17,16 @@ var formApp = (function() {
         fileLabel.text(fileValue);
     };
 
+    //Включение слайдера на изменение прозрачности
+    var _opacitySliderOn = function (image) {
+        runner.slider({
+            slide: function(event, ui) {
+                var opacity = ui.value / 100;
+                $(img).css('opacity', opacity);
+            }
+        })
+    }
+
     var _checkFormat = function(file) {
         var mymeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'],
             trueFormat = false;
@@ -58,7 +68,8 @@ var formApp = (function() {
             }
             else if ($this.attr('name') == 'watermark-image') {
                 if (!watermarkContainer.children().is('img')) {
-                    watermarkContainer.append(img);
+                    var wmImage = watermarkContainer.append(img);
+                    _opacitySliderOn(wmImage);
                 }
                 else {
                     watermarkContainer.find('img').attr('src', dataUri);
