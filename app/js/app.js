@@ -18,11 +18,11 @@ var formApp = (function() {
     };
 
     //Включение слайдера на изменение прозрачности
-    var _opacitySliderOn = function (image) {
+    var _opacitySliderOn = function (block) {
         runner.slider({
             slide: function(event, ui) {
-                var opacity = ui.value / 100;
-                $(img).css('opacity', opacity);
+                var opacity = (100 - ui.value) / 100;
+                $(block).css('opacity', opacity);
             }
         })
     }
@@ -68,8 +68,7 @@ var formApp = (function() {
             }
             else if ($this.attr('name') == 'watermark-image') {
                 if (!watermarkContainer.children().is('img')) {
-                    var wmImage = watermarkContainer.append(img);
-                    _opacitySliderOn(wmImage);
+                    watermarkContainer.append(img);
                 }
                 else {
                     watermarkContainer.find('img').attr('src', dataUri);
@@ -86,6 +85,7 @@ var formApp = (function() {
     return {
         init: function() {
             _addEventListeners();
+            _opacitySliderOn('.image-container__watermark');
         }
     }
 })();
