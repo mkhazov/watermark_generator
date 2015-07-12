@@ -1,3 +1,4 @@
 $(document).ready(function(){
-		formApp.init();
+	formApp.init();
+    submit.init();
 });
