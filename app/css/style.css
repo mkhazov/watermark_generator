@@ -5,14 +5,6 @@
 .clearfix:after, .wrapper:after, .page:after, .main:after {
   clear: both; }
 
-.sprite {
-  background-image: url("../img/sprite.png");
-  background-repeat: no-repeat;
-  display: block; }
-
-.font-size-zero {
-  font-size: 0; }
-
 @font-face {
   font-family: SegoeUI-Light;
   src: url("../fonts/SegoeUI-Light.eot");
@@ -30,7 +22,6 @@ body {
 html {
   background: url("../img/page_bg.jpg") fixed;
   background-size: cover;
-  overflow-y: scroll;
   font-family: elektra_light_proregular, sans-serif;
   color: #2E3641;
   font-size: 15px; }
@@ -52,25 +43,36 @@ a {
   background: none; }
 
 .wrapper {
-  position: relative;
-  min-height: 100%; }
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
+  text-align: center; }
+  .wrapper:after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    widht: 0;
+    vertical-align: middle; }
 
 .page {
+  text-align: left;
+  position: relative;
   max-width: 960px;
   min-width: 960px;
   margin: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  height: 675px; }
+  display: inline-block;
+  vertical-align: middle;
+  height: 670px;
+  z-index: 10; }
 
 .main {
   width: 700px;
   float: left;
   background: #6A6664;
-  height: 675px;
+  height: 670px;
   box-sizing: border-box;
   padding: 25px; }
 
@@ -80,17 +82,41 @@ a {
   color: #fff;
   font-weight: normal;
   margin: 0;
-  line-height: 36px; }
+  line-height: 36px;
+  margin-bottom: 55px; }
 
 .sidebar {
   width: 260px;
   background: #F1F1F5;
-  height: 675px;
+  height: 670px;
   box-sizing: border-box;
-  padding: 25px; }
+  padding: 19px; }
 
 .sidebar_right {
   float: right; }
+
+.image-container {
+  width: 650px;
+  height: 534px;
+  overflow: auto;
+  background: #ff0000;
+  text-align: center;
+  position: relative; }
+
+.image-container__workspace {
+  width: 650px;
+  height: 534px;
+  display: table-cell;
+  vertical-align: middle; }
+
+.image-container__main-image {
+  display: inline-block;
+  position: relative; }
+
+.image-container__watermark {
+  position: absolute;
+  top: 0;
+  left: 0; }
 
 @font-face {
   font-family: roboto-light-webfont;
@@ -106,28 +132,50 @@ a {
   font-family: SegoeUI-Light, arial;
   line-height: 36px;
   vertical-align: text-bottom;
-  margin-bottom: 20px;
+  margin-bottom: 33px;
   padding-top: 4px; }
 
-.form__item {
+.settings__upload, .settings__position, .settings__opacity {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  position: relative; }
+  .settings__upload:after, .settings__position:after, .settings__opacity:after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: -19px;
+    width: 259px;
+    height: 11px;
+    background: url("../img/separator.png") no-repeat; }
+
+.settings__upload {
+  padding-bottom: 10px; }
+
+.settings__section-title {
+  margin-bottom: 30px; }
+
+.settings__form-item {
   position: relative;
   margin-bottom: 20px; }
 
-.form__label {
+.settings__form-label, .settings__section-title {
   font-size: 14px;
   color: #2E3641;
   font-family: roboto-light-webfont, arial;
   display: block;
   text-align: left; }
 
-.form__file {
+.settings__form-file {
   width: 100%;
   max-width: 188px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
   border-radius: 3px;
   padding: 4px;
   box-sizing: border-box; }
 
-.form__file-label {
+.settings__form-file-label {
   display: block;
   position: absolute;
   left: 0;
@@ -138,13 +186,17 @@ a {
   cursor: pointer;
   width: 100%;
   border: 1px solid #9EB2C0;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
   border-radius: 3px;
   padding: 5px 39px 6px 4px;
+  white-space: nowrap;
   box-sizing: border-box;
   color: #9EB2C0;
   font-size: 12px;
   font-family: arial; }
-  .form__file-label:after {
+  .settings__form-file-label:after {
     content: '';
     position: absolute;
     right: -1px;
@@ -152,6 +204,162 @@ a {
     width: 39px;
     height: 27px;
     background: url("../img/upload.png") no-repeat; }
+
+.settings__position-buttons {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #B0C0CC;
+  font-size: 0;
+  width: 101px;
+  height: 101px;
+  display: inline-block;
+  vertical-align: top; }
+
+.settings__position-button {
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  border-right: 1px solid #B0C0CC;
+  border-bottom: 1px solid #B0C0CC;
+  background: #DBE1E8; }
+  .settings__position-button:nth-child(3n) {
+    border-right: 0; }
+
+.settings__position-button_bottom-left, .settings__position-button_bottom-center, .settings__position-button_bottom-right {
+  border-bottom: 0; }
+
+.settings__position-button_current {
+  background: #FFA7A1; }
+
+.settings__position .settings__form-items {
+  vertical-align: top;
+  display: inline-block;
+  margin-left: 14px; }
+
+.settings__position .settings__form-item {
+  margin-bottom: 15px; }
+
+.settings__arrows {
+  display: inline-block;
+  margin: 4px 0 0 6px; }
+
+.settings__form-label-position {
+  display: inline-block;
+  vertical-align: top;
+  font-family: roboto-light-webfont, time news roman;
+  font-size: 16px;
+  text-transform: uppercase;
+  line-height: 44px;
+  margin-right: 8px;
+  position: relative; }
+
+.settings__text-position {
+  vertical-align: top;
+  display: inline-block;
+  font-family: SegoeUI-Light, arial;
+  font-size: 24px;
+  line-height: 40px;
+  border: 1px solid #B0C0CC;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  width: 42px;
+  text-align: center; }
+
+.settings__arrow-up, .settings__arrow-down {
+  cursor: pointer;
+  width: 13px;
+  height: 19px;
+  background: url("../img/arrows.png") no-repeat; }
+
+.settings__arrow-up {
+  background-position: 0 0; }
+  .settings__arrow-up:hover {
+    background-position: -13px 0px; }
+
+.settings__arrow-down {
+  background-position: 0 bottom; }
+  .settings__arrow-down:hover {
+    background-position: -13px bottom; }
+
+.ui-slider-horizontal {
+  height: 3px;
+  background: #DBE1E8;
+  border: 0; }
+
+.ui-slider-range {
+  background: #9EB2C0; }
+
+.ui-slider-handle {
+  width: 7px !important;
+  height: 7px !important;
+  top: -9px !important;
+  border: 6px solid #DBE1E8 !important;
+  background: #9EB2C0 !important;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 1px 2px #B9BABD;
+  -moz-box-shadow: 0 1px 2px #B9BABD;
+  box-shadow: 0 1px 2px #B9BABD;
+  cursor: pointer !important; }
+
+.ui-slider-handle.ui-state-hover, .ui-slider-handle.ui-state-active {
+  background: #F97E76 !important; }
+
+.settings__download {
+  margin: 0 -11px;
+  padding-top: 42px; }
+
+.settings__button {
+  position: relative;
+  top: 0;
+  line-height: 42px;
+  height: 42px;
+  font-size: 18px;
+  width: 100px;
+  background: #C1CFD9;
+  color: #fff;
+  border: 0;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+  -webkit-box-shadow: 0 4px 0 #b0bec8;
+  -moz-box-shadow: 0 4px 0 #b0bec8;
+  box-shadow: 0 4px 0 #b0bec8; }
+
+@font-face {
+  .settings__button {
+    font-family: roboto-medium-webfont;
+    src: url("../fonts/roboto-medium-webfont.eot");
+    src: url("../fonts/roboto-medium-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/roboto-medium-webfont.woff2") format("woff2"), url("../fonts/roboto-medium-webfont.woff") format("woff"), url("../fonts/roboto-medium-webfont.ttf") format("truetype"), url("../fonts/roboto-medium-webfont.svg#roboto-medium-webfont") format("svg");
+    font-weight: normal;
+    font-style: normal; } }
+  .settings__button:hover {
+    top: 4px;
+    -webkit-box-shadow: 0 0 0 #b0bec8;
+    -moz-box-shadow: 0 0 0 #b0bec8;
+    box-shadow: 0 0 0 #b0bec8; }
+
+.settings__button_download {
+  background: #F97E76;
+  margin-left: 40px;
+  -webkit-box-shadow: 0 4px 0 #e86d65;
+  -moz-box-shadow: 0 4px 0 #e86d65;
+  box-shadow: 0 4px 0 #e86d65; }
+  .settings__button_download:hover {
+    -webkit-box-shadow: 0 0 0 #e86d65;
+    -moz-box-shadow: 0 0 0 #e86d65;
+    box-shadow: 0 0 0 #e86d65; }
 
 @font-face {
   font-family: firasans-light;

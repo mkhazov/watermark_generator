@@ -4,12 +4,12 @@
 html,
 body {
   height: 100%;
+
   
 }
 html {
   background: url($img_tmp + 'page_bg.jpg') fixed;
   background-size: cover;
-  overflow-y:scroll; 
   font-family: elektra_light_proregular, sans-serif;
   color:$text_color;
   font-size: 15px;
@@ -40,23 +40,35 @@ a {
 
 
 .wrapper {
-  position: relative;
-  min-height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow:auto;
+  text-align: center;
+
   @extend .clearfix;
+  &:after {
+  	content:'';
+  	 display: inline-block;
+    height: 100%;
+    widht:0;
+    vertical-align: middle;
+  }
 }
 
 .page {
+	text-align: left;
+	position: relative;
 	max-width: $page_width;
 	min-width: $page_width;
 	margin:auto;
 	// padding-bottom: $footer_height + 80;
-	
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
+	display: inline-block;
+	vertical-align:middle;
 	height: $app_height;
+	z-index:10;
 	@extend .clearfix;
 }
 
@@ -78,6 +90,7 @@ a {
 	font-weight: normal;
 	margin: 0;
 	line-height: 36px;
+	margin-bottom: 55px;
 }
 
 .sidebar {
@@ -85,7 +98,7 @@ a {
 	background: $sidebar_bg_color;
 	height: $app_height;
 	box-sizing: border-box;
-	padding: $global_padding;
+	padding: $sidebar_padding;
 }
 
 .sidebar_right{
@@ -93,3 +106,33 @@ a {
 }
 
 
+.image-container {
+	width:650px;
+	height:534px;
+	overflow:auto;
+	background:#ff0000;
+	text-align: center;
+	position:relative;
+	// &:after{
+	//   	content:'';
+	//   	display: inline-block;
+	//     height: 100%;
+	//     vertical-align: middle;
+	//     width:0;
+	// }
+}
+.image-container__workspace {
+	width:650px;
+	height:534px;	
+	display:table-cell;
+	vertical-align: middle;
+}
+.image-container__main-image {
+	display:inline-block;
+	position: relative;
+}
+.image-container__watermark {
+	position:absolute;
+	top:0;
+	left:0;
+}
