@@ -34,6 +34,7 @@ class WatermarkGenerator {
     private $watermark_file;
     private $position = array('x' => 0, 'y' => 0);
     private $opacity = 100;
+    private $errors = array();
 
     /**
      * @param array $image POST-массив файла основного изображения.
@@ -50,15 +51,6 @@ class WatermarkGenerator {
             'y' => isset($position_y) ? $position_y : $this->position['y'],
         );
         $this->opacity = isset($opacity) ? $opacity : $this->opacity;
-
-        $wi = new WideImage\WideImage();
-        try {
-            $this->image = $wi->load($this->image_file['tmp_name']);
-        }
-        catch (Exception $e) {
-            throw new Exception("tmp_name: " . $this->image_file['tmp_name']);
-        }
-        $this->watermark = $wi->load($this->watermark_file['tmp_name']);
     }
 
     /**
@@ -66,6 +58,11 @@ class WatermarkGenerator {
      */
     public function process_image() {
         if ($this->check_data()) {
+            // объекты картинок
+            $wi = new WideImage\WideImage();
+            $this->image = $wi->load($this->image_file['tmp_name']);
+            $this->watermark = $wi->load($this->watermark_file['tmp_name']);
+
             // генерация изображения
             $result_image = $this->generate_img($this->image, $this->watermark);
             // генерация имени файла, предлагаемого для сохранения
@@ -74,23 +71,12 @@ class WatermarkGenerator {
             $this->download_img($result_image, $result_filename);
         }
         else {
-            header("HTTP/1.1 302 Moved Temporarily");
-            header("Location: /");
+            $output = array(
+                'errors' => $this->errors,
+            );
+            echo json_encode($output);
             exit;
         }
-    }
-
-    /**
-     * Валидация данных.
-     *
-     * @return bool
-     */
-    private function check_data() {
-        return
-            $this->check_file($this->image_file) &&
-            $this->check_file($this->watermark_file) &&
-            $this->check_position($this->position, $this->image_file['tmp_name']) &&
-            $this->check_opacity($this->opacity);
     }
 
     /**
@@ -143,13 +129,45 @@ class WatermarkGenerator {
     }
 
     /**
+     * Добавление сообщения об ошибке.
+     *
+     * @param string $error Текст сообщения об ошибке.
+     */
+    private function set_error($error) {
+        array_push($this->errors, $error);
+    }
+
+    /**
+     * Валидация данных.
+     *
+     * @return bool
+     */
+    private function check_data() {
+        $passed = TRUE;
+
+        if (!$this->check_file($this->image_file)) {
+            $this->set_error('Не загружено основное изображение');
+            $passed = FALSE;
+        }
+        if (!$this->check_file($this->watermark_file)) {
+            $this->set_error('Не загружен водяной знак');
+            $passed = FALSE;
+        }
+
+        return
+            $passed &&
+            $this->check_position($this->position, $this->image_file['tmp_name']) &&
+            $this->check_opacity($this->opacity);
+    }
+
+    /**
      * Валидация загружаемого файла.
      *
      * @param array $file массив-файл, который нужно проверить.
      * @return bool
      */
     private function check_file($file) {
-        if (is_array($file) && !empty($file['size']) && !empty($file['name'])) {
+        if (is_array($file) && !empty($file['size']) && !empty($file['name']) && !empty($file['tmp_name'])) {
             if ($this->check_file_size($file['size']) &&
                 $this->check_file_name($file['name']) &&
                 $this->check_file_extension($file['name'])) {
@@ -174,6 +192,7 @@ class WatermarkGenerator {
             return TRUE;
         }
         else {
+            $this->set_error('Недопустимое расширение файла');
             return FALSE;
         }
     }
@@ -185,8 +204,19 @@ class WatermarkGenerator {
      * @return bool валиден ли размер файла.
      */
     private function check_file_size($filesize) {
-        // файл не пустой и не больше 2 мб
-        return ($filesize = 0 || $filesize > 2097152) ? FALSE : TRUE;
+        // файл пустой
+        if ($filesize == 0) {
+            $this->set_error('Пустой файл');
+            return FALSE;
+        }
+        // файл больше 2 мб
+        elseif ($filesize > 2097152) {
+            $this->set_error('Слишком большой файл');
+            return FALSE;
+        }
+        else {
+            return TRUE;
+        }
     }
 
     /**
@@ -196,12 +226,20 @@ class WatermarkGenerator {
      * @return bool валидно ли имя файла.
      */
     private function check_file_name($filename) {
-        return
-            // имя может содержать только англ. и рус. буквы, цифры, символы "_(.)- "
-            (!preg_match("{^[-0-9a-zA-Zа-яА-Я_\. \(\)]+$}i", $filename)
-                // длина не более 255 символов
-                || mb_strlen($filename,"UTF-8") > 225)
-                ? FALSE : TRUE;
+        $passed = TRUE;
+
+        // длина не более 255 символов
+        if (mb_strlen($filename,"UTF-8") > 255) {
+            $this->set_error('Слишком длинное имя файла');
+            $passed = FALSE;
+        }
+        // имя может содержать только англ. и рус. буквы, цифры, символы "_(.)- "
+        elseif (!preg_match("{^[-0-9a-zA-Zа-яА-Я_\. \(\)]+$}i", $filename)) {
+            $this->set_error('Недопустимое имя файла');
+            $passed = FALSE;
+        }
+
+        return $passed;
     }
 
     /**
@@ -212,7 +250,7 @@ class WatermarkGenerator {
      * @return bool
      */
     private function check_position($position, $image_filename) {
-        $errors = array();
+        $passed = TRUE;
 
         $wi = new WideImage\WideImage();
         $image = $wi->load($image_filename);
@@ -221,24 +259,23 @@ class WatermarkGenerator {
         $height = $image->getHeight();
 
         if ($position['x'] > $width) {
-            $errors[] = 'Позиция по оси X выходит за границу изображения.';
+            $this->set_error('Позиция по оси X выходит за границу изображения');
+            $passed = FALSE;
         }
         if ($position['y'] > $height) {
-            $errors[] = 'Позиция по оси Y выходит за границу изображения.';
+            $this->set_error('Позиция по оси Y выходит за границу изображения');
+            $passed = FALSE;
         }
         if ($position['x'] < 0) {
-            $errors[] = 'Позиция по оси X не может иметь отрицательное значение.';
+            $this->set_error('Позиция по оси X не может иметь отрицательное значение');
+            $passed = FALSE;
         }
         if ($position['y'] < 0) {
-            $errors[] = 'Позиция по оси Y не может иметь отрицательное значение.';
+            $this->set_error('Позиция по оси Y не может иметь отрицательное значение');
+            $passed = FALSE;
         }
 
-        if (empty($errors)) {
-            return TRUE;
-        }
-        else {
-            return FALSE;
-        }
+        return $passed;
     }
 
     /**
@@ -248,6 +285,19 @@ class WatermarkGenerator {
      * @return bool
      */
     private function check_opacity($opacity) {
-        return (is_int($opacity) && $opacity >= 0 && $opacity <= 100) ? TRUE : FALSE;
+        if (!is_int($opacity)) {
+            $this->set_error('Значение прозрачности должно быть числом');
+            return FALSE;
+        }
+        elseif ($opacity < 0) {
+            $this->set_error('Значение прозрачности не может быть меньше 0');
+            return FALSE;
+        }
+        elseif ($opacity > 100) {
+            $this->set_error('Значение прозрачности не может быть больше 100');
+            return FALSE;
+        }
+
+        return TRUE;
     }
 }
