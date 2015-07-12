@@ -14,8 +14,21 @@ var submit = (function($) {
         xhr.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var blob = this.response;
-                var filename = _generateFilename(this);
-                _downloadBlob(blob, filename);
+
+                // we got JSON response from server
+                if (blob.type == 'text/html') {
+                    var fr = new FileReader();
+                    fr.onload = $.proxy(function(e) {
+                        var response = JSON.parse(e.target.result);
+                        console.log(response);
+                    }, this);
+                    fr.readAsText(blob);
+                }
+                // we got an image
+                else {
+                    var filename = _generateFilename(xhr);
+                    _downloadBlob(xhr.response, filename);
+                }
             }
         }
         xhr.open('POST', 'generate-img.php');
