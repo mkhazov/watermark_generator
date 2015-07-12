@@ -5,8 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require_once '../vendor/autoload.php';
 
     // Получаем файлы основной картинки и водяного знака
-    $image = $_FILES['image'];
-    $watermark = $_FILES['watermark'];
+    $image = $_FILES['source-image'];
+    $watermark = $_FILES['watermark-image'];
 
     // Получаем координаты
     $position_x = $_POST['position-x'];
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Получаем значение прозрачности
     $opacity = $_POST['opacity'];
 
-    $wg = new WatermarkGenerator($image, $watermark, $position_x, $position_y, $opacity);
+    $wg = new WatermarkGenerator($image, $watermark, 0, 0, 100); // $position_x, $position_y, $opacity
     $wg->process_image();
 }
 
@@ -52,7 +52,12 @@ class WatermarkGenerator {
         $this->opacity = isset($opacity) ? $opacity : $this->opacity;
 
         $wi = new WideImage\WideImage();
-        $this->image = $wi->load($this->image_file['tmp_name']);
+        try {
+            $this->image = $wi->load($this->image_file['tmp_name']);
+        }
+        catch (Exception $e) {
+            throw new Exception("tmp_name: " . $this->image_file['tmp_name']);
+        }
         $this->watermark = $wi->load($this->watermark_file['tmp_name']);
     }
 
@@ -66,7 +71,7 @@ class WatermarkGenerator {
             // генерация имени файла, предлагаемого для сохранения
             $result_filename = $this->generate_filename($this->image_file['name']);
             // диалог сохранения файла
-            $this->download_img($result_image, $result_filename, mb_strlen($result_image));
+            $this->download_img($result_image, $result_filename);
         }
         else {
             header("HTTP/1.1 302 Moved Temporarily");
@@ -110,16 +115,16 @@ class WatermarkGenerator {
      * @param string $filename имя файла для сохранения на клиенте.
      * @param int $filesize размер файла.
      */
-    private function download_img($img, $filename, $filesize = 0) {
+    private function download_img($img, $filename) {
         // заставляем браузер показать окно сохранения файла
         header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
+        header('Content-Type: image/jpeg');
         header('Content-Disposition: attachment; filename=' . $filename);
+        header('Content-Length: ' . strlen($img));
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . $filesize);
         // отправляем картинку пользователю
         echo $img;
         exit;
