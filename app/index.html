@@ -17,11 +17,7 @@
 
     <!-- build:css css/style.min.css -->
     <link rel="stylesheet" href="css/style.css" />
-
     <!-- endbuild -->
-    <!-- build:js js/modernizr.min.js -->
-    <script src="bower/modernizr/modernizr.js"></script>
-    <!-- endbuild -->   
 </head>
 
 <body>
@@ -87,19 +83,17 @@
                                         <div class="settings__arrow-down settings__arrow-down_y"></div>
                                     </div>
                                 </div>
-                            </div>                          
-                        </section> 
+                            </div>
+                        </section>
                         <section class="settings__opacity">
                             <div class="settings__section-title">Прозрачность</div>
                             <!-- Сюда встанет бегунок -->
-                            <div class="settings__runner"></div> 
+                            <div class="settings__runner"></div>
                         </section>
-                        <section class="settings__download">                
-                        	<input type="hidden" class="settings__hidden" name="send-position-x" id="send-position-x">
-                        	<input type="hidden" class="settings__hidden" name="send-position-y" id="send-position-y">
-                            <input type="hidden" class="settings__hidden" name="send-opacity" id="send-opacity">
+                        <section class="settings__download">
+                            <input type="hidden" class="settings__hidden" name="opacity" id="opacity">
                             <button class="settings__button settings__button_reset">Сброс</button>
-                            <button class="settings__button settings__button_download">Скачать</button>
+                            <button type="submit" class="settings__button settings__button_download">Скачать</button>
                         </section>
                     </form>
         		</div>
@@ -119,6 +113,7 @@
     <!-- build:js js/main.min.js -->
     <script src="js/app.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/submit.js"></script>
     <!-- endbuild -->
 </body>
 </html>
