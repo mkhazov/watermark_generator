@@ -14,7 +14,12 @@ var formApp = (function() {
         var $this = $(this),
             fileValue = $this.val(),
             fileLabel = $(this).parent().find('.settings__form-file-label');
-        fileLabel.text(fileValue);
+            if(fileValue){
+                fileLabel.text(fileValue);
+            }
+            else{
+                fileLabel.text('Вставить файл');
+            }
     };
 
     //Включение слайдера на изменение прозрачности
@@ -23,7 +28,7 @@ var formApp = (function() {
             slide: function(event, ui) {
                 var opacity = (100 - ui.value) / 100;
                 $(block).css('opacity', opacity);
-                $('.settings__hidden').val(opacity).attr('value', opacity);;
+                $('.settings__hidden').val(opacity).attr('value', opacity);
             }
         })
     }
@@ -31,11 +36,13 @@ var formApp = (function() {
     var _checkFormat = function(file) {
         var mymeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'],
             trueFormat = false;
-        if ($.inArray(file.type, mymeTypes)) {
-            trueFormat = true;
+        if (file){
+            if ($.inArray(file.type, mymeTypes)) {
+                trueFormat = true;
+            }
         }
         if (!trueFormat) {
-            alert('Не тот формат!');
+            alert('Не тот формат! Или не загружено изображение!');
             return false;
         }
         else {
@@ -55,6 +62,12 @@ var formApp = (function() {
             reader = new FileReader();
 
         if (!_checkFormat(file)) {
+            if ($this.attr('name') == 'source-image') {
+                sourceContainer.find('img').remove();
+            }
+            else if($this.attr('name') == 'watermark-image'){
+                watermarkContainer.find('img').remove();
+            }
             return false;
         }
         reader.onload = function(event) {
