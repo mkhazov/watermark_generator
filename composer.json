@@ -9,5 +9,7 @@
     "require": {
         "smottt/wideimage": "dev-master"
     },
-    "vendor-dir": "app/vendor"
+    "config": {
+        "vendor-dir": "app/vendor"
+    }
 }

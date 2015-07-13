@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f6ab7030b432ffc0176fd4305ab22105",
+    "hash": "de1bf9822a07a44e04f802c4bc25d991",
     "packages": [
         {
             "name": "smottt/wideimage",
