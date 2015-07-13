@@ -29,25 +29,27 @@ var moveIt = function () {
         container.oX    = box.left + window.pageXOffset;
         container.oY    =  box.top + window.pageYOffset;
     }
-    //Проверяет координаты на корректность
-    //Если вышли за пределы родительского - возвращает false
-    function _checkCoord(axisX, axisY) {
-        if (axisX < 0 ||
-                axisY < 0 ||
-                axisX + block.width > container.width ||
-                axisY + block.height > container.height) {
-            return false;
-        }
-        return true;
-    }
     //Позиционирует блок по заданным координатам
     function _setPosition(axisX, axisY) {
-        //Но сначала проверяем координаты
-        if (!_checkCoord(axisX, axisY)) {
-            return false;
+        var x = axisX,
+            y = axisY;
+
+        //Если выходим за диапазон - применяем макс значения
+        if (axisX < 0) {
+            x = 0;
         }
-        block.elem.style.left   = axisX + 'px';
-        block.elem.style.top    = axisY + 'px';
+        if (axisY < 0) {
+            y = 0;
+        }
+        if (axisX + block.width > container.width) {
+            x = container.width - block.width;
+        }
+        if (axisY + block.height > container.height) {
+            y = container.height - block.height;
+        }
+        block.elem.style.left   = x + 'px';
+        block.elem.style.top    = y + 'px';
+
         _calculateBlockPosition();
     }
     //Устанавливает положение блока по положению курсора
