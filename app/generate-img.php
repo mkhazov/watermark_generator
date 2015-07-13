@@ -234,7 +234,7 @@ class WatermarkGenerator {
             $passed = FALSE;
         }
         // имя может содержать только англ. и рус. буквы, цифры, символы "_(.)- "
-        elseif (!preg_match("{^[-0-9a-zA-Zа-яА-Я_\. \(\)]+$}i", $filename)) {
+        elseif (!preg_match("{^[-0-9a-zA-Zа-яА-Я_\. \(\)]+$}uis", $filename)) {
             $this->set_error('Недопустимое имя файла');
             $passed = FALSE;
         }
