@@ -2,7 +2,7 @@
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    require_once '../vendor/autoload.php';
+    require_once 'vendor/autoload.php';
 
     // Получаем файлы основной картинки и водяного знака
     $image = $_FILES['source-image'];
