@@ -1,6 +1,7 @@
 var position = (function () {
 
-    var block = {};
+    var fileUploaded = false,
+        block = {};
 
     function _addEventListeners () {
         // после загразки файла в инпут включаем позиционирование водяного знака
@@ -9,10 +10,10 @@ var position = (function () {
         });
 
         // по клику на кнопку позиционирования переместить водяной знак в требуемую секцию
-        $('.settings__position-button').on('click', function () {
-            var position = $(this).data('position');
-            _setPositionArea(position);
-        });
+        $('.settings__position-button').on('click', _setPositionArea);
+
+        // по клику на стрелку позиционирования
+        $('.settings__position_arrow').on('click', _handlePositionArrow);
     };
 
     /**
@@ -21,6 +22,7 @@ var position = (function () {
      * @param {string} watermarkContainerSelector
      */
     function _enablePositioning(sourceContainerSelector, watermarkContainerSelector) {
+        fileUploaded = true;
         var watermarkContainer = $(watermarkContainerSelector);
 
         // подключаем модуль позиционирования
@@ -37,9 +39,46 @@ var position = (function () {
      * Поместить водяной знак в одну из 9 секций.
      * @param {string} position
      */
-    function _setPositionArea(position) {
+    function _setPositionArea() {
+        var position = $(this).data('position');
         if (block.stickBlock !== undefined) {
             block.stickBlock(position);
+        }
+    }
+
+    /**
+     * Обработчик клика по стрелкам позиционирования.
+     */
+    function _handlePositionArrow() {
+        if (fileUploaded !== true) {
+            return;
+        }
+
+        var $this = $(this),
+            value = 0,
+            axis = '';
+
+        if ($this.hasClass('settings__arrow-up')) {
+            value = 1;
+        }
+        else if ($this.hasClass('settings__arrow-down')) {
+            value = -1;
+        }
+
+        if ($this.hasClass('settings__arrow_x')) {
+            axis = 'x';
+        }
+        else if ($this.hasClass('settings__arrow_y')) {
+            axis = 'y';
+        }
+
+        if (value !== 0 && axis.length) {
+            // текущие координаты
+            var position = block.getPosition();
+            // изменяем значение по требуемой оси
+            position[axis] += value;
+            // устанавливаем новые координаты
+            block.setPosition(position['x'], position['y']);
         }
     }
 
