@@ -64,12 +64,28 @@ var formApp = (function() {
                     watermarkContainer.find('img').attr('src', dataUri);
                 }
             }
+
+            // подключаем модуль позиционирования
+            var block = moveIt();
+            block.init('.image-container__watermark', '.image-container__main-image');
+            block.dragNDropEnable();
+            watermarkContainer.on('position-changed', function(event, x, y) {
+                _changePosition(x, y);
+            });
         }
 
         reader.onerror = function() {
             alert('Файл не может быть прочитан!' + event.target.error.code);
         };
         reader.readAsDataURL(file);
+    }
+
+    /**
+     * Установка значений координат в инпуты.
+     */
+    function _changePosition(x, y) {
+        $('#position-x').val(x);
+        $('#position-y').val(y);
     }
 
     return {
