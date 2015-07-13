@@ -76,6 +76,7 @@
   color: #9EB2C0;
   font-size: 12px;
   font-family: arial;
+  overflow:hidden;
  
   &:after {
     content:'';
@@ -229,7 +230,10 @@
   @include border-radius(3px);
   @include transition(all, 0.3s, linear);
   @include box-shadow(0, 4px, 0, #C1CFD9-#111);
-  &:hover {
+   &:hover {
+    background:#C1CFD9 + #111;
+  }
+  &:active{
     top:4px;
     @include box-shadow(0, 0, 0,  #C1CFD9-#111);
   }
@@ -240,6 +244,9 @@
   margin-left:  39px;
   @include box-shadow(0, 4px, 0, #F97E76-#111);
   &:hover {
+    background:#F97E76 + #222;
+  }
+  &:active {
     @include box-shadow(0, 0, 0, #F97E76-#111);
   }
 }

@@ -195,7 +195,8 @@ a {
   box-sizing: border-box;
   color: #9EB2C0;
   font-size: 12px;
-  font-family: arial; }
+  font-family: arial;
+  overflow: hidden; }
   .settings__form-file-label:after {
     content: '';
     position: absolute;
@@ -346,6 +347,8 @@ a {
     font-weight: normal;
     font-style: normal; } }
   .settings__button:hover {
+    background: #d2e0ea; }
+  .settings__button:active {
     top: 4px;
     -webkit-box-shadow: 0 0 0 #b0bec8;
     -moz-box-shadow: 0 0 0 #b0bec8;
@@ -358,6 +361,8 @@ a {
   -moz-box-shadow: 0 4px 0 #e86d65;
   box-shadow: 0 4px 0 #e86d65; }
   .settings__button_download:hover {
+    background: #ffa098; }
+  .settings__button_download:active {
     -webkit-box-shadow: 0 0 0 #e86d65;
     -moz-box-shadow: 0 0 0 #e86d65;
     box-shadow: 0 0 0 #e86d65; }
