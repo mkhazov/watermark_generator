@@ -45,12 +45,13 @@ var formApp = (function() {
 
     var _viewImg = function(e) {
         var $this = $(this),
-            file = $this[0].files[0];
-            sourceContainer = $('.image-container__main-image'),
-            watermarkContainer = $('.image-container__watermark'),
+            file = $this[0].files[0],
+            sourceContainerSelector = '.image-container__main-image',
+            watermarkContainerSelector = '.image-container__watermark',
+            sourceContainer = $(sourceContainerSelector),
+            watermarkContainer = $(watermarkContainerSelector),
             img = document.createElement('img'),
             reader = new FileReader();
-            console.log(file);
 
         if (!_checkFormat(file)) {
             return false;
@@ -76,27 +77,14 @@ var formApp = (function() {
                 }
             }
 
-            // подключаем модуль позиционирования
-            var block = moveIt();
-            block.init('.image-container__watermark', '.image-container__main-image');
-            block.dragNDropEnable();
-            watermarkContainer.on('position-changed', function(event, x, y) {
-                _changePosition(x, y);
-            });
+            // вызвать кастомное событие 'file-uploaded'
+            $('#workform').trigger('file-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
         }
 
         reader.onerror = function() {
             alert('Файл не может быть прочитан!' + event.target.error.code);
         };
         reader.readAsDataURL(file);
-    }
-
-    /**
-     * Установка значений координат в инпуты.
-     */
-    function _changePosition(x, y) {
-        $('#position-x').val(x);
-        $('#position-y').val(y);
     }
 
     return {
