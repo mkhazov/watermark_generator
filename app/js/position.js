@@ -47,8 +47,8 @@ var position = (function () {
      * Установка значений координат в инпуты.
      */
     function _changePositionValues(x, y) {
-        $('#position-x').val(x);
-        $('#position-y').val(y);
+        $('#position-x').val(x).attr('value', x);
+        $('#position-y').val(y).attr('value', y);
     }
 
     return {

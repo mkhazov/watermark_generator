@@ -49,6 +49,7 @@ var moveIt = function () {
         block.elem.style.left   = axisX + 'px';
         block.elem.style.top    = axisY + 'px';
         _calculateBlockPosition();
+        $(block.elem).trigger("position-changed", [axisX, axisY]);
     }
     //Устанавливает положение блока по положению курсора
     //С поправкой на место клика
@@ -56,7 +57,6 @@ var moveIt = function () {
         var x = event.pageX - shiftX - container.oX,
             y = event.pageY - shiftY - container.oY;
         _setPosition(x, y);
-        $(block.elem).trigger("position-changed", [x, y]);
     }
     return {
         //Инициализируем: Первым аргументом передаём селектор блока

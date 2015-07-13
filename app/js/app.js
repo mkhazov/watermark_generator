@@ -23,7 +23,7 @@ var formApp = (function() {
             slide: function(event, ui) {
                 var opacity = (100 - ui.value) / 100;
                 $(block).css('opacity', opacity);
-                $('.settings__hidden').val(opacity);
+                $('.settings__hidden').val(opacity).attr('value', opacity);;
             }
         })
     }
