@@ -35,6 +35,8 @@ gulp.task('server', ['php', 'sass', 'bower'], function () {
 gulp.task('php', function() {
     php.server({
         base: 'app',
+        bin: 'C:/php/php.exe',
+        ini: 'C:/php/php.ini',
         port: 8010,
         keepalive: true
     });
