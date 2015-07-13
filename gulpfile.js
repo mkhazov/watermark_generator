@@ -46,7 +46,7 @@ gulp.task('php', function() {
 gulp.task('bower', function () {
     gulp.src('app/*.html')
         .pipe(wiredep({
-            directory: "app/bower"
+            directory: 'app/bower'
         }))
         .pipe(gulp.dest('app'));
 });
@@ -103,7 +103,7 @@ gulp.task('useref', function () {
 
 // Перенос шрифтов
 gulp.task('fonts', function () {
-    gulp.src('app/fonts/*')
+    return gulp.src('app/fonts/*')
         .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
         .pipe(gulp.dest('dist/fonts/'));
 });
@@ -118,6 +118,12 @@ gulp.task('images', function () {
         .pipe(gulp.dest('dist/img'));
 });
 
+// vendor
+gulp.task('vendor', function () {
+    return gulp.src([
+        'app/vendor/**/*'
+    ]).pipe(gulp.dest('dist/vendor'));
+});
 
 // Остальные файлы, такие как favicon.ico и пр.
 gulp.task('extras', function () {
@@ -128,7 +134,7 @@ gulp.task('extras', function () {
 });
 
 // Сборка и вывод размера содержимого папки dist
-gulp.task('dist', ['useref', 'images', 'fonts', 'extras'], function () {
+gulp.task('dist', ['useref', 'images', 'fonts', 'vendor', 'extras'], function () {
     return gulp.src('dist/**/*')
         .pipe(size({title: 'build'}));
 });
@@ -138,12 +144,22 @@ gulp.task('build', ['clean'], function () {
     gulp.start('dist');
 });
 
+// PHP
+gulp.task('php-dist', function() {
+    php.server({
+        base: 'app',
+        port: 8020,
+        keepalive: true
+    });
+});
+
 // Запуск сервера для проверки сборки
-gulp.task('server-dist', function () {
+gulp.task('server-dist', ['php-dist'], function () {
     browserSync.init({
-        server: {
-            baseDir: 'dist'
-        }
+        proxy: '127.0.0.1:8020',
+        port: 9000,
+        open: true,
+        notify: false,
     });
 });
 
