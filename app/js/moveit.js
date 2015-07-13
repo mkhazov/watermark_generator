@@ -58,6 +58,7 @@ var moveIt = function () {
         var x = event.pageX - shiftX - container.oX,
             y = event.pageY - shiftY - container.oY;
         _setPosition(x, y);
+        $(block.elem).trigger("position-changed", [x, y]);
     }
     return {
         //Инициализируем: Первым аргументом передаём селектор блока
