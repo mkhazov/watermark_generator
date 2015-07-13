@@ -1,5 +1,6 @@
 node_modules
 app/bower
+app/vendor
 dist
 .idea
 Thumbs.db

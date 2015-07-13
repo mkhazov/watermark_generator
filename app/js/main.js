@@ -1,3 +1,5 @@
 $(document).ready(function(){
-		formApp.init();
+    formApp.init();
+    position.init();
+    submit.init();
 });

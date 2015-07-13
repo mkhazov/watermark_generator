@@ -9,7 +9,7 @@
     "jquery-ui": {
       "main": [
 	    "jquery-ui.js",
-	    "themes/base/all.css"
+	    "themes/base/slider.css"
 	  ]
     }
   }

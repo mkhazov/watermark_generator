@@ -10,25 +10,21 @@
 
     <!-- build:css css/vendor.min.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower/jquery-ui/themes/base/all.css" />
+    <link rel="stylesheet" href="bower/jquery-ui/themes/base/slider.css" />
     <link rel="stylesheet" href="bower/normalize.css/normalize.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css css/style.min.css -->
     <link rel="stylesheet" href="css/style.css" />
-
     <!-- endbuild -->
-    <!-- build:js js/modernizr.min.js -->
-    <script src="bower/modernizr/modernizr.js"></script>
-    <!-- endbuild -->   
 </head>
 
 <body>
     <div class="wrapper">
         <div class="page">
-        	<main class="main">
-        		<h1 class="main__title">Генератор водяных знаков</h1>
+            <main class="main">
+                <h1 class="main__title">Генератор водяных знаков</h1>
                 <div class="image-container">
                     <div class="image-container__workspace">
                         <div class="image-container__main-image">
@@ -40,12 +36,12 @@
                         </div>
                     </div> 
                 </div>
-        	</main>
-        	<aside class="sidebar sidebar_right">
-        		<div class="settings">
+            </main>
+            <aside class="sidebar sidebar_right">
+                <div class="settings">
                     <div class="settings__title">Настройки</div>
-                    <form class="settings__form" name="workform" id="workform" action="">            			
-    					<section class="settings__upload">            
+                    <form class="settings__form" name="workform" id="workform" action="">
+                        <section class="settings__upload">
                             <div class="settings__form-item">
                                 <label for="source-image" class="settings__form-label">Картинка проекта</label>
                                 <label for="source-image" class="settings__form-file-label">Вставить файл</label>
@@ -60,53 +56,51 @@
                         <section class="settings__position">
                             <div class="settings__section-title">Положение</div>
                             <div class="settings__position-buttons">
-    	                        <a class="settings__position-button settings__position-button_top-left"></a>
-    	                        <a class="settings__position-button settings__position-button_top-center"></a>
-    	                        <a class="settings__position-button settings__position-button_top-right"></a>
-    	                        <a class="settings__position-button settings__position-button_middle-left"></a>
-    	                        <a class="settings__position-button settings__position-button_middle-center"></a>
-    	                        <a class="settings__position-button settings__position-button_middle-right"></a>
-    	                        <a class="settings__position-button settings__position-button_bottom-left"></a>
-    	                        <a class="settings__position-button settings__position-button_bottom-center"></a>
-    	                        <a class="settings__position-button settings__position-button_bottom-right"></a>
+                                <a class="settings__position-button settings__position-button_top-left" data-position="left-top"></a>
+                                <a class="settings__position-button settings__position-button_top-center" data-position="center-top"></a>
+                                <a class="settings__position-button settings__position-button_top-right" data-position="right-top"></a>
+                                <a class="settings__position-button settings__position-button_middle-left" data-position="left"></a>
+                                <a class="settings__position-button settings__position-button_middle-center" data-position="center"></a>
+                                <a class="settings__position-button settings__position-button_middle-right" data-position="right"></a>
+                                <a class="settings__position-button settings__position-button_bottom-left" data-position="left-bottom"></a>
+                                <a class="settings__position-button settings__position-button_bottom-center" data-position="center-bottom"></a>
+                                <a class="settings__position-button settings__position-button_bottom-right" data-position="right-bottom"></a>
                             </div>
                             <div class="settings__form-items">                        
                                 <div class="settings__form-item">
                                     <label for="position-x" class="settings__form-label-position">x</label>
-                                    <input type="text" name="position-x" id="position-x" class="settings__text-position settings__text-position_x">
-                                    <div class="settings__arrows">
-                                        <div class="settings__arrow-up settings__arrow-up_x"></div>
-                                        <div class="settings__arrow-down settings__arrow-down_x"></div>
+                                    <input type="text" name="position-x" id="position-x" class="settings__text-position settings__text-position_x" value="0">
+                                    <div class="settings__position_arrows">
+                                        <div class="settings__position_arrow settings__arrow-up settings__arrow_x"></div>
+                                        <div class="settings__position_arrow settings__arrow-down settings__arrow_x"></div>
                                     </div>
                                 </div>
                                 <div class="settings__form-item">
                                     <label for="position-y" class="settings__form-label-position">y</label>
-                                    <input type="text" name="position-y" id="position-y"  class="settings__text-position settings__text-position_y">
-                                    <div class="settings__arrows">
-                                        <div class="settings__arrow-up settings__arrow-up_y"></div>
-                                        <div class="settings__arrow-down settings__arrow-down_y"></div>
+                                    <input type="text" name="position-y" id="position-y"  class="settings__text-position settings__text-position_y" value="0">
+                                    <div class="settings__position_arrows">
+                                        <div class="settings__position_arrow settings__arrow-up settings__arrow_y"></div>
+                                        <div class="settings__position_arrow settings__arrow-down settings__arrow_y"></div>
                                     </div>
                                 </div>
-                            </div>                          
-                        </section> 
+                            </div>
+                        </section>
                         <section class="settings__opacity">
                             <div class="settings__section-title">Прозрачность</div>
                             <!-- Сюда встанет бегунок -->
-                            <div class="settings__runner"></div> 
+                            <div class="settings__runner"></div>
                         </section>
-                        <section class="settings__download">                
-                        	<input type="hidden" class="settings__hidden" name="send-position-x" id="send-position-x">
-                        	<input type="hidden" class="settings__hidden" name="send-position-y" id="send-position-y">
-                            <input type="hidden" class="settings__hidden" name="send-opacity" id="send-opacity">
+                        <section class="settings__download">
+                            <input type="hidden" class="settings__hidden" name="opacity" id="opacity" value="1">
                             <button class="settings__button settings__button_reset">Сброс</button>
-                            <button class="settings__button settings__button_download">Скачать</button>
+                            <button type="submit" class="settings__button settings__button_download">Скачать</button>
                         </section>
                     </form>
-        		</div>
-        	</aside>
+                </div>
+            </aside>
         </div>
         <footer class="footer">
-        	<div class="footer__copy">Это наш сайт, пожалуйста не воруйте его</div>
+            <div class="footer__copy">Это наш сайт, пожалуйста не воруйте его</div>
         </footer>
     </div>
     <!-- build:js js/vendor.js -->
@@ -119,6 +113,9 @@
     <!-- build:js js/main.min.js -->
     <script src="js/app.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/moveit.js"></script>
+    <script src="js/position.js"></script>
+    <script src="js/submit.js"></script>
     <!-- endbuild -->
 </body>
 </html>
