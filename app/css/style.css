@@ -243,7 +243,7 @@ a {
 
 .settings__arrows {
   display: inline-block;
-  margin: 4px 0 0 6px; }
+  margin: 3px 0 0 6px; }
 
 .settings__form-label-position {
   display: inline-block;
@@ -261,6 +261,7 @@ a {
   font-family: SegoeUI-Light, arial;
   font-size: 24px;
   line-height: 40px;
+  height: 40px;
   border: 1px solid #B0C0CC;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -352,7 +353,7 @@ a {
 
 .settings__button_download {
   background: #F97E76;
-  margin-left: 40px;
+  margin-left: 39px;
   -webkit-box-shadow: 0 4px 0 #e86d65;
   -moz-box-shadow: 0 4px 0 #e86d65;
   box-shadow: 0 4px 0 #e86d65; }

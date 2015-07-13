@@ -49,12 +49,9 @@ var formApp = (function(){
 			console.log (file);
 
 		if (!_checkFormat(file)){
-			alert('Сука!')
 			return false;
 		}
-
-		
-			
+	
 		reader.onload = function(event){
 			var dataUri = event.target.result;
 			img.src = dataUri;

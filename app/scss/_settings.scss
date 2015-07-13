@@ -76,6 +76,7 @@
   color: #9EB2C0;
   font-size: 12px;
   font-family: arial;
+ 
   &:after {
     content:'';
     position: absolute;
@@ -132,7 +133,7 @@
 
 .settings__arrows {
   display: inline-block;
-  margin:4px 0 0 6px;
+  margin:3px 0 0 6px;
 }
 
 .settings__form-label-position{
@@ -153,6 +154,7 @@
   font-family: SegoeUI-Light, arial;
   font-size: 24px;
   line-height: 40px;
+  height:40px;
   border:1px solid #B0C0CC;
   @include border-radius(3px);
   width:42px;
@@ -235,7 +237,7 @@
 
 .settings__button_download {
   background: #F97E76;
-  margin-left:  40px;
+  margin-left:  39px;
   @include box-shadow(0, 4px, 0, #F97E76-#111);
   &:hover {
     @include box-shadow(0, 0, 0, #F97E76-#111);
