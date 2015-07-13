@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Получаем значение прозрачности
     $opacity = $_POST['opacity'];
 
-    $wg = new WatermarkGenerator($image, $watermark, 0, 0, 100); // $position_x, $position_y, $opacity
+    $wg = new WatermarkGenerator($image, $watermark, $position_x, $position_y, $opacity);
     $wg->process_image();
 }
 
@@ -285,7 +285,7 @@ class WatermarkGenerator {
      * @return bool
      */
     private function check_opacity($opacity) {
-        if (!is_int($opacity)) {
+        if (!is_numeric($opacity)) {
             $this->set_error('Значение прозрачности должно быть числом');
             return FALSE;
         }
@@ -296,6 +296,10 @@ class WatermarkGenerator {
         elseif ($opacity > 100) {
             $this->set_error('Значение прозрачности не может быть больше 100');
             return FALSE;
+        }
+
+        elseif ($opacity < 1) {
+            $this->opacity = $opacity * 100;
         }
 
         return TRUE;
