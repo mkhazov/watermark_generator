@@ -33,6 +33,7 @@ var formApp = (function() {
         })
     }
 
+    // Проверка файла по типу или наличию
     var _checkFormat = function(file) {
         var mymeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'],
             trueFormat = false;
@@ -49,8 +50,31 @@ var formApp = (function() {
             return true;
         }
     }
+    // вычисление коэффициента масшатбирования
+    var _getRatio = function(img){
+        console.log (img.width);
+        var workSpaceWidth = 650,
+            workSpaceHeight = 534,
+            imageWidth = img.width,
+            imageHeight = img.height,
+            heightRatio = 0,
+            widthRatio = 0,
+            ratio = 1;
+        if (imageWidth > workSpaceWidth || imageHeight > workSpaceHeight) {
+            widthRatio = workSpaceWidth / imageWidth;
+            heightRatio = workSpaceHeight / imageHeight;
+            if (widthRatio < heightRatio) {
+                ratio = widthRatio;
+            }
+            else{
+                ratio = heightRatio;
+            }
+        }   
+        console.log(ratio);
+        return ratio;
+    }
 
-
+    var globRatio = 1;
     var _viewImg = function(e) {
         var $this = $(this),
             file = $this[0].files[0],
@@ -70,16 +94,22 @@ var formApp = (function() {
             }
             return false;
         }
+        
         reader.onload = function(event) {
             var dataUri = event.target.result;
             img.src = dataUri;
             if ($this.attr('name') == 'source-image') {
+                globRatio = _getRatio(img);
+                console.log(globRatio); 
                 if (!sourceContainer.children().is('img')) {
+                    $(img).css({'max-width': (img.width * globRatio) +'px','max-height': (img.height * globRatio) + 'px'});
                     sourceContainer.append(img);
                 }
                 else {
+                    $(img).css({'max-width': (img.width * globRatio) +'px','max-height': (img.height * globRatio) + 'px'});
                     sourceContainer.find('img').attr('src', dataUri);
                 }
+               
             }
             else if ($this.attr('name') == 'watermark-image') {
                 if (!watermarkContainer.children().is('img')) {

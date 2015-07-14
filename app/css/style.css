@@ -111,7 +111,8 @@ a {
 
 .image-container__main-image {
   display: inline-block;
-  position: relative; }
+  position: relative;
+  overflow: hidden; }
 
 .image-container__watermark {
   position: absolute;
