@@ -109,10 +109,11 @@ a {
 .image-container {
 	width:650px;
 	height:534px;
-	overflow:auto;
+	// overflow:auto;
 	background:#ff0000;
 	text-align: center;
 	position:relative;
+	font-size: 0;
 	// &:after{
 	//   	content:'';
 	//   	display: inline-block;

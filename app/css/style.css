@@ -98,10 +98,10 @@ a {
 .image-container {
   width: 650px;
   height: 534px;
-  overflow: auto;
   background: #ff0000;
   text-align: center;
-  position: relative; }
+  position: relative;
+  font-size: 0; }
 
 .image-container__workspace {
   width: 650px;
