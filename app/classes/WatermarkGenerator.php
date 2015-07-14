@@ -226,6 +226,11 @@ class WatermarkGenerator {
      * @return bool
      */
     private function check_position($position, $image_filename) {
+        if (!is_array($position) || !is_int($position['x'] || !is_int($position['y']))) {
+            $this->set_error('Некорректные координаты');
+            return FALSE;
+        }
+
         $passed = TRUE;
 
         $wi = new WideImage\WideImage();
