@@ -3,6 +3,7 @@ var formApp = (function() {
     // menuButton = $('.menu-button'),
     var formFile = $('.settings__form-file'),
         runner = $('.settings__runner'),
+        globRatio;
         _addEventListeners = function() {
             formFile.on('change', _changeFileLabel);
             formFile.on('change', _viewImg);
@@ -37,8 +38,8 @@ var formApp = (function() {
     var _checkFormat = function(file) {
         var mymeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'],
             trueFormat = false;
-        if (file){
-            if ($.inArray(file.type, mymeTypes)) {
+        if (file){       
+            if($.inArray(file.type, mymeTypes) !== -1){            
                 trueFormat = true;
             }
         }
@@ -52,7 +53,7 @@ var formApp = (function() {
     }
     // вычисление коэффициента масшатбирования
     var _getRatio = function(img){
-        console.log (img.width);
+        // console.log (img.width);
         var workSpaceWidth = 650,
             workSpaceHeight = 534,
             imageWidth = img.width,
@@ -60,6 +61,7 @@ var formApp = (function() {
             heightRatio = 0,
             widthRatio = 0,
             ratio = 1;
+        // расчет коэффициента    
         if (imageWidth > workSpaceWidth || imageHeight > workSpaceHeight) {
             widthRatio = workSpaceWidth / imageWidth;
             heightRatio = workSpaceHeight / imageHeight;
@@ -70,12 +72,13 @@ var formApp = (function() {
                 ratio = heightRatio;
             }
         }   
-        console.log(ratio);
+        // console.log(ratio);
         return ratio;
     }
 
-    var globRatio = 1;
+   
     var _viewImg = function(e) {
+        console.log(globRatio);
         var $this = $(this),
             file = $this[0].files[0],
             sourceContainerSelector = '.image-container__main-image',
@@ -85,12 +88,14 @@ var formApp = (function() {
             img = document.createElement('img'),
             reader = new FileReader();
 
+        
+        // попробовать опустить        
         if (!_checkFormat(file)) {
             if ($this.attr('name') == 'source-image') {
-                sourceContainer.find('img').remove();
+                sourceContainer.children('img').remove();
             }
             else if($this.attr('name') == 'watermark-image'){
-                watermarkContainer.find('img').remove();
+                watermarkContainer.children('img').remove();
             }
             return false;
         }
@@ -98,26 +103,34 @@ var formApp = (function() {
         reader.onload = function(event) {
             var dataUri = event.target.result;
             img.src = dataUri;
+            // вставка главного изображения
             if ($this.attr('name') == 'source-image') {
+                // вычисление масштаба при загрузке главной картинки
                 globRatio = _getRatio(img);
-                console.log(globRatio); 
+                //задавание масштаба основной картинки
+                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                // вставка картинки первый раз
                 if (!sourceContainer.children().is('img')) {
-                    $(img).css({'max-width': (img.width * globRatio) +'px','max-height': (img.height * globRatio) + 'px'});
                     sourceContainer.append(img);
                 }
+                // повторная загрузка
                 else {
-                    $(img).css({'max-width': (img.width * globRatio) +'px','max-height': (img.height * globRatio) + 'px'});
-                    sourceContainer.find('img').attr('src', dataUri);
-                }
-               
+                    sourceContainer.children('img').remove();
+                    sourceContainer.append(img);
+                } 
             }
+            // вставка вотермарка
             else if ($this.attr('name') == 'watermark-image') {
+                // задание масштаба вотермарка
+
+                 $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
                 if (!watermarkContainer.children().is('img')) {
                     watermarkContainer.append(img);
                 }
                 else {
-                    watermarkContainer.find('img').attr('src', dataUri);
-                }
+                    watermarkContainer.children('img').remove();
+                    watermarkContainer.append(img);
+                }   
             }
 
             // вызвать кастомное событие 'file-uploaded'
@@ -134,6 +147,10 @@ var formApp = (function() {
         init: function() {
             _addEventListeners();
             _opacitySliderOn('.image-container__watermark');
+        },
+        // метод получения последнего коэффициента
+        returnRatio: function() {
+            return globRatio;
         }
     }
 })();
