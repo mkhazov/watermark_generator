@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var openKey=false;
-   $(".socials_like-link").click(function(){
+   $(".socials_like-link").mouseenter(function(){
    	   if(openKey===false){
        $(".socials").stop(true, true).animate({marginLeft: "+=43px"},"fast");
        
