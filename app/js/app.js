@@ -47,7 +47,7 @@ var formApp = (function() {
         block.setPosition(0,0);       
     }
 
-// Чистка ватермарка
+    // Чистка ватермарка
     var _clearWatermark = function(){
         var watermarkContainer = $('.image-container__watermark'),
             formFileWatermark = $('#watermark-image'),
