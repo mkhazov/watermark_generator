@@ -61,6 +61,7 @@ var formApp = (function() {
         _clearOpacity();
     }
 
+    //Чистка главного изображения
     var _clearSourceImage = function (){
         var sourceContainer = $('.image-container__main-image'),
             formFileSourceImage = $('#source-image'),
@@ -74,7 +75,7 @@ var formApp = (function() {
         _clearWatermark();    
 
     }
-
+    //Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
         _clearSourceImage();
@@ -111,6 +112,7 @@ var formApp = (function() {
             return true;
         }
     }
+
     // вычисление коэффициента масшатбирования
     var _getRatio = function(img){
         var workSpaceWidth = 650,
@@ -136,7 +138,7 @@ var formApp = (function() {
         return ratio;
     }
 
-   
+   //Вставка изображения в рабочее поле
     var _viewImg = function(e) {
         console.log(globRatio);
         var $this = $(this),
