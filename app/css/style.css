@@ -98,7 +98,7 @@ a {
 .image-container {
   width: 650px;
   height: 534px;
-  background: #ff0000;
+  background: url("../img/workspace.png");
   text-align: center;
   position: relative;
   font-size: 0; }
@@ -117,7 +117,8 @@ a {
 .image-container__watermark {
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0;
+  cursor: move; }
 
 @font-face {
   font-family: roboto-light-webfont;

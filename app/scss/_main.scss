@@ -102,17 +102,17 @@ a {
 }
 
 .sidebar_right{
-	float:right;
+	float: right;
 }
 
 
 .image-container {
-	width:650px;
-	height:534px;
+	width: 650px;
+	height: 534px;
 	// overflow:auto;
-	background:#ff0000;
+	background: url($img_tmp + 'workspace.png');
 	text-align: center;
-	position:relative;
+	position: relative;
 	font-size: 0;
 	// &:after{
 	//   	content:'';
@@ -123,18 +123,19 @@ a {
 	// }
 }
 .image-container__workspace {
-	width:650px;
-	height:534px;	
-	display:table-cell;
+	width: 650px;
+	height: 534px;	
+	display: table-cell;
 	vertical-align: middle;
 }
 .image-container__main-image {
-	display:inline-block;
+	display: inline-block;
 	position: relative;
-	overflow:hidden;
+	overflow: hidden;
 }
 .image-container__watermark {
-	position:absolute;
-	top:0;
-	left:0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: move;
 }

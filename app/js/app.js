@@ -3,11 +3,14 @@ var formApp = (function() {
     // menuButton = $('.menu-button'),
     var formFile = $('.settings__form-file'),
         runner = $('.settings__runner'),
+        buttonReset = $('.settings__button_reset'),
+
         globRatio;
         _addEventListeners = function() {
             formFile.on('change', _changeFileLabel);
             formFile.on('change', _viewImg);
             runner.slider({min:0, max:100, range:'min'});
+            buttonReset.on('click', _clearForm);
         };
 
     // Изменение лейбла при выборе файла
@@ -22,6 +25,41 @@ var formApp = (function() {
                 fileLabel.text('Вставить файл');
             }
     };
+
+
+    var _clearForm = function(e){
+        e.preventDefault();
+        _clearSourceImage();
+    }
+
+// Чистка ватермарка
+    var _clearWatermark = function(){
+        var watermarkContainer = $('.image-container__watermark'),
+            formFileWatermark = $('#watermark-image'),
+            watermarkFileLabel = formFileWatermark.parent().find('.settings__form-file-label');
+
+        formFileWatermark.val('');
+        watermarkFileLabel.text('Вставить файл');  
+        watermarkContainer.children('img').remove(); 
+
+        //========================Добавить обнуление позиции ватермарка (наверное, для Саши?)=====================
+   
+    }
+
+    var _clearSourceImage = function (){
+        var sourceContainer = $('.image-container__main-image'),
+            formFileSourceImage = $('#source-image'),
+            sourceFileLabel = formFileSourceImage.parent().find('.settings__form-file-label');
+
+
+        formFileSourceImage.val('');
+        sourceFileLabel.text('Вставить файл');  
+        sourceContainer.children('img').remove();
+        globRatio = 1; 
+
+        _clearWatermark();    
+
+    }
 
     //Включение слайдера на изменение прозрачности
     var _opacitySliderOn = function (block) {
@@ -38,6 +76,7 @@ var formApp = (function() {
     var _checkFormat = function(file) {
         var mymeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'],
             trueFormat = false;
+
         if (file){       
             if($.inArray(file.type, mymeTypes) !== -1){            
                 trueFormat = true;
@@ -53,7 +92,6 @@ var formApp = (function() {
     }
     // вычисление коэффициента масшатбирования
     var _getRatio = function(img){
-        // console.log (img.width);
         var workSpaceWidth = 650,
             workSpaceHeight = 534,
             imageWidth = img.width,
@@ -61,6 +99,7 @@ var formApp = (function() {
             heightRatio = 0,
             widthRatio = 0,
             ratio = 1;
+
         // расчет коэффициента    
         if (imageWidth > workSpaceWidth || imageHeight > workSpaceHeight) {
             widthRatio = workSpaceWidth / imageWidth;
@@ -88,14 +127,13 @@ var formApp = (function() {
             img = document.createElement('img'),
             reader = new FileReader();
 
-        
         // попробовать опустить        
         if (!_checkFormat(file)) {
             if ($this.attr('name') == 'source-image') {
-                sourceContainer.children('img').remove();
+               _clearSourceImage();
             }
             else if($this.attr('name') == 'watermark-image'){
-                watermarkContainer.children('img').remove();
+                _clearWatermark();
             }
             return false;
         }
@@ -103,34 +141,25 @@ var formApp = (function() {
         reader.onload = function(event) {
             var dataUri = event.target.result;
             img.src = dataUri;
+            img.setAttribute('draggable', 'false');
             // вставка главного изображения
             if ($this.attr('name') == 'source-image') {
+                //Предварительная очистка приложения
+                _clearWatermark();
                 // вычисление масштаба при загрузке главной картинки
                 globRatio = _getRatio(img);
                 //задавание масштаба основной картинки
                 $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-                // вставка картинки первый раз
-                if (!sourceContainer.children().is('img')) {
-                    sourceContainer.append(img);
-                }
-                // повторная загрузка
-                else {
-                    sourceContainer.children('img').remove();
-                    sourceContainer.append(img);
-                } 
+                // вставка картинки
+                sourceContainer.children('img').remove();
+                sourceContainer.append(img);
             }
             // вставка вотермарка
             else if ($this.attr('name') == 'watermark-image') {
                 // задание масштаба вотермарка
-
-                 $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-                if (!watermarkContainer.children().is('img')) {
-                    watermarkContainer.append(img);
-                }
-                else {
-                    watermarkContainer.children('img').remove();
-                    watermarkContainer.append(img);
-                }   
+                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                watermarkContainer.children('img').remove();
+                watermarkContainer.append(img);
             }
 
             // вызвать кастомное событие 'file-uploaded'
