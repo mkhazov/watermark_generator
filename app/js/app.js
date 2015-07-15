@@ -26,10 +26,25 @@ var formApp = (function() {
             }
     };
 
-
-    var _clearForm = function(e){
-        e.preventDefault();
-        _clearSourceImage();
+    // Обнуление прозрачности
+    var _clearOpacity = function(){
+        var block = $('.image-container__watermark');
+        runner.slider("value", 0)
+        var opacity = 1;
+        $(block).css('opacity', opacity);
+        $('.settings__hidden').val(opacity).attr('value', opacity);
+    }
+    
+    // Обнуление позиции
+    var _clearPosition = function(){
+        var formPosition = $('.settings__text-position'),
+            sourceContainerSelector = '.image-container__main-image',
+            watermarkContainerSelector = '.image-container__watermark',
+            block={};
+        block = moveIt();
+        block.init(watermarkContainerSelector, sourceContainerSelector);    
+        formPosition.val(0);
+        block.setPosition(0,0);       
     }
 
 // Чистка ватермарка
@@ -42,15 +57,14 @@ var formApp = (function() {
         watermarkFileLabel.text('Вставить файл');  
         watermarkContainer.children('img').remove(); 
 
-        //========================Добавить обнуление позиции ватермарка (наверное, для Саши?)=====================
-   
+        _clearPosition();
+        _clearOpacity();
     }
 
     var _clearSourceImage = function (){
         var sourceContainer = $('.image-container__main-image'),
             formFileSourceImage = $('#source-image'),
             sourceFileLabel = formFileSourceImage.parent().find('.settings__form-file-label');
-
 
         formFileSourceImage.val('');
         sourceFileLabel.text('Вставить файл');  
@@ -59,6 +73,13 @@ var formApp = (function() {
 
         _clearWatermark();    
 
+    }
+
+    var _clearForm = function(e){
+        e.preventDefault();
+        _clearSourceImage();
+        _clearPosition();
+        _clearOpacity();
     }
 
     //Включение слайдера на изменение прозрачности
@@ -156,6 +177,9 @@ var formApp = (function() {
             }
             // вставка вотермарка
             else if ($this.attr('name') == 'watermark-image') {
+                //предварительная очистка вотермарка
+                _clearPosition();
+                _clearOpacity();
                 // задание масштаба вотермарка
                 $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
                 watermarkContainer.children('img').remove();
