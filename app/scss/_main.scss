@@ -38,7 +38,24 @@ a {
 
 }
 
+.browserupgrade {
+	position:fixed;
+	top:0;
+	color:#fff;
+	padding:10px 0;
+	margin:0;
+	background:#ff0000;
+	width:100%;
+	text-align: center;
 
+	a {
+		color:#000;
+		&:hover {
+			color:#fff;
+		}
+	}
+
+}
 .wrapper {
   position: absolute;
   top: 0;

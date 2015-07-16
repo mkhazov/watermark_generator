@@ -42,6 +42,20 @@ a {
   padding-right: 0;
   background: none; }
 
+.browserupgrade {
+  position: fixed;
+  top: 0;
+  color: #fff;
+  padding: 10px 0;
+  margin: 0;
+  background: #ff0000;
+  width: 100%;
+  text-align: center; }
+  .browserupgrade a {
+    color: #000; }
+    .browserupgrade a:hover {
+      color: #fff; }
+
 .wrapper {
   position: absolute;
   top: 0;
