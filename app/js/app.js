@@ -171,25 +171,29 @@ var formApp = (function() {
                 _clearWatermark();
                 // вычисление масштаба при загрузке главной картинки
                 globRatio = _getRatio(img);
-                //задавание масштаба основной картинки
-                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+              
+               
                 // вставка картинки
                 sourceContainer.children('img').remove();
                 sourceContainer.append(img);
+                  //задавание масштаба основной картинки
+                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
             }
             // вставка вотермарка
             else if ($this.attr('name') == 'watermark-image') {
                 //предварительная очистка вотермарка
                 _clearPosition();
                 _clearOpacity();
-                // задание масштаба вотермарка
-                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                              
                 watermarkContainer.children('img').remove();
                 watermarkContainer.append(img);
+                 // задание масштаба вотермарка 
+                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                // вызвать кастомное событие 'file-uploaded'
+              $('#workform').trigger('file-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
             }
 
-            // вызвать кастомное событие 'file-uploaded'
-            $('#workform').trigger('file-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
+            // переделал вызов позиционирования только на загрузку вотермарка^^^^^
         }
 
         reader.onerror = function() {

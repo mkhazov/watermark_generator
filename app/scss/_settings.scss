@@ -55,7 +55,8 @@
   max-width: 188px;
   @include border-radius(3px);
   padding: 4px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  max-height: 26px; 
 }
 
 .settings__form-file-label {
