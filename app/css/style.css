@@ -189,8 +189,7 @@ a {
   -ms-border-radius: 3px;
   border-radius: 3px;
   padding: 4px;
-  box-sizing: border-box;
-  max-height: 26px; }
+  box-sizing: border-box; }
 
 .settings__form-file-label {
   display: block;
@@ -207,7 +206,7 @@ a {
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
   border-radius: 3px;
-  padding: 5px 39px 6px 4px;
+  padding: 6px 39px 6px 4px;
   white-space: nowrap;
   box-sizing: border-box;
   color: #9EB2C0;
@@ -220,7 +219,7 @@ a {
     right: -1px;
     top: -1px;
     width: 39px;
-    height: 27px;
+    height: 29px;
     background: url("../img/upload.png") no-repeat; }
 
 .settings__position-buttons {

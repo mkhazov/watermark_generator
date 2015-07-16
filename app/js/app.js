@@ -99,17 +99,17 @@ var formApp = (function() {
         var mymeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'],
             trueFormat = false;
 
-        if (file){       
+        if (!file){
+            return false
+        }
+        else {       
             if($.inArray(file.type, mymeTypes) !== -1){            
-                trueFormat = true;
+                return true
             }
-        }
-        if (!trueFormat) {
-            alert('Не тот формат! Или не загружено изображение!');
-            return false;
-        }
-        else {
-            return true;
+            else {
+                alert('Не тот формат!');
+                return false
+            }
         }
     }
 
