@@ -1,0 +1,78 @@
+@include fontfamily (SegoeUI-Light);
+
+.navigation{
+  position: absolute;
+  left: 0;
+  top: 20%;
+}
+
+.langs_nav{
+  margin-bottom: 18px;
+}
+
+.langs_nav-link{
+  display: block;
+  width: 43px;
+  height: 31px;
+  background-color: rgba(241, 241, 245, 0.702);
+  text-decoration: none;
+  font-family: SegoeUI-Light;
+  font-size: 20px;
+  text-align: center;
+  color: rgb(142, 146, 152);
+  padding-top: 3px;
+}
+
+.langs_nav-link:hover{
+color: rgb(68, 74, 83);
+}
+
+.chosen-lang{
+  color:white;
+}
+
+.chosen-lang:hover{
+  color:white;
+  cursor: default;
+}
+
+.langs_nav-item{
+  border-bottom: 1px solid rgb(165,168,172);
+  width: 43px;
+}
+
+.langs_nav-item:last-child{
+  border:none;
+}
+
+.socials_like-link, .socials_inner-link {
+  display: table-cell;
+  width: 43px;
+  height: 41px;
+  background-color: rgba(241, 241, 245, 0.702);
+  vertical-align: middle; }
+
+.socials_inner-icon {
+  left: 0;
+  right: 0;
+  margin: auto; }
+
+.socials_like-icon {
+  left: 0;
+  right: 0;
+  margin: auto; }
+
+.socials_like {
+  position: absolute;
+  width: 43px;
+  height: 41px;
+  margin-left: 42.5px; }
+
+.socials_inner {
+  
+  width: 43px; }
+
+.socials {
+  max-height: 150px;
+  max-width: 88px;
+  margin-left: -43px; }

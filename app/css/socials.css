@@ -1,0 +1,44 @@
+.sprite {
+  background-image: url(/img/socials.png);
+  background-repeat: no-repeat;
+  display: block; }
+
+.sprite-fb {
+  width: 16px;
+  height: 28px;
+  background-position: -10px -10px; }
+
+.sprite-fb-active {
+  width: 16px;
+  height: 28px;
+  background-position: -45px -10px; }
+
+.sprite-like {
+  width: 27px;
+  height: 32px;
+  background-position: -80px -10px; }
+
+.sprite-like-active {
+  width: 27px;
+  height: 32px;
+  background-position: -10px -62px; }
+
+.sprite-tw {
+  width: 28px;
+  height: 23px;
+  background-position: -56px -62px; }
+
+.sprite-tw-active {
+  width: 28px;
+  height: 23px;
+  background-position: -126px -10px; }
+
+.sprite-vk {
+  width: 32px;
+  height: 19px;
+  background-position: -126px -52px; }
+
+.sprite-vk-active {
+  width: 32px;
+  height: 19px;
+  background-position: -104px -90px; }
