@@ -226,10 +226,13 @@ class WatermarkGenerator {
      * @return bool
      */
     private function check_position($position, $image_filename) {
-        if (!is_array($position) || !is_int($position['x'] || !is_int($position['y']))) {
+        if (!is_array($position) || !is_numeric($position['x']) || !is_numeric($position['y'])) {
             $this->set_error('Некорректные координаты');
             return FALSE;
         }
+
+        $position['x'] = (int) $position['x'];
+        $position['y'] = (int) $position['y'];
 
         $passed = TRUE;
 
@@ -279,7 +282,7 @@ class WatermarkGenerator {
             return FALSE;
         }
 
-        elseif ($opacity < 1) {
+        elseif ($opacity <= 1) {
             $this->opacity = $opacity * 100;
         }
 
