@@ -118,11 +118,14 @@ gulp.task('images', function () {
         .pipe(gulp.dest('dist/img'));
 });
 
-// vendor
-gulp.task('vendor', function () {
-    return gulp.src([
+// php файлы
+gulp.task('php-files', function () {
+    gulp.src([
         'app/vendor/**/*'
     ]).pipe(gulp.dest('dist/vendor'));
+    gulp.src([
+        'app/classes/**/*'
+    ]).pipe(gulp.dest('dist/classes'));
 });
 
 // Остальные файлы, такие как favicon.ico и пр.
@@ -134,7 +137,7 @@ gulp.task('extras', function () {
 });
 
 // Сборка и вывод размера содержимого папки dist
-gulp.task('dist', ['useref', 'images', 'fonts', 'vendor', 'extras'], function () {
+gulp.task('dist', ['useref', 'images', 'fonts', 'php-files', 'extras'], function () {
     return gulp.src('dist/**/*')
         .pipe(size({title: 'build'}));
 });
