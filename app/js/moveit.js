@@ -14,7 +14,8 @@
 var moveIt = function () {
     'use strict';
     var container       = {},
-        block           = {};
+        block           = {},
+        mode            = 'normal';
     //Перерасчитывает абсолютные и относительные координаты блока
     function _calculateBlockPosition() {
         var box         = block.elem.getBoundingClientRect();
@@ -29,25 +30,44 @@ var moveIt = function () {
         container.oX    = box.left + window.pageXOffset;
         container.oY    =  box.top + window.pageYOffset;
     }
-    //Проверяет координаты на корректность
-    //Если вышли за пределы родительского - возвращает false
-    function _checkCoord(axisX, axisY) {
-        if (axisX < 0 ||
-                axisY < 0 ||
-                axisX + block.width > container.width ||
-                axisY + block.height > container.height) {
-            return false;
-        }
-        return true;
-    }
     //Позиционирует блок по заданным координатам
     function _setPosition(axisX, axisY) {
-        //Но сначала проверяем координаты
-        if (!_checkCoord(axisX, axisY)) {
-            return false;
+        var x = axisX,
+            y = axisY;
+        switch (mode) {
+        case 'normal':
+            //Если выходим за диапазон - применяем макс значения
+            if (axisX < 0) {
+                x = 0;
+            }
+            if (axisY < 0) {
+                y = 0;
+            }
+            if (axisX > container.width - block.width) {
+                x = container.width - block.width;
+            }
+            if (axisY > container.height - block.height) {
+                y = container.height - block.height;
+            }
+            break;
+        case 'extra-size':
+            if (axisX > 0) {
+                x = 0;
+            }
+            if (axisY > 0) {
+                y = 0;
+            }
+            if (axisX < container.width - block.width) {
+                x = container.width - block.width;
+            }
+            if (axisY < container.height - block.height) {
+                y = container.height - block.height;
+            }
+            break;
         }
-        block.elem.style.left   = axisX + 'px';
-        block.elem.style.top    = axisY + 'px';
+        block.elem.style.left   = x + 'px';
+        block.elem.style.top    = y + 'px';
+
         _calculateBlockPosition();
         $(block.elem).trigger("position-changed", [axisX, axisY]);
     }
@@ -90,6 +110,12 @@ var moveIt = function () {
             //Вычисляем координаты блоков
             _calculateBlockPosition();
             _calculateContainerPosition();
+
+            //Если блок больше нашего изображения - включаем другой режим позиционирования
+            if (block.width > container.width ||
+                    block.height > container.height) {
+                mode = 'extra-size';
+            }
         },
         setPosition: function (axisX, axisY) {
             return _setPosition(axisX, axisY);
