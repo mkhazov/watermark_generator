@@ -86,11 +86,8 @@ var position = (function () {
      * Установка значений координат в инпуты.
      */
     function _changePositionValues(x, y) {
-        var scaleRatio = formApp.returnRatio();
-        var realX = ~~(x / scaleRatio);
-        var realY = ~~(y / scaleRatio);
-        $('#position-x').val(x).attr('value', realX);
-        $('#position-y').val(y).attr('value', realY);
+        $('#position-x').val(x);
+        $('#position-y').val(y);
     }
 
     return {
