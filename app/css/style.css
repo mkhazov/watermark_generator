@@ -42,6 +42,20 @@ a {
   padding-right: 0;
   background: none; }
 
+.browserupgrade {
+  position: fixed;
+  top: 0;
+  color: #fff;
+  padding: 10px 0;
+  margin: 0;
+  background: #ff0000;
+  width: 100%;
+  text-align: center; }
+  .browserupgrade a {
+    color: #000; }
+    .browserupgrade a:hover {
+      color: #fff; }
+
 .wrapper {
   position: absolute;
   top: 0;
@@ -98,10 +112,10 @@ a {
 .image-container {
   width: 650px;
   height: 534px;
-  overflow: auto;
-  background: #ff0000;
+  background: url("../img/workspace.png");
   text-align: center;
-  position: relative; }
+  position: relative;
+  font-size: 0; }
 
 .image-container__workspace {
   width: 650px;
@@ -111,12 +125,14 @@ a {
 
 .image-container__main-image {
   display: inline-block;
-  position: relative; }
+  position: relative;
+  overflow: hidden; }
 
 .image-container__watermark {
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0;
+  cursor: move; }
 
 @font-face {
   font-family: roboto-light-webfont;
@@ -190,19 +206,20 @@ a {
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
   border-radius: 3px;
-  padding: 5px 39px 6px 4px;
+  padding: 6px 39px 6px 4px;
   white-space: nowrap;
   box-sizing: border-box;
   color: #9EB2C0;
   font-size: 12px;
-  font-family: arial; }
+  font-family: arial;
+  overflow: hidden; }
   .settings__form-file-label:after {
     content: '';
     position: absolute;
     right: -1px;
     top: -1px;
     width: 39px;
-    height: 27px;
+    height: 29px;
     background: url("../img/upload.png") no-repeat; }
 
 .settings__position-buttons {
@@ -243,7 +260,7 @@ a {
 
 .settings__position_arrows {
   display: inline-block;
-  margin: 4px 0 0 6px; }
+  margin: 3px 0 0 6px; }
 
 .settings__form-label-position {
   display: inline-block;
@@ -261,6 +278,7 @@ a {
   font-family: SegoeUI-Light, arial;
   font-size: 24px;
   line-height: 40px;
+  height: 40px;
   border: 1px solid #B0C0CC;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -345,6 +363,8 @@ a {
     font-weight: normal;
     font-style: normal; } }
   .settings__button:hover {
+    background: #d2e0ea; }
+  .settings__button:active {
     top: 4px;
     -webkit-box-shadow: 0 0 0 #b0bec8;
     -moz-box-shadow: 0 0 0 #b0bec8;
@@ -352,11 +372,13 @@ a {
 
 .settings__button_download {
   background: #F97E76;
-  margin-left: 40px;
+  margin-left: 39px;
   -webkit-box-shadow: 0 4px 0 #e86d65;
   -moz-box-shadow: 0 4px 0 #e86d65;
   box-shadow: 0 4px 0 #e86d65; }
   .settings__button_download:hover {
+    background: #ffa098; }
+  .settings__button_download:active {
     -webkit-box-shadow: 0 0 0 #e86d65;
     -moz-box-shadow: 0 0 0 #e86d65;
     box-shadow: 0 0 0 #e86d65; }

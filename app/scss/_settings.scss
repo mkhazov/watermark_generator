@@ -70,19 +70,21 @@
   width: 100%;
   border: 1px solid #9EB2C0;
   @include border-radius (3px);
-  padding: 5px 39px 6px 4px;
+  padding: 6px 39px 6px 4px;
   white-space: nowrap;
   box-sizing: border-box;
   color: #9EB2C0;
   font-size: 12px;
   font-family: arial;
+  overflow:hidden;
+ 
   &:after {
     content:'';
     position: absolute;
     right: -1px;
     top: -1px;
     width: 39px;
-    height: 27px;
+    height: 29px;
     background: url($img_tmp + 'upload.png') no-repeat;
   }
 }
@@ -132,7 +134,7 @@
 
 .settings__position_arrows {
   display: inline-block;
-  margin:4px 0 0 6px;
+  margin:3px 0 0 6px;
 }
 
 .settings__form-label-position{
@@ -153,6 +155,7 @@
   font-family: SegoeUI-Light, arial;
   font-size: 24px;
   line-height: 40px;
+  height:40px;
   border:1px solid #B0C0CC;
   @include border-radius(3px);
   width:42px;
@@ -227,7 +230,10 @@
   @include border-radius(3px);
   @include transition(all, 0.3s, linear);
   @include box-shadow(0, 4px, 0, #C1CFD9-#111);
-  &:hover {
+   &:hover {
+    background:#C1CFD9 + #111;
+  }
+  &:active{
     top:4px;
     @include box-shadow(0, 0, 0,  #C1CFD9-#111);
   }
@@ -235,9 +241,12 @@
 
 .settings__button_download {
   background: #F97E76;
-  margin-left:  40px;
+  margin-left:  39px;
   @include box-shadow(0, 4px, 0, #F97E76-#111);
   &:hover {
+    background:#F97E76 + #222;
+  }
+  &:active {
     @include box-shadow(0, 0, 0, #F97E76-#111);
   }
 }

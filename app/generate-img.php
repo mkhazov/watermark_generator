@@ -229,7 +229,7 @@ class WatermarkGenerator {
         $passed = TRUE;
 
         // длина не более 255 символов
-        if (mb_strlen($filename,"UTF-8") > 255) {
+        if (strlen($filename,"UTF-8") > 255) {
             $this->set_error('Слишком длинное имя файла');
             $passed = FALSE;
         }
