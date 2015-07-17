@@ -4,6 +4,7 @@ var formApp = (function() {
     var formFile = $('.settings__form-file'),
         runner = $('.settings__runner'),
         buttonReset = $('.settings__button_reset'),
+        doTile = $('.settings__tile-link_tile'),
 
         globRatio;
         _addEventListeners = function() {
@@ -11,7 +12,8 @@ var formApp = (function() {
             formFile.on('change', _viewImg);
             runner.slider({min:0, max:100, range:'min'});
             buttonReset.on('click', _clearForm);
-        };
+            doTile.on('click', _doTile);
+    };
 
     // Изменение лейбла при выборе файла
     var _changeFileLabel = function() {
@@ -33,7 +35,7 @@ var formApp = (function() {
         var opacity = 1;
         $(block).css('opacity', opacity);
         $('.settings__hidden').val(opacity).attr('value', opacity);
-    }
+    };
     
     // Обнуление позиции
     var _clearPosition = function(){
@@ -45,7 +47,7 @@ var formApp = (function() {
         block.init(watermarkContainerSelector, sourceContainerSelector);    
         formPosition.val(0);
         block.setPosition(0,0);       
-    }
+    };
 
     // Чистка ватермарка
     var _clearWatermark = function(){
@@ -59,7 +61,7 @@ var formApp = (function() {
 
         _clearPosition();
         _clearOpacity();
-    }
+    };
 
     //Чистка главного изображения
     var _clearSourceImage = function (){
@@ -74,14 +76,14 @@ var formApp = (function() {
 
         _clearWatermark();    
 
-    }
+    };
     //Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
         _clearSourceImage();
         _clearPosition();
         _clearOpacity();
-    }
+    };
 
     //Включение слайдера на изменение прозрачности
     var _opacitySliderOn = function (block) {
@@ -92,7 +94,7 @@ var formApp = (function() {
                 $('.settings__hidden').val(opacity).attr('value', opacity);
             }
         })
-    }
+    };
 
     // Проверка файла по типу или наличию
     var _checkFormat = function(file) {
@@ -111,7 +113,7 @@ var formApp = (function() {
                 return false
             }
         }
-    }
+    };
 
     // вычисление коэффициента масшатбирования
     var _getRatio = function(img){
@@ -136,7 +138,34 @@ var formApp = (function() {
         }   
         // console.log(ratio);
         return ratio;
-    }
+    };
+
+        // Замощение
+    var _doTile = function(e){
+        e.preventDefault();
+        var sourceContainerSelector = '.image-container__main-image',
+            sourceContainer = $(sourceContainerSelector),
+            watermarkContainerSelector = '.image-container__watermark',
+            watermarkContainer = $(watermarkContainerSelector),            
+            sourceContainerWidth = sourceContainer.width(),
+            sourceContainerHeight = sourceContainer.height(),
+            watermarkImage = watermarkContainer.children('img'),
+            watermarkImageWidth = watermarkImage.width(),
+            watermarkImageHeight = watermarkImage.height(),
+            watermarkHtml = watermarkContainer.html(),
+            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth) + 1,
+            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight) + 1;
+          
+            console.log (heightRatio);
+            console.log (widthRatio);
+            watermarkContainer.html('');
+            for (var i = 0; i <= 20; i++) {
+                for (var j = 0; j <= 20; j++) {
+                    console.log(i,j)
+                    watermarkContainer.append(watermarkHtml);
+                };
+            };
+    };
 
    //Вставка изображения в рабочее поле
     var _viewImg = function(e) {
