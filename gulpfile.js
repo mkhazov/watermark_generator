@@ -35,8 +35,6 @@ gulp.task('server', ['php', 'sass', 'bower'], function () {
 gulp.task('php', function() {
     php.server({
         base: 'app',
-        bin: 'D:/OpenServer/modules/php/PHP-5.4.17/php.exe',
-        ini: 'D:/OpenServer/modules/php/PHP-5.4.17/php.ini',
         port: 8010,
         keepalive: true
     });
@@ -120,11 +118,14 @@ gulp.task('images', function () {
         .pipe(gulp.dest('dist/img'));
 });
 
-// vendor
-gulp.task('vendor', function () {
-    return gulp.src([
+// php файлы
+gulp.task('php-files', function () {
+    gulp.src([
         'app/vendor/**/*'
     ]).pipe(gulp.dest('dist/vendor'));
+    gulp.src([
+        'app/classes/**/*'
+    ]).pipe(gulp.dest('dist/classes'));
 });
 
 // Остальные файлы, такие как favicon.ico и пр.
@@ -136,7 +137,7 @@ gulp.task('extras', function () {
 });
 
 // Сборка и вывод размера содержимого папки dist
-gulp.task('dist', ['useref', 'images', 'fonts', 'vendor', 'extras'], function () {
+gulp.task('dist', ['useref', 'images', 'fonts', 'php-files', 'extras'], function () {
     return gulp.src('dist/**/*')
         .pipe(size({title: 'build'}));
 });

@@ -8,6 +8,15 @@ var submit = (function($) {
         e.preventDefault();
         var formData = new FormData($(this)[0]);
 
+        // расчет и отправка на сервер реальных координат
+        var x = $('#position-x').val();
+        var y = $('#position-y').val();
+        var scaleRatio = formApp.returnRatio();
+        var realX = ~~(x / scaleRatio);
+        var realY = ~~(y / scaleRatio);
+        formData.append('position-x', realX);
+        formData.append('position-y', realY);
+
         // jQuery ajax can't retrieve data as blob,
         // so use native XMLHttpresuest
         var xhr = new XMLHttpRequest();
