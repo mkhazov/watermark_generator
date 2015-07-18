@@ -19,8 +19,10 @@ var moveIt = function () {
     //Перерасчитывает абсолютные и относительные координаты блока
     function _calculateBlockPosition() {
         var box         = block.elem.getBoundingClientRect();
+        //Координаты на странице
         block.oX        = box.left + window.pageXOffset;
         block.oY        = box.top + window.pageYOffset;
+        //Координаты внутри родительского блока
         block.parentY   = block.elem.offsetTop;
         block.parentX   = block.elem.offsetLeft;
     }
@@ -30,6 +32,47 @@ var moveIt = function () {
         container.oX    = box.left + window.pageXOffset;
         container.oY    =  box.top + window.pageYOffset;
     }
+    //Коррекция координат в зависимости от режима
+    function getNormalX(axisX) {
+        var x = axisX;
+        if (axisX < 0) {
+            x = 0;
+        }
+        if (axisX > container.width - block.width) {
+            x = container.width - block.width;
+        }
+        return x;
+    }
+    function getNormalY(axisY) {
+        var y = axisY;
+        if (axisY < 0) {
+            y = 0;
+        }
+        if (axisY > container.height - block.height) {
+            y = container.height - block.height;
+        }
+        return y;
+    }
+    function getExtraX(axisX) {
+        var x = axisX;
+        if (axisX > 0) {
+            x = 0;
+        }
+        if (axisX < container.width - block.width) {
+            x = container.width - block.width;
+        }
+        return x;
+    }
+    function getExtraY(axisY) {
+        var y = axisY;
+        if (axisY > 0) {
+            y = 0;
+        }
+        if (axisY < container.height - block.height) {
+            y = container.height - block.height;
+        }
+        return y;
+    }
     //Позиционирует блок по заданным координатам
     function _setPosition(axisX, axisY) {
         var x = axisX,
@@ -37,38 +80,21 @@ var moveIt = function () {
         switch (mode) {
         case 'normal':
             //Если выходим за диапазон - применяем макс значения
-            if (axisX < 0) {
-                x = 0;
-            }
-            if (axisY < 0) {
-                y = 0;
-            }
-            if (axisX > container.width - block.width) {
-                x = container.width - block.width;
-            }
-            if (axisY > container.height - block.height) {
-                y = container.height - block.height;
-            }
+            x = getNormalX(axisX);
+            y = getNormalY(axisY);
             break;
         case 'extra-size':
-            if (axisX > 0) {
-                x = 0;
-            }
-            if (axisY > 0) {
-                y = 0;
-            }
-            if (axisX < container.width - block.width) {
-                x = container.width - block.width;
-            }
-            if (axisY < container.height - block.height) {
-                y = container.height - block.height;
-            }
+            //Если блок шире контейнера по одной из координат
+            //Не позволяем ему залезть границей во внутрь
+            x = (block.width > container.width) ? getExtraX(axisX) : getNormalX(axisX);
+            y = (block.height > container.height) ? getExtraY(axisY) : getNormalY(axisY);
             break;
         }
         block.elem.style.left   = x + 'px';
         block.elem.style.top    = y + 'px';
 
         _calculateBlockPosition();
+        $(block.elem).trigger("position-changed", [block.parentX, block.parentY]);
     }
     //Устанавливает положение блока по положению курсора
     //С поправкой на место клика
@@ -76,7 +102,6 @@ var moveIt = function () {
         var x = event.pageX - shiftX - container.oX,
             y = event.pageY - shiftY - container.oY;
         _setPosition(x, y);
-        $(block.elem).trigger("position-changed", [x, y]);
     }
     return {
         //Инициализируем: Первым аргументом передаём селектор блока
