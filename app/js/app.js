@@ -5,6 +5,10 @@ var formApp = (function() {
         runner = $('.settings__runner'),
         buttonReset = $('.settings__button_reset'),
         doTile = $('.settings__tile-link_tile'),
+        sourceContainerSelector = '.image-container__main-image',
+        watermarkContainerSelector = '.image-container__watermark',
+        sourceContainer = $('.image-container__main-image'),
+        watermarkContainer = $('.image-container__watermark'),
 
         globRatio;
         _addEventListeners = function() {
@@ -40,8 +44,6 @@ var formApp = (function() {
     // Обнуление позиции
     var _clearPosition = function(){
         var formPosition = $('.settings__text-position'),
-            sourceContainerSelector = '.image-container__main-image',
-            watermarkContainerSelector = '.image-container__watermark',
             block={};
         block = moveIt();
         block.init(watermarkContainerSelector, sourceContainerSelector);    
@@ -50,11 +52,9 @@ var formApp = (function() {
     };
 
     // Чистка ватермарка
-    var _clearWatermark = function(){
-        var watermarkContainer = $('.image-container__watermark'),
-            formFileWatermark = $('#watermark-image'),
+    var _clearWatermark = function(){         
+        var formFileWatermark = $('#watermark-image'),
             watermarkFileLabel = formFileWatermark.parent().find('.settings__form-file-label');
-
         formFileWatermark.val('');
         watermarkFileLabel.text('Вставить файл');  
         watermarkContainer.children('img').remove(); 
@@ -64,9 +64,8 @@ var formApp = (function() {
     };
 
     //Чистка главного изображения
-    var _clearSourceImage = function (){
-        var sourceContainer = $('.image-container__main-image'),
-            formFileSourceImage = $('#source-image'),
+    var _clearSourceImage = function (){ 
+        var formFileSourceImage = $('#source-image'),
             sourceFileLabel = formFileSourceImage.parent().find('.settings__form-file-label');
 
         formFileSourceImage.val('');
@@ -117,8 +116,9 @@ var formApp = (function() {
 
     // вычисление коэффициента масшатбирования
     var _getRatio = function(img){
-        var workSpaceWidth = 650,
-            workSpaceHeight = 534,
+        var workSpace = $('.image-container__workspace'),
+            workSpaceWidth = workSpace.width(),
+            workSpaceHeight = workSpace.height(),
             imageWidth = img.width,
             imageHeight = img.height,
             heightRatio = 0,
@@ -142,12 +142,8 @@ var formApp = (function() {
 
         // Замощение
     var _doTile = function(e){
-        e.preventDefault();
-        var sourceContainerSelector = '.image-container__main-image',
-            sourceContainer = $(sourceContainerSelector),
-            watermarkContainerSelector = '.image-container__watermark',
-            watermarkContainer = $(watermarkContainerSelector),            
-            sourceContainerWidth = sourceContainer.width(),
+        e.preventDefault();                   
+        var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
             watermarkImage = watermarkContainer.children('img'),
             watermarkImageWidth = watermarkImage.width(),
@@ -172,10 +168,6 @@ var formApp = (function() {
         console.log(globRatio);
         var $this = $(this),
             file = $this[0].files[0],
-            sourceContainerSelector = '.image-container__main-image',
-            watermarkContainerSelector = '.image-container__watermark',
-            sourceContainer = $(sourceContainerSelector),
-            watermarkContainer = $(watermarkContainerSelector),
             img = document.createElement('img'),
             reader = new FileReader();
 
@@ -234,7 +226,7 @@ var formApp = (function() {
     return {
         init: function() {
             _addEventListeners();
-            _opacitySliderOn('.image-container__watermark');
+            _opacitySliderOn(watermarkContainerSelector);
         },
         // метод получения последнего коэффициента
         returnRatio: function() {
