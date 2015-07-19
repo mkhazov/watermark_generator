@@ -187,8 +187,11 @@ var formApp = (function() {
         tileLink.removeClass(tileLinkSelected);
         
         var watermarkImageFirst = watermarkContainer.children('img').first();
+            watermarkImageWidth = watermarkImageFirst.width(),
+            watermarkImageHeight = watermarkImageFirst.height(),
         watermarkContainer.html('');
         watermarkContainer.append(watermarkImageFirst);
+        watermarkContainer.css({'width': watermarkImageWidth, 'height': watermarkImageHeight})
         $(this).addClass(tileLinkSelected);
     }
     
