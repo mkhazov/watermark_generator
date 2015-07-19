@@ -90,6 +90,39 @@
 }
 
 
+.settings__tile {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  font-size: 0;
+}
+
+.settings__tile-item {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.settings__tile-link{
+  display: block;
+  width:19px;
+  height:19px;
+  background: url($img_tmp + 'onetile.png');
+}
+
+.settings__tile-link_tile {
+  background-position: 0 0;
+  &:hover, &.settings__tile-link_selected {
+    background-position: -19px 0;
+  }
+}
+
+.settings__tile-link_bite {
+  background-position: 0 -19px;
+  &:hover, &.settings__tile-link_selected {
+    background-position: -19px -19px;
+  }
+}
+
 
 .settings__position-buttons {
   @include border-radius(3px);

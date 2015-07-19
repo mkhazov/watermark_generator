@@ -4,11 +4,14 @@ var formApp = (function() {
     var formFile = $('.settings__form-file'),
         runner = $('.settings__runner'),
         buttonReset = $('.settings__button_reset'),
-        doTile = $('.settings__tile-link_tile'),
+        tileLinkTile = $('.settings__tile-link_tile'),
+        tileLinkBite = $('.settings__tile-link_bite'),
         sourceContainerSelector = '.image-container__main-image',
         watermarkContainerSelector = '.image-container__watermark',
         sourceContainer = $('.image-container__main-image'),
         watermarkContainer = $('.image-container__watermark'),
+        tileLink = $('.settings__tile-link'),
+        tileLinkSelected = 'settings__tile-link_selected',
 
         globRatio;
         _addEventListeners = function() {
@@ -16,7 +19,8 @@ var formApp = (function() {
             formFile.on('change', _viewImg);
             runner.slider({min:0, max:100, range:'min'});
             buttonReset.on('click', _clearForm);
-            doTile.on('click', _doTile);
+            tileLinkTile.on('click', _doTile);
+            tileLinkBite.on('click', _doBite);
     };
 
     // Изменение лейбла при выборе файла
@@ -76,12 +80,21 @@ var formApp = (function() {
         _clearWatermark();    
 
     };
+
+
+    // Сброс кнопок замощения
+    var _clearTile = function(){
+        tileLink.removeClass(tileLinkSelected);
+        tileLinkBite.addClass(tileLinkSelected);
+    }
+
     //Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
         _clearSourceImage();
         _clearPosition();
         _clearOpacity();
+        _clearTile();
     };
 
     //Включение слайдера на изменение прозрачности
@@ -142,26 +155,43 @@ var formApp = (function() {
 
         // Замощение
     var _doTile = function(e){
-        e.preventDefault();                   
+        e.preventDefault();               
+        if ($(this).hasClass(tileLinkSelected)){
+            return false;
+        }
+        tileLink.removeClass(tileLinkSelected);
         var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
             watermarkImage = watermarkContainer.children('img'),
             watermarkImageWidth = watermarkImage.width(),
             watermarkImageHeight = watermarkImage.height(),
             watermarkHtml = watermarkContainer.html(),
-            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth) + 1,
-            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight) + 1;
-          
-            console.log (heightRatio);
-            console.log (widthRatio);
-            watermarkContainer.html('');
-            for (var i = 0; i <= 20; i++) {
-                for (var j = 0; j <= 20; j++) {
-                    console.log(i,j)
-                    watermarkContainer.append(watermarkHtml);
-                };
-            };
+            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth)*2,
+            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
+
+        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
+        for (var i = 0; i <= widthRatio*heightRatio; i++) {
+            watermarkContainer.append(watermarkHtml);
+        };
+        $(this).addClass(tileLinkSelected);   
     };
+
+
+
+    //Размощение
+    var _doBite = function(e){
+        e.preventDefault();               
+        if ($(this).hasClass(tileLinkSelected)){
+            return false;
+        }
+        tileLink.removeClass(tileLinkSelected);
+        
+        var watermarkImageFirst = watermarkContainer.children('img').first();
+        watermarkContainer.html('');
+        watermarkContainer.append(watermarkImageFirst);
+        $(this).addClass(tileLinkSelected);
+    }
+    
 
    //Вставка изображения в рабочее поле
     var _viewImg = function(e) {
@@ -227,9 +257,10 @@ var formApp = (function() {
         init: function() {
             _addEventListeners();
             _opacitySliderOn(watermarkContainerSelector);
+            tileLinkBite.addClass(tileLinkSelected);
         },
         // метод получения последнего коэффициента
-        returnRatio: function() {
+        getRatio: function() {
             return globRatio;
         }
     }
