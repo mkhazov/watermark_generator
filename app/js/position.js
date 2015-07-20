@@ -8,15 +8,6 @@ var position = (function () {
         $('#workform').on('file-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
             _enablePositioning(sourceContainerSelector, watermarkContainerSelector);
         });
-
-        // по клику на кнопку позиционирования переместить водяной знак в требуемую секцию
-        $('.settings__position-button').on('click', _setPositionArea);
-
-        // по клику на стрелку
-        $('.settings__arrow').on('click', _handleArrow);
-
-        // по вводу значения в текстовое поле
-        $('.settings__text').on('input change', _handleTextInput);
     }
 
     /**
@@ -33,6 +24,15 @@ var position = (function () {
         block.init(watermarkContainerSelector, sourceContainerSelector);
         block.dragNDropEnable();
 
+        // по клику на кнопку позиционирования переместить водяной знак в требуемую секцию
+        $('.settings__position-button').on('click', _setPositionArea);
+
+        // по клику на стрелку
+        $('.settings__arrow').on('click', _handleArrow);
+
+        // по вводу значения в текстовое поле
+        $('.settings__text').on('input change', _handleTextInput);
+
         watermarkContainer.on('position-change', function(event, x, y) {
             _changePositionValues(x, y);
         });
@@ -43,7 +43,13 @@ var position = (function () {
      * @param {string} position
      */
     function _setPositionArea() {
-        var position = $(this).data('position');
+        var $this = $(this);
+
+        var currentClass = 'settings__position-button_current';
+        $this.siblings().removeClass(currentClass);
+        $this.addClass(currentClass);
+
+        var position = $this.data('position');
         if (block.stickBlock !== undefined) {
             block.stickBlock(position);
         }
