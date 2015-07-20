@@ -10,6 +10,8 @@ var formApp = (function() {
         watermarkContainerSelector = '.image-container__watermark',
         sourceContainer = $('.image-container__main-image'),
         watermarkContainer = $('.image-container__watermark'),
+        sourceImgSelector = '.source-img',
+        watermarkImgSelector = '.watermark-img',
         tileLink = $('.settings__tile-link'),
         tileLinkSelected = 'settings__tile-link_selected',
 
@@ -61,7 +63,7 @@ var formApp = (function() {
             watermarkFileLabel = formFileWatermark.parent().find('.settings__form-file-label');
         formFileWatermark.val('');
         watermarkFileLabel.text('Вставить файл');  
-        watermarkContainer.children('img').remove(); 
+        $(watermarkImgSelector).remove();
 
         _clearPosition();
         _clearOpacity();
@@ -74,7 +76,7 @@ var formApp = (function() {
 
         formFileSourceImage.val('');
         sourceFileLabel.text('Вставить файл');  
-        sourceContainer.children('img').remove();
+        $(sourceImgSelector).remove();
         globRatio = 1; 
 
         _clearWatermark();    
@@ -162,7 +164,7 @@ var formApp = (function() {
         tileLink.removeClass(tileLinkSelected);
         var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
-            watermarkImage = watermarkContainer.children('img'),
+            watermarkImage = $(watermarkImgSelector),
             watermarkImageWidth = watermarkImage.width(),
             watermarkImageHeight = watermarkImage.height(),
             watermarkHtml = watermarkContainer.html(),
@@ -186,7 +188,7 @@ var formApp = (function() {
         }
         tileLink.removeClass(tileLinkSelected);
         
-        var watermarkImageFirst = watermarkContainer.children('img').first();
+        var watermarkImageFirst = $(watermarkImgSelector).first();
             watermarkImageWidth = watermarkImageFirst.width(),
             watermarkImageHeight = watermarkImageFirst.height(),
         watermarkContainer.html('');
@@ -202,6 +204,7 @@ var formApp = (function() {
         var $this = $(this),
             file = $this[0].files[0],
             img = document.createElement('img'),
+            $img = $(img),
             reader = new FileReader();
 
         // попробовать опустить        
@@ -225,24 +228,24 @@ var formApp = (function() {
                 _clearWatermark();
                 // вычисление масштаба при загрузке главной картинки
                 globRatio = _getRatio(img);
-              
-               
+
                 // вставка картинки
-                sourceContainer.children('img').remove();
+                $(sourceImgSelector).remove();
                 sourceContainer.append(img);
                   //задавание масштаба основной картинки
-                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
             }
             // вставка вотермарка
             else if ($this.attr('name') == 'watermark-image') {
                 //предварительная очистка вотермарка
                 _clearPosition();
                 _clearOpacity();
-                              
-                watermarkContainer.children('img').remove();
+                $(watermarkImgSelector).remove();
+
+                $img.addClass('watermark-img');
                 watermarkContainer.append(img);
                  // задание масштаба вотермарка 
-                $(img).css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
                 // вызвать кастомное событие 'file-uploaded'
               $('#workform').trigger('file-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
             }
