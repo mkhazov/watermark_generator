@@ -94,7 +94,7 @@ var moveIt = function () {
         block.elem.style.top    = y + 'px';
 
         _calculateBlockPosition();
-        $(block.elem).trigger("position-changed", [block.parentX, block.parentY]);
+        $(block.elem).trigger('position-change', [block.parentX, block.parentY]);
     }
     //Устанавливает положение блока по положению курсора
     //С поправкой на место клика
