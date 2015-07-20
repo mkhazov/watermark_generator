@@ -181,7 +181,7 @@ var formApp = (function() {
         tileLink.removeClass(tileLinkSelected);
         _clearPosition();
         
-        watermarkContainer.off('position-change');
+        //watermarkContainer.off('position-change');
         _changeInputModifiers();
 
         var sourceContainerWidth = sourceContainer.width(),

@@ -128,6 +128,11 @@ var position = (function () {
             }
 
             else if ($this.hasClass('settings__text_margin')) {
+                var margin = 0;
+                margin += parseInt(value);
+                _changeMarginValue(axis, margin);
+                formApp.setMargin(axis, margin);
+                
                 // smth like setMargin(axis, value);
             }
 
