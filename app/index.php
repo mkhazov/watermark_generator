@@ -90,7 +90,7 @@ include_once 'change-lang.php';
                                 <input type="file" name="source-image" id="source-image" class="settings__form-file">
                             </div>
                             <div class="settings__form-item">
-                                <label for="watermark-image" class="settings__form-label"><?php echo $lang['WARTERMARK_LABEL']; ?></label>
+                                <label for="watermark-image" class="settings__form-label"><?php echo $lang['WATERMARK_LABEL']; ?></label>
                                 <label for="watermark-image" class="settings__form-file-label"><?php echo $lang['INPUT_PLACEHOLDER']; ?></label>
                                 <input type="file" name="watermark-image" id="watermark-image" class="settings__form-file">
                             </div>                                
