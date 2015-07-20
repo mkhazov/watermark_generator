@@ -44,13 +44,13 @@ var formApp = (function() {
         runner.slider("value", 0)
         var opacity = 1;
         $(block).css('opacity', opacity);
-        $('.settings__hidden').val(opacity).attr('value', opacity);
+        $('#opacity').val(opacity);
     };
     
-    // Обнуление позиции
+    // Обнуление позиции и отступов
     var _clearPosition = function(){
-        var formPosition = $('.settings__text-position'),
-            block={};
+        var formPosition = $('.settings__input'),
+            block = {};
         block = moveIt();
         block.init(watermarkContainerSelector, sourceContainerSelector);    
         formPosition.val(0);
@@ -69,7 +69,7 @@ var formApp = (function() {
         _clearOpacity();
     };
 
-    //Чистка главного изображения
+    // Чистка главного изображения
     var _clearSourceImage = function (){ 
         var formFileSourceImage = $('#source-image'),
             sourceFileLabel = formFileSourceImage.parent().find('.settings__form-file-label');
@@ -79,8 +79,7 @@ var formApp = (function() {
         $(sourceImgSelector).remove();
         globRatio = 1; 
 
-        _clearWatermark();    
-
+        _clearWatermark();
     };
 
 
@@ -90,7 +89,7 @@ var formApp = (function() {
         tileLinkBite.addClass(tileLinkSelected);
     }
 
-    //Полная очистка формы
+    // Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
         _clearSourceImage();
@@ -99,7 +98,7 @@ var formApp = (function() {
         _clearTile();
     };
 
-    //Включение слайдера на изменение прозрачности
+    // Включение слайдера на изменение прозрачности
     var _opacitySliderOn = function (block) {
         runner.slider({
             slide: function(event, ui) {
@@ -155,13 +154,17 @@ var formApp = (function() {
         return ratio;
     };
 
-        // Замощение
+    // Замощение
     var _doTile = function(e){
         e.preventDefault();               
         if ($(this).hasClass(tileLinkSelected)){
             return false;
         }
+
         tileLink.removeClass(tileLinkSelected);
+        _clearPosition();
+        _changeInputModifiers();
+
         var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
             watermarkImage = $(watermarkImgSelector),
@@ -180,25 +183,41 @@ var formApp = (function() {
 
 
 
-    //Размощение
+    // Размощение
     var _doBite = function(e){
         e.preventDefault();               
         if ($(this).hasClass(tileLinkSelected)){
             return false;
         }
+
         tileLink.removeClass(tileLinkSelected);
+        _clearPosition();
+        _changeInputModifiers();
         
-        var watermarkImageFirst = $(watermarkImgSelector).first();
+        var watermarkImageFirst = $(watermarkImgSelector).first(),
             watermarkImageWidth = watermarkImageFirst.width(),
-            watermarkImageHeight = watermarkImageFirst.height(),
+            watermarkImageHeight = watermarkImageFirst.height();
         watermarkContainer.html('');
         watermarkContainer.append(watermarkImageFirst);
         watermarkContainer.css({'width': watermarkImageWidth, 'height': watermarkImageHeight})
         $(this).addClass(tileLinkSelected);
     }
     
+    /**
+     * Смена модификаторов инпутов при переключении режима на замощение и обратно.
+     */
+    var _changeInputModifiers = function() {
+        // текстовые поля
+        $('.settings__text')
+            .toggleClass('settings__text_position')
+            .toggleClass('settings__text_margin');
+        // стрелки
+        $('.settings__arrow')
+            .toggleClass('settings__arrow_position')
+            .toggleClass('settings__arrow_margin');
+    }
 
-   //Вставка изображения в рабочее поле
+    // Вставка изображения в рабочее поле
     var _viewImg = function(e) {
         console.log(globRatio);
         var $this = $(this),
@@ -224,15 +243,17 @@ var formApp = (function() {
             img.setAttribute('draggable', 'false');
             // вставка главного изображения
             if ($this.attr('name') == 'source-image') {
-                //Предварительная очистка приложения
+                // Предварительная очистка приложения
                 _clearWatermark();
+                $(sourceImgSelector).remove();
+
                 // вычисление масштаба при загрузке главной картинки
                 globRatio = _getRatio(img);
 
                 // вставка картинки
-                $(sourceImgSelector).remove();
+                $img.addClass('source-img');
                 sourceContainer.append(img);
-                  //задавание масштаба основной картинки
+                // задание масштаба основной картинки
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
             }
             // вставка вотермарка
@@ -249,8 +270,6 @@ var formApp = (function() {
                 // вызвать кастомное событие 'file-uploaded'
               $('#workform').trigger('file-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
             }
-
-            // переделал вызов позиционирования только на загрузку вотермарка^^^^^
         }
 
         reader.onerror = function() {

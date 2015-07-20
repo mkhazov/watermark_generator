@@ -286,7 +286,7 @@ a {
 .settings__position .settings__form-item {
   margin-bottom: 15px; }
 
-.settings__position_arrows {
+.settings__arrows {
   display: inline-block;
   margin: 3px 0 0 6px; }
 
@@ -300,7 +300,7 @@ a {
   margin-right: 8px;
   position: relative; }
 
-.settings__text-position {
+.settings__text {
   vertical-align: top;
   display: inline-block;
   font-family: SegoeUI-Light, arial;

@@ -113,18 +113,22 @@
                             <div class="settings__form-items">                        
                                 <div class="settings__form-item">
                                     <label for="position-x" class="settings__form-label-position">x</label>
-                                    <input type="text" name="position-x" id="position-x" class="settings__text-position settings__text-position_x" value="0">
-                                    <div class="settings__position_arrows">
-                                        <div class="settings__position_arrow settings__arrow-up settings__arrow_x"></div>
-                                        <div class="settings__position_arrow settings__arrow-down settings__arrow_x"></div>
+                                    <input type="text" class="settings__input settings__text settings__text_position settings__position_x" value="0">
+                                    <input type="hidden" name="position-x" id="position-x" class="settings__input settings__position_x" value="0">
+                                    <input type="hidden" name="margin-x" id="margin-x" class="settings__input settings__margin_x" value="0">
+                                    <div class="settings__arrows">
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-up settings__arrow_x"></div>
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-down settings__arrow_x"></div>
                                     </div>
                                 </div>
                                 <div class="settings__form-item">
                                     <label for="position-y" class="settings__form-label-position">y</label>
-                                    <input type="text" name="position-y" id="position-y"  class="settings__text-position settings__text-position_y" value="0">
-                                    <div class="settings__position_arrows">
-                                        <div class="settings__position_arrow settings__arrow-up settings__arrow_y"></div>
-                                        <div class="settings__position_arrow settings__arrow-down settings__arrow_y"></div>
+                                    <input type="text" class="settings__input settings__text settings__text_position settings__position_y" value="0">
+                                    <input type="hidden" name="position-y" id="position-y" class="settings__input settings__position_y" value="0">
+                                    <input type="hidden" name="margin-y" id="margin-y" class="settings__input settings__margin_y" value="0">
+                                    <div class="settings__arrows">
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-up settings__arrow_y"></div>
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-down settings__arrow_y"></div>
                                     </div>
                                 </div>
                             </div>
@@ -133,9 +137,9 @@
                             <div class="settings__section-title">Прозрачность</div>
                             <!-- Сюда встанет бегунок -->
                             <div class="settings__runner"></div>
+                            <input type="hidden" class="settings__hidden" name="opacity" id="opacity" value="1">
                         </section>
                         <section class="settings__download">
-                            <input type="hidden" class="settings__hidden" name="opacity" id="opacity" value="1">
                             <button class="settings__button settings__button_reset">Сброс</button>
                             <button type="submit" class="settings__button settings__button_download">Скачать</button>
                         </section>

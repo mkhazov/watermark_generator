@@ -13,7 +13,10 @@ var position = (function () {
         $('.settings__position-button').on('click', _setPositionArea);
 
         // по клику на стрелку позиционирования
-        $('.settings__position_arrow').on('click', _handlePositionArrow);
+        $('.settings__arrow_position').on('click', _handlePositionArrow);
+        // по вводу значения в текстовое поле
+        // @todo
+        $('.settings__text_position').on('input', function() {});
     };
 
     /**
@@ -86,8 +89,8 @@ var position = (function () {
      * Установка значений координат в инпуты.
      */
     function _changePositionValues(x, y) {
-        $('#position-x').val(x);
-        $('#position-y').val(y);
+        $('.settings__position_x').val(x);
+        $('.settings__position_y').val(y);
     }
 
     return {

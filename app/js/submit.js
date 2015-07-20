@@ -11,7 +11,7 @@ var submit = (function($) {
         // расчет и отправка на сервер реальных координат
         var x = $('#position-x').val();
         var y = $('#position-y').val();
-        var scaleRatio = formApp.returnRatio();
+        var scaleRatio = formApp.getRatio();
         var realX = ~~(x / scaleRatio);
         var realY = ~~(y / scaleRatio);
         formData.append('position-x', realX);
