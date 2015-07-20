@@ -44,7 +44,7 @@ gulp.task('php', function() {
 
 // Подключаем ссылки на bower components
 gulp.task('bower', function () {
-    gulp.src('app/*.html')
+    gulp.src('app/index.php')
         .pipe(wiredep({
             directory: 'app/bower'
         }))
@@ -75,7 +75,7 @@ gulp.task('watch', function () {
     gulp.watch('bower.json', ['bower']);
     gulp.watch(['app/*.php'], reload);
     gulp.watch(['app/scss/*.scss'], ['sass']);
-    gulp.watch(['app/*.html']).on('change', reload);
+    gulp.watch(['app/index.php']).on('change', reload);
     gulp.watch(['app/css/*.css'], ['css']);
     gulp.watch(['app/js/*.js'], ['js']);
 });
@@ -92,7 +92,7 @@ gulp.task('clean', function () {
 // Перенос файлов в dist
 gulp.task('useref', function () {
     var assets = useref.assets();
-    return gulp.src('app/*html')
+    return gulp.src('app/index.php')
         .pipe(assets)
         .pipe(gulpif('*.js', uglify()))
         .pipe(gulpif('*.css', minifyCss({compatibility: 'ie8'})))
@@ -121,6 +121,9 @@ gulp.task('images', function () {
 // php файлы
 gulp.task('php-files', function () {
     gulp.src([
+        'app/languages/**/*'
+    ]).pipe(gulp.dest('dist/languages'));
+    gulp.src([
         'app/vendor/**/*'
     ]).pipe(gulp.dest('dist/vendor'));
     gulp.src([
@@ -132,7 +135,7 @@ gulp.task('php-files', function () {
 gulp.task('extras', function () {
     return gulp.src([
         'app/*.*',
-        '!app/*.html'
+        '!app/index.php'
     ]).pipe(gulp.dest('dist'));
 });
 
