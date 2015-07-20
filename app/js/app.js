@@ -99,17 +99,20 @@ var formApp = (function() {
 
     // Сброс кнопок замощения
     var _clearTile = function(){
+        var watermarkImage = $(watermarkImgSelector);
+        watermarkImage.css({'margin': 0});
         tileLink.removeClass(tileLinkSelected);
         tileLinkBite.addClass(tileLinkSelected);
+
     };
 
     // Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
-        _clearSourceImage();
+        //_clearSourceImage();
         _clearPosition();
         _clearOpacity();
-        _clearTile();
+        //_clearTile();
     };
 
     // Включение слайдера на изменение прозрачности
@@ -177,6 +180,7 @@ var formApp = (function() {
 
         tileLink.removeClass(tileLinkSelected);
         _clearPosition();
+        
         watermarkContainer.off('position-change');
         _changeInputModifiers();
 
@@ -207,7 +211,9 @@ var formApp = (function() {
 
         tileLink.removeClass(tileLinkSelected);
         _clearPosition();
+        _clearTile();
         watermarkContainer.off('margin-change');
+       /// watermarkContainer.on('position-change');   Видимо, чтобы подключить изменение позиционирования нужно по новой инициировать модуль позиционирования
         _changeInputModifiers();
         
         var watermarkImageFirst = $(watermarkImgSelector).first(),
@@ -245,9 +251,11 @@ var formApp = (function() {
         if (!_checkFormat(file)) {
             if ($this.attr('name') == 'source-image') {
                _clearSourceImage();
+               _clearTile();
             }
             else if($this.attr('name') == 'watermark-image'){
                 _clearWatermark();
+                _clearTile();
             }
             return false;
         }
@@ -307,6 +315,28 @@ var formApp = (function() {
      */
     function _setMargin(axis, value) {
         console.log(axis + ': ' + value);
+        var sourceContainerWidth = sourceContainer.width(),
+            sourceContainerHeight = sourceContainer.height(),
+            watermarkImage = $(watermarkImgSelector),
+            watermarkImageWidth = watermarkImage.width(),
+            watermarkImageHeight = watermarkImage.height(),
+            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth)*2,
+            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
+
+        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
+            switch (axis) {
+                case 'x':
+                    watermarkImage.css({'margin-left': value, 'margin-right':value});
+                    watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)})
+                    break;
+                case 'y':
+                    watermarkImage.css({'margin-top': value, 'margin-bottom':value});
+                    watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)})
+                    break;
+
+            }
+
+
     }
 
     return {
