@@ -1,5 +1,14 @@
 $(document).ready(function(){
+  
+  if($("html").attr("lang")=="ru"){
+    $("#ru-lang").addClass("chosen-lang").removeAttr("href");
+  }
+  else if($("html").attr("lang")=="en"){
+    $("#en-lang").addClass("chosen-lang").removeAttr("href");
+  }
+
 	var openKey=false;
+
    $(".socials_like-link").mouseenter(function(){
    	   if(openKey===false){
        $(".socials").stop(true, true).animate({marginLeft: "+=43px"},"fast");
