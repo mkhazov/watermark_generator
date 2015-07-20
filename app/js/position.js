@@ -17,7 +17,7 @@ var position = (function () {
 
         // по вводу значения в текстовое поле
         $('.settings__text').on('input change', _handleTextInput);
-    };
+    }
 
     /**
      * Подключение модуля позиционирования.
