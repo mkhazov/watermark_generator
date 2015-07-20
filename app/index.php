@@ -1,9 +1,12 @@
+<?php
+include_once 'change-lang.php';
+?>
 <!doctype html>
-<html lang="ru">
+<html lang='<?php echo $lang['PAGE_LANG']; ?>'>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Генератор водяных знаков</title>
+    <title><?php echo $lang['PAGE_TITLE']; ?></title>
     <meta name="description" content="Генератор водяных знаков.">
     <meta name="keywords" content="Генератор водяных знаков">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,10 +33,10 @@
                <div class="langs">
                    <ul class="langs_nav">
                        <li class="langs_nav-item">
-                           <a class="langs_nav-link chosen-lang">РУС</a>
+                           <a href="index.php?lang=ru" class="langs_nav-link" id="ru-lang">РУС</a>
                        </li>
                        <li class="langs_nav-item">
-                           <a href="#" class="langs_nav-link">ENG</a>
+                           <a href="index.php?lang=en" class="langs_nav-link" id="en-lang">ENG</a>
                        </li>
                    </ul>
                </div>
@@ -63,7 +66,7 @@
 
         <div class="page">
             <main class="main">
-                <h1 class="main__title">Генератор водяных знаков</h1>
+                <h1 class="main__title"><?php echo $lang['HEADER']; ?></h1>
                 <div class="image-container">
                     <div class="image-container__workspace">
                         <div class="image-container__main-image">
@@ -77,17 +80,17 @@
             </main>
             <aside class="sidebar sidebar_right">
                 <div class="settings">
-                    <div class="settings__title">Настройки</div>
+                    <div class="settings__title"><?php echo $lang['SETTINGS_TITLE']; ?></div>
                     <form class="settings__form" name="workform" id="workform" action="">
                         <section class="settings__upload">
                             <div class="settings__form-item">
-                                <label for="source-image" class="settings__form-label">Картинка проекта</label>
-                                <label for="source-image" class="settings__form-file-label">Вставить файл</label>
+                                <label for="source-image" class="settings__form-label"><?php echo $lang['IMAGE_LABEL']; ?></label>
+                                <label for="source-image" class="settings__form-file-label"><?php echo $lang['INPUT_PLACEHOLDER']; ?></label>
                                 <input type="file" name="source-image" id="source-image" class="settings__form-file">
                             </div>
                             <div class="settings__form-item">
-                                <label for="watermark-image" class="settings__form-label">Водяной знак</label>
-                                <label for="watermark-image" class="settings__form-file-label">Вставить файл</label>
+                                <label for="watermark-image" class="settings__form-label"><?php echo $lang['WATERMARK_LABEL']; ?></label>
+                                <label for="watermark-image" class="settings__form-file-label"><?php echo $lang['INPUT_PLACEHOLDER']; ?></label>
                                 <input type="file" name="watermark-image" id="watermark-image" class="settings__form-file">
                             </div>                                
                         </section>                        
@@ -98,7 +101,7 @@
                                     <li class="settings__tile-item"><a href="" class="settings__tile-link settings__tile-link_bite">Размостить</a></li>
                                 </ul>
                             </section>
-                            <div class="settings__section-title">Положение</div>
+                            <div class="settings__section-title"><?php echo $lang['PLACE_TITLE']; ?></div>
                             <div class="settings__position-buttons">
                                 <a class="settings__position-button settings__position-button_top-left" data-position="left-top"></a>
                                 <a class="settings__position-button settings__position-button_top-center" data-position="center-top"></a>
@@ -113,35 +116,35 @@
                             <div class="settings__form-items">                        
                                 <div class="settings__form-item">
                                     <label for="settings-x" class="settings__form-label-text">x</label>
-                                    <input type="text" id="settings-x" class="settings__input settings__text settings__text_position settings__position_x" value="0">
+                                    <input type="text" id="settings-x" class="settings__input settings__text settings__text_position settings__text_x settings__axis_x" value="0">
                                     <input type="hidden" name="position-x" id="position-x" class="settings__input settings__position_x" value="0">
                                     <input type="hidden" name="margin-x" id="margin-x" class="settings__input settings__margin_x" value="0">
                                     <div class="settings__arrows">
-                                        <div class="settings__arrow settings__arrow_position settings__arrow-up settings__arrow_x"></div>
-                                        <div class="settings__arrow settings__arrow_position settings__arrow-down settings__arrow_x"></div>
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-up settings__axis_x"></div>
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-down settings__axis_x"></div>
                                     </div>
                                 </div>
                                 <div class="settings__form-item">
                                     <label for="settings-y" class="settings__form-label-text">y</label>
-                                    <input type="text" id="settings-y" class="settings__input settings__text settings__text_position settings__position_y" value="0">
+                                    <input type="text" id="settings-y" class="settings__input settings__text settings__text_position settings__text_y settings__axis_y" value="0">
                                     <input type="hidden" name="position-y" id="position-y" class="settings__input settings__position_y" value="0">
                                     <input type="hidden" name="margin-y" id="margin-y" class="settings__input settings__margin_y" value="0">
                                     <div class="settings__arrows">
-                                        <div class="settings__arrow settings__arrow_position settings__arrow-up settings__arrow_y"></div>
-                                        <div class="settings__arrow settings__arrow_position settings__arrow-down settings__arrow_y"></div>
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-up settings__axis_y"></div>
+                                        <div class="settings__arrow settings__arrow_position settings__arrow-down settings__axis_y"></div>
                                     </div>
                                 </div>
                             </div>
                         </section>
                         <section class="settings__opacity">
-                            <div class="settings__section-title">Прозрачность</div>
+                            <div class="settings__section-title"><?php echo $lang['TRSPRNC_TITLE']; ?></div>
                             <!-- Сюда встанет бегунок -->
                             <div class="settings__runner"></div>
                             <input type="hidden" class="settings__hidden" name="opacity" id="opacity" value="1">
                         </section>
                         <section class="settings__download">
-                            <button class="settings__button settings__button_reset">Сброс</button>
-                            <button type="submit" class="settings__button settings__button_download">Скачать</button>
+                            <button class="settings__button settings__button_reset"><?php echo $lang['RESET']; ?></button>
+                            <button type="submit" class="settings__button settings__button_download"><?php echo $lang['DOWNLOAD']; ?></button>
                         </section>
                     </form>
                 </div>

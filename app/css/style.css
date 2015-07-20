@@ -493,15 +493,18 @@ a {
 
 .socials_like {
   position: absolute;
-  width: 43px;
+  width: 44px;
   height: 41px;
   margin-left: 42.5px; }
+
+.socials_like-link {
+  width: 44px; }
 
 .socials_inner {
   width: 43px; }
 
 .socials {
-  max-height: 150px;
+  max-height: 180px;
   max-width: 88px;
   margin-left: -43px; }
 

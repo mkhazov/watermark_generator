@@ -163,6 +163,7 @@ var formApp = (function() {
 
         tileLink.removeClass(tileLinkSelected);
         _clearPosition();
+        watermarkContainer.off('position-change');
         _changeInputModifiers();
 
         var sourceContainerWidth = sourceContainer.width(),
@@ -192,6 +193,7 @@ var formApp = (function() {
 
         tileLink.removeClass(tileLinkSelected);
         _clearPosition();
+        watermarkContainer.off('margin-change');
         _changeInputModifiers();
         
         var watermarkImageFirst = $(watermarkImgSelector).first(),
@@ -219,7 +221,6 @@ var formApp = (function() {
 
     // Вставка изображения в рабочее поле
     var _viewImg = function(e) {
-        console.log(globRatio);
         var $this = $(this),
             file = $this[0].files[0],
             img = document.createElement('img'),
@@ -278,6 +279,15 @@ var formApp = (function() {
         reader.readAsDataURL(file);
     }
 
+    /**
+     * Установка отступов между картинками в сетке вотермарка.
+     * @param {string} axis ось (x или y)
+     * @param {int} значение отступа
+     */
+    function _setMargin(axis, value) {
+        console.log(axis + ': ' + value);
+    }
+
     return {
         init: function() {
             _addEventListeners();
@@ -287,6 +297,10 @@ var formApp = (function() {
         // метод получения последнего коэффициента
         getRatio: function() {
             return globRatio;
+        },
+        // установка отступов между картинками в сетке вотермарка
+        setMargin: function(axis, value) {
+            _setMargin(axis, value);
         }
     }
 })();
