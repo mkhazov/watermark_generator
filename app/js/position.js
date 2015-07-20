@@ -56,7 +56,7 @@ var position = (function () {
         if (fileUploaded !== true) {
             return;
         }
-
+console.log('вошел сюда');
         var $this = $(this),
             value = 0,
             axis = '';
