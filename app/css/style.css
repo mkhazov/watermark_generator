@@ -62,7 +62,6 @@ a {
   right: 0;
   left: 0;
   bottom: 0;
-  overflow: auto;
   text-align: center; }
   .wrapper:after {
     content: '';
@@ -280,7 +279,8 @@ a {
   top: 0;
   left: 0;
   bottom: 0;
-  right: 0; }
+  right: 0;
+  margin: auto; }
 
 .settings__margin-scheme_vertical {
   height: 103px;

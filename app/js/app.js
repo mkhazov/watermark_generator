@@ -52,7 +52,7 @@ var formApp = (function() {
     
     // Обнуление позиции и отступов
     var _clearPosition = function(){
-        var formPosition = $('.settings__input');
+        var formPosition = $('.settings__text-position');
         var block = moveIt();
         block.init(watermarkContainerSelector, sourceContainerSelector);    
         formPosition.val(0);
@@ -94,17 +94,31 @@ var formApp = (function() {
     /**
      * Включение инпутов.
      */
-    function _enableInputs() {
-        $('.input_disabled').prop('disabled', false);
+ 
+
+    var _clearSetMarginView = function(){
+        _setMarginView('x',0);
+        _setMarginView('y',0);
     }
 
     // Сброс кнопок замощения
     var _clearTile = function(){
-        var watermarkImage = $(watermarkImgSelector);
-        watermarkImage.css({'margin': 0});
+        var watermarkImageFirst = $(watermarkImgSelector).first(),
+            watermarkImageWidth = watermarkImageFirst.width(),
+            watermarkImageHeight = watermarkImageFirst.height(),
+            formMargin = $('.settings__text');
+            settingsMarginX = $('.settings__margin_x');
+            settingsMarginY = $('.settings__margin_y');
+            watermarkContainer.html('');
+            watermarkContainer.append(watermarkImageFirst);
+            watermarkContainer.css({'width': watermarkImageWidth, 'height': watermarkImageHeight})
+            watermarkImageFirst.css({'margin': 0});
+            formMargin.val(0);
+            settingsMarginX.val(0);
+            settingsMarginY.val(0);
         tileLink.removeClass(tileLinkSelected);
         tileLinkBite.addClass(tileLinkSelected);
-
+        _clearSetMarginView();
     };
 
     // Полная очистка формы
@@ -115,6 +129,11 @@ var formApp = (function() {
         _clearOpacity();
         //_clearTile();
     };
+
+
+    function _enableInputs() {
+        $('.input_disabled').prop('disabled', false);
+    }
 
     // Включение слайдера на изменение прозрачности
     var _opacitySliderOn = function (block) {
@@ -172,6 +191,27 @@ var formApp = (function() {
         return ratio;
     };
 
+    
+    var _changeMode = function() {
+        // режим работы (одиночный вотермарк или сетка)
+        var inputMode = $('.settings__mode');
+        if (inputMode.val() == 'single') {
+            mode = 'grid';
+        }
+        else {
+            mode = 'single';
+        }
+        inputMode.val(mode);
+
+        // текстовые поля
+        $('.settings__text')
+            .toggleClass('settings__text_position')
+            .toggleClass('settings__text_margin');
+        // стрелки
+        $('.settings__arrow')
+            .toggleClass('settings__arrow_position')
+            .toggleClass('settings__arrow_margin');
+    };
     // Замощение
     var _doTile = function(e){
         e.preventDefault();
@@ -215,38 +255,12 @@ var formApp = (function() {
        /// watermarkContainer.on('position-change');   Видимо, чтобы подключить изменение позиционирования нужно по новой инициировать модуль позиционирования
         _changeMode();
         
-        var watermarkImageFirst = $(watermarkImgSelector).first(),
-            watermarkImageWidth = watermarkImageFirst.width(),
-            watermarkImageHeight = watermarkImageFirst.height();
-        watermarkContainer.html('');
-        watermarkContainer.append(watermarkImageFirst);
-        watermarkContainer.css({'width': watermarkImageWidth, 'height': watermarkImageHeight})
-        $(this).addClass(tileLinkSelected);
     }
     
     /**
      * Смена модификаторов инпутов при переключении режима на замощение и обратно.
      */
-    var _changeMode = function() {
-        // режим работы (одиночный вотермарк или сетка)
-        var inputMode = $('.settings__mode');
-        if (inputMode.val() == 'single') {
-            mode = 'grid';
-        }
-        else {
-            mode = 'single';
-        }
-        inputMode.val(mode);
-
-        // текстовые поля
-        $('.settings__text')
-            .toggleClass('settings__text_position')
-            .toggleClass('settings__text_margin');
-        // стрелки
-        $('.settings__arrow')
-            .toggleClass('settings__arrow_position')
-            .toggleClass('settings__arrow_margin');
-    };
+    
 
     // Вставка изображения в рабочее поле
     var _viewImg = function(e) {
@@ -295,13 +309,14 @@ var formApp = (function() {
                 //предварительная очистка вотермарка
                 _clearPosition();
                 _clearOpacity();
+                
                 $(watermarkImgSelector).remove();
 
                 $img.addClass('watermark-img');
                 watermarkContainer.append(img);
                 // задание масштаба вотермарка
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-
+                _clearTile();
                 imagesUploaded = true;
                 // вызвать кастомное событие 'images-uploaded'
                 $('#workform').trigger('images-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
@@ -324,23 +339,28 @@ var formApp = (function() {
      */
     var _setMarginView = function (axis,value) {
         var marginSchemeSelector = '.settings__margin-scheme';
-            marginSchemeHorizontal = $('<div class="settings__margin-scheme settings__margin-scheme_horizontal"></div>'),
-            marginSchemeVertical = $('<div class="settings__margin-scheme settings__margin-scheme-vertical"></div>'),
-            positionButtons = $('.settings__position-buttons');  
+            marginSchemeHorizontal = $('<div class="settings__margin-scheme_horizontal">'),
+            marginSchemeVertical = $('<div class="settings__margin-scheme_vertical">'),
+            marginSchemeHorizontalSelector = $('.settings__margin-scheme_horizontal'),
+            marginSchemeVerticalSelector = $('.settings__margin-scheme_vertical'),
+            positionButtons = $('.settings__position-buttons');
+
+        marginSchemeHorizontal.addClass('settings__margin-scheme');
+        marginSchemeVertical.addClass('settings__margin-scheme');            
         if (positionButtons.children(marginSchemeSelector).length===0){
-            console.log ('повторяюсь');
+            
             positionButtons.append(marginSchemeHorizontal);
             positionButtons.append(marginSchemeVertical);
         }
         
         switch (axis) {
-            case 'x':
-                console.log(value);
-                marginSchemeHorizontal.css({'height':value});
-            break;
             case 'y':
+                console.log(value);
+                marginSchemeHorizontalSelector.css({'height':value});
+            break;
+            case 'x':
             console.log(value);
-                marginSchemeVertical.css({'width':value});
+                marginSchemeVerticalSelector.css({'width':value});
             break;
         }
 }
