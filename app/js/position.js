@@ -1,7 +1,10 @@
 var position = (function () {
 
     var fileUploaded = false,
-        block = {};
+        block = {},
+        stickBlockMode = false,
+        currentPositionClass = 'settings__position-button_current',
+        currentPositionSelector = '.' + currentPositionClass;
 
     function _addEventListeners () {
         // после загразки файла в инпут включаем позиционирование водяного знака
@@ -47,12 +50,12 @@ var position = (function () {
     function _setPositionArea() {
         var $this = $(this);
 
-        var currentClass = 'settings__position-button_current';
-        $this.siblings().removeClass(currentClass);
-        $this.addClass(currentClass);
+        $this.siblings().removeClass(currentPositionClass);
+        $this.addClass(currentPositionClass);
 
         var position = $this.data('position');
         if (block.stickBlock !== undefined) {
+            stickBlockMode = true;
             block.stickBlock(position);
         }
     }
@@ -134,8 +137,6 @@ var position = (function () {
                 margin += parseInt(value);
                 _changeMarginValue(axis, margin);
                 formApp.setMargin(axis, margin);
-                
-                // smth like setMargin(axis, value);
             }
 
         }
@@ -145,6 +146,13 @@ var position = (function () {
      * Установка значений координат в инпуты.
      */
     function _changePositionValues(x, y) {
+        // если позиция изменена не с помощью кнопок .settings__position-button,
+        // нужно удалить с одной из них активный класс
+        if (!stickBlockMode) {
+            $(currentPositionSelector).removeClass(currentPositionClass);
+        }
+        stickBlockMode = false;
+
         $('.settings__text_x').val(x);
         $('.settings__text_y').val(y);
         $('.settings__position_x').val(x);
