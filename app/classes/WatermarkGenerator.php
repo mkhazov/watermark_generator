@@ -145,7 +145,7 @@ class WatermarkGenerator {
     private function check_file($file) {
         if (is_array($file) && !empty($file['size']) && !empty($file['name']) && !empty($file['tmp_name'])) {
             if ($this->check_file_size($file['size']) &&
-                $this->check_file_name($file['name']) &&
+                //$this->check_file_name($file['name']) &&
                 $this->check_file_extension($file['name'])) {
                 return TRUE;
             }
@@ -205,7 +205,7 @@ class WatermarkGenerator {
         $passed = TRUE;
 
         // длина не более 255 символов
-        if (strlen($filename,"UTF-8") > 255) {
+        if (mb_strlen($filename, "UTF-8") > 255) {
             $this->set_error('Слишком длинное имя файла');
             $passed = FALSE;
         }
