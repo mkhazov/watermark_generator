@@ -91,7 +91,7 @@ include_once 'change-lang.php';
                             <div class="settings__form-item">
                                 <label for="watermark-image" class="settings__form-label"><?php echo $lang['WATERMARK_LABEL']; ?></label>
                                 <label for="watermark-image" class="settings__form-file-label"><?php echo $lang['INPUT_PLACEHOLDER']; ?></label>
-                                <input type="file" name="watermark-image" id="watermark-image" class="settings__form-file">
+                                <input type="file" name="watermark-image" id="watermark-image" class="settings__form-file input_disabled" disabled>
                             </div>                                
                         </section>                        
                         <section class="settings__position">
@@ -116,7 +116,7 @@ include_once 'change-lang.php';
                             <div class="settings__form-items">                        
                                 <div class="settings__form-item">
                                     <label for="settings-x" class="settings__form-label-text">x</label>
-                                    <input type="text" id="settings-x" class="settings__input settings__text settings__text_position settings__text_x settings__axis_x" value="0">
+                                    <input type="text" id="settings-x" class="settings__input settings__text settings__text_position settings__text_x settings__axis_x input_disabled" value="0" disabled>
                                     <input type="hidden" name="position-x" id="position-x" class="settings__input settings__position_x" value="0">
                                     <input type="hidden" name="margin-x" id="margin-x" class="settings__input settings__margin_x" value="0">
                                     <div class="settings__arrows">
@@ -126,7 +126,7 @@ include_once 'change-lang.php';
                                 </div>
                                 <div class="settings__form-item">
                                     <label for="settings-y" class="settings__form-label-text">y</label>
-                                    <input type="text" id="settings-y" class="settings__input settings__text settings__text_position settings__text_y settings__axis_y" value="0">
+                                    <input type="text" id="settings-y" class="settings__input settings__text settings__text_position settings__text_y settings__axis_y input_disabled" value="0" disabled>
                                     <input type="hidden" name="position-y" id="position-y" class="settings__input settings__position_y" value="0">
                                     <input type="hidden" name="margin-y" id="margin-y" class="settings__input settings__margin_y" value="0">
                                     <div class="settings__arrows">
