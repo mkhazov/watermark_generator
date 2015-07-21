@@ -15,16 +15,18 @@ var formApp = (function() {
         watermarkImgSelector = '.watermark-img',
         tileLink = $('.settings__tile-link'),
         tileLinkSelected = 'settings__tile-link_selected',
+        globRatio = 1,
+        imagesUploaded = false,
+        mode = 'single';
 
-        globRatio;
-        _addEventListeners = function() {
+        var _addEventListeners = function() {
             formFile.on('change', _changeFileLabel);
             formFile.on('change', _viewImg);
             runner.slider({min:0, max:100, range:'min'});
             buttonReset.on('click', _clearForm);
             tileLinkTile.on('click', _doTile);
             tileLinkBite.on('click', _doBite);
-    };
+        };
 
     // Изменение лейбла при выборе файла
     var _changeFileLabel = function() {
@@ -42,7 +44,7 @@ var formApp = (function() {
     // Обнуление прозрачности
     var _clearOpacity = function(){
         var block = $('.image-container__watermark');
-        runner.slider("value", 0)
+        runner.slider("value", 0);
         var opacity = 1;
         $(block).css('opacity', opacity);
         $('#opacity').val(opacity);
@@ -50,9 +52,8 @@ var formApp = (function() {
     
     // Обнуление позиции и отступов
     var _clearPosition = function(){
-        var formPosition = $('.settings__input'),
-            block = {};
-        block = moveIt();
+        var formPosition = $('.settings__input');
+        var block = moveIt();
         block.init(watermarkContainerSelector, sourceContainerSelector);    
         formPosition.val(0);
         block.setPosition(0,0);       
@@ -173,16 +174,14 @@ var formApp = (function() {
 
     // Замощение
     var _doTile = function(e){
-        e.preventDefault();               
-        if ($(this).hasClass(tileLinkSelected)){
+        e.preventDefault();
+        if ($(this).hasClass(tileLinkSelected) || !imagesUploaded) {
             return false;
         }
 
         tileLink.removeClass(tileLinkSelected);
         _clearPosition();
-        
-        //watermarkContainer.off('position-change');
-        _changeInputModifiers();
+        _changeMode();
 
         var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
@@ -196,7 +195,7 @@ var formApp = (function() {
         watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
         for (var i = 0; i <= widthRatio*heightRatio; i++) {
             watermarkContainer.append(watermarkHtml);
-        };
+        }
         $(this).addClass(tileLinkSelected);   
     };
 
@@ -205,7 +204,7 @@ var formApp = (function() {
     // Размощение
     var _doBite = function(e){
         e.preventDefault();               
-        if ($(this).hasClass(tileLinkSelected)){
+        if ($(this).hasClass(tileLinkSelected) || !imagesUploaded) {
             return false;
         }
 
@@ -214,7 +213,7 @@ var formApp = (function() {
         _clearTile();
         watermarkContainer.off('margin-change');
        /// watermarkContainer.on('position-change');   Видимо, чтобы подключить изменение позиционирования нужно по новой инициировать модуль позиционирования
-        _changeInputModifiers();
+        _changeMode();
         
         var watermarkImageFirst = $(watermarkImgSelector).first(),
             watermarkImageWidth = watermarkImageFirst.width(),
@@ -228,7 +227,17 @@ var formApp = (function() {
     /**
      * Смена модификаторов инпутов при переключении режима на замощение и обратно.
      */
-    var _changeInputModifiers = function() {
+    var _changeMode = function() {
+        // режим работы (одиночный вотермарк или сетка)
+        var inputMode = $('.settings__mode');
+        if (inputMode.val() == 'single') {
+            mode = 'grid';
+        }
+        else {
+            mode = 'single';
+        }
+        inputMode.val(mode);
+
         // текстовые поля
         $('.settings__text')
             .toggleClass('settings__text_position')
@@ -237,7 +246,7 @@ var formApp = (function() {
         $('.settings__arrow')
             .toggleClass('settings__arrow_position')
             .toggleClass('settings__arrow_margin');
-    }
+    };
 
     // Вставка изображения в рабочее поле
     var _viewImg = function(e) {
@@ -261,8 +270,7 @@ var formApp = (function() {
         }
         
         reader.onload = function(event) {
-            var dataUri = event.target.result;
-            img.src = dataUri;
+            img.src = event.target.result;
             img.setAttribute('draggable', 'false');
             // вставка главного изображения
             if ($this.attr('name') == 'source-image') {
@@ -294,8 +302,9 @@ var formApp = (function() {
                 // задание масштаба вотермарка
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
 
-                // вызвать кастомное событие 'file-uploaded'
-                $('#workform').trigger('file-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
+                imagesUploaded = true;
+                // вызвать кастомное событие 'images-uploaded'
+                $('#workform').trigger('images-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
 
                 // включаем инпуты
                 _enableInputs();
@@ -352,6 +361,10 @@ var formApp = (function() {
         // установка отступов между картинками в сетке вотермарка
         setMargin: function(axis, value) {
             _setMargin(axis, value);
+        },
+        // текущий режим работы
+        getMode: function() {
+            return mode;
         }
     }
 })();

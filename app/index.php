@@ -100,6 +100,7 @@ include_once 'change-lang.php';
                                     <li class="settings__tile-item"><a href="" class="settings__tile-link settings__tile-link_tile">Замостить</a></li>
                                     <li class="settings__tile-item"><a href="" class="settings__tile-link settings__tile-link_bite">Размостить</a></li>
                                 </ul>
+                                <input type="hidden" name="mode" class="settings__mode" value="single">
                             </section>
                             <div class="settings__section-title"><?php echo $lang['PLACE_TITLE']; ?></div>
                             <div class="settings__position-buttons">
@@ -113,7 +114,7 @@ include_once 'change-lang.php';
                                 <a class="settings__position-button settings__position-button_bottom-center" data-position="center-bottom"></a>
                                 <a class="settings__position-button settings__position-button_bottom-right" data-position="right-bottom"></a>
                             </div>
-                            <div class="settings__form-items">                        
+                            <div class="settings__form-items">
                                 <div class="settings__form-item">
                                     <label for="settings-x" class="settings__form-label-text">x</label>
                                     <input type="text" id="settings-x" class="settings__input settings__text settings__text_position settings__text_x settings__axis_x input_disabled" value="0" disabled>

@@ -12,10 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Получаем координаты
     $position_x = $_POST['position-x'];
     $position_y = $_POST['position-y'];
-    // Получаем значение прозрачности
+    // Значение прозрачности
     $opacity = $_POST['opacity'];
 
-    $wg = new WatermarkGenerator($image, $watermark, $position_x, $position_y, $opacity);
+    $mode = $_POST['mode'];
+
+    $margin_x = NULL;
+    $margin_y = NULL;
+    if ($mode == 'grid') {
+        // Значения отступов
+        $margin_x = $_POST['margin-x'];
+        $margin_y = $_POST['margin-y'];
+    }
+
+
+
+    $wg = new WatermarkGenerator($image, $watermark, $position_x, $position_y, $opacity, $mode, $margin_x, $margin_y);
     $wg->process_image();
 }
 

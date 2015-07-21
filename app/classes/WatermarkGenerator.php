@@ -8,7 +8,9 @@ class WatermarkGenerator {
     private $watermark;
     private $image_file;
     private $watermark_file;
+    private $mode = 'single';
     private $position = array('x' => 0, 'y' => 0);
+    private $margin = array('x' => 0, 'y' => 0);
     private $opacity = 100;
     private $errors = array();
 
@@ -18,14 +20,24 @@ class WatermarkGenerator {
      * @param int $position_x x-координата положения водяного знака.
      * @param int $position_y y-координата положения водяного знака.
      * @param int $opacity прозрачность водяного знака.
+     * @param string $mode режим (single - одиночный вотермарк, grid - сетка)
+     * @param int $margin_x величина отступа между картинками вотермарка по горизонтали.
+     * @param int $margin_y величина отступа между картинками вотермарка по вертикали.
      */
-    public function __construct($image, $watermark, $position_x, $position_y, $opacity) {
+    public function __construct($image, $watermark, $position_x, $position_y, $opacity, $mode = 'single', $margin_x = 0, $margin_y = 0) {
         $this->image_file = $image;
         $this->watermark_file = $watermark;
         $this->position = array(
             'x' => isset($position_x) ? $position_x : $this->position['x'],
             'y' => isset($position_y) ? $position_y : $this->position['y'],
         );
+
+        if ($mode == 'grid') {
+            $this->mode = $mode;
+            $this->margin['x'] = $margin_x;
+            $this->margin['y'] = $margin_y;
+        }
+
         $this->opacity = isset($opacity) ? $opacity : $this->opacity;
     }
 
@@ -61,13 +73,35 @@ class WatermarkGenerator {
      * @return string сгенерированное изображение (binary string).
      */
     private function generate_img() {
-        $result_image = $this->image
-            // наложение водяного знака
-            ->merge($this->watermark, $this->position['x'], $this->position['y'], $this->opacity)
-            // полученное изображение в виде строки
-            ->asString(self::IMG_FORMAT, self::JPEG_QUALITY);
+        $result_image = $this->image;
 
-        return $result_image;
+        if ($this->mode == 'single') {
+            $result_image = $result_image
+              ->merge($this->watermark, $this->position['x'], $this->position['y'], $this->opacity);
+        }
+
+        // вотермарк-сетка
+        elseif ($this->mode == 'grid') {
+            $step_x = $this->watermark->getWidth() + $this->margin['x'];
+            $step_y = $this->watermark->getHeight() + $this->margin['y'];
+
+            $count_x = ceil($this->image->getWidth() / $step_x);
+            $count_y = ceil($this->image->getHeight() / $step_y);
+
+            //$count = ($count_x > $count_y) ? $count_x : $count_y;
+
+            $x = $this->position['x'];
+            for ($xi = 0; $xi < $count_x; $xi++) {
+                $y = $this->position['y'];
+                for ($yi = 0; $yi < $count_y; $yi++) {
+                    $result_image = $result_image->merge($this->watermark, $x, $y, $this->opacity);
+                    $y += $step_y;
+                }
+                $x += $step_x;
+            }
+        }
+
+        return $result_image->asString(self::IMG_FORMAT, self::JPEG_QUALITY);
     }
 
     /**
@@ -145,7 +179,7 @@ class WatermarkGenerator {
     private function check_file($file) {
         if (is_array($file) && !empty($file['size']) && !empty($file['name']) && !empty($file['tmp_name'])) {
             if ($this->check_file_size($file['size']) &&
-                $this->check_file_name($file['name']) &&
+                //$this->check_file_name($file['name']) &&
                 $this->check_file_extension($file['name'])) {
                 return TRUE;
             }
@@ -205,7 +239,7 @@ class WatermarkGenerator {
         $passed = TRUE;
 
         // длина не более 255 символов
-        if (strlen($filename,"UTF-8") > 255) {
+        if (mb_strlen($filename, "UTF-8") > 255) {
             $this->set_error('Слишком длинное имя файла');
             $passed = FALSE;
         }

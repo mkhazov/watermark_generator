@@ -1,11 +1,14 @@
 var position = (function () {
 
     var fileUploaded = false,
-        block = {};
+        block = {},
+        stickBlockMode = false,
+        currentPositionClass = 'settings__position-button_current',
+        currentPositionSelector = '.' + currentPositionClass;
 
     function _addEventListeners () {
         // после загразки файла в инпут включаем позиционирование водяного знака
-        $('#workform').on('file-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
+        $('#workform').on('images-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
             _enablePositioning(sourceContainerSelector, watermarkContainerSelector);
         });
     }
@@ -35,6 +38,10 @@ var position = (function () {
 
         watermarkContainer.on('position-change', function(event, x, y) {
             _changePositionValues(x, y);
+
+            if (formApp.getMode() == 'single') {
+                _displayPositionValues(x, y);
+            }
         });
     }
 
@@ -45,12 +52,12 @@ var position = (function () {
     function _setPositionArea() {
         var $this = $(this);
 
-        var currentClass = 'settings__position-button_current';
-        $this.siblings().removeClass(currentClass);
-        $this.addClass(currentClass);
+        $this.siblings().removeClass(currentPositionClass);
+        $this.addClass(currentPositionClass);
 
         var position = $this.data('position');
         if (block.stickBlock !== undefined) {
+            stickBlockMode = true;
             block.stickBlock(position);
         }
     }
@@ -132,21 +139,32 @@ console.log('вошел сюда');
                 margin += parseInt(value);
                 _changeMarginValue(axis, margin);
                 formApp.setMargin(axis, margin);
-                
-                // smth like setMargin(axis, value);
             }
 
         }
     }
 
     /**
-     * Установка значений координат в инпуты.
+     * Установка значений координат в скрытые инпуты.
      */
     function _changePositionValues(x, y) {
-        $('.settings__text_x').val(x);
-        $('.settings__text_y').val(y);
         $('.settings__position_x').val(x);
         $('.settings__position_y').val(y);
+    }
+
+    /**
+     * Установка значений координат в отображаемые инпуты.
+     */
+    function _displayPositionValues(x, y) {
+        // если позиция изменена не с помощью кнопок .settings__position-button,
+        // нужно удалить с одной из них активный класс
+        if (!stickBlockMode) {
+            $(currentPositionSelector).removeClass(currentPositionClass);
+        }
+        stickBlockMode = false;
+
+        $('.settings__text_x').val(x);
+        $('.settings__text_y').val(y);
     }
 
     /**
