@@ -322,7 +322,30 @@ var formApp = (function() {
      * @param {string} axis ось (x или y)
      * @param {int} value значение отступа
      */
-    function _setMargin(axis, value) {
+    var _setMarginView = function (axis,value) {
+        var marginSchemeSelector = '.settings__margin-scheme';
+            marginSchemeHorizontal = $('<div class="settings__margin-scheme settings__margin-scheme_horizontal"></div>'),
+            marginSchemeVertical = $('<div class="settings__margin-scheme settings__margin-scheme-vertical"></div>'),
+            positionButtons = $('.settings__position-buttons');  
+        if (positionButtons.children(marginSchemeSelector).length===0){
+            console.log ('повторяюсь');
+            positionButtons.append(marginSchemeHorizontal);
+            positionButtons.append(marginSchemeVertical);
+        }
+        
+        switch (axis) {
+            case 'x':
+                console.log(value);
+                marginSchemeHorizontal.css({'height':value});
+            break;
+            case 'y':
+            console.log(value);
+                marginSchemeVertical.css({'width':value});
+            break;
+        }
+}
+
+    var _setMargin = function (axis, value) {
         value *= globRatio;
         var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
@@ -333,19 +356,19 @@ var formApp = (function() {
             heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
 
         watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
+        
+            _setMarginView(axis, value);
             switch (axis) {
                 case 'x':
                     watermarkImage.css({'margin-left': value, 'margin-right':value});
-                    watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)})
+                    watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)});
                     break;
                 case 'y':
                     watermarkImage.css({'margin-top': value, 'margin-bottom':value});
-                    watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)})
+                    watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)});
                     break;
 
             }
-
-
     }
 
     return {

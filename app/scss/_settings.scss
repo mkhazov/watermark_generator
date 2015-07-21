@@ -132,6 +132,7 @@
   height:101px;
   display: inline-block;
   vertical-align: top;
+  position: relative;
   // overflow:hidden;
   // display:table;
 }
@@ -148,6 +149,28 @@
     border-right:0;
   }
 }
+
+.settings__margin-scheme {
+  background: #FFA7A1;
+  display: block;
+  position: absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+}
+
+.settings__margin-scheme_vertical {
+  height: 103px;
+  width:0;
+}
+
+.settings__margin-scheme_horizontal {
+  width: 103px;
+  height:0;
+}
+
+
 
 .settings__position-button_bottom-left, .settings__position-button_bottom-center, .settings__position-button_bottom-right {
   border-bottom:0;
