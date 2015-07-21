@@ -323,7 +323,7 @@ var formApp = (function() {
      * @param {int} value значение отступа
      */
     function _setMargin(axis, value) {
-        console.log(axis + ': ' + value);
+        value *= globRatio;
         var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
             watermarkImage = $(watermarkImgSelector),
