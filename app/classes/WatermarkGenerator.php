@@ -9,6 +9,7 @@ class WatermarkGenerator {
     private $image_file;
     private $watermark_file;
     private $position = array('x' => 0, 'y' => 0);
+    private $margin = array('x' => 0, 'y' => 0);
     private $opacity = 100;
     private $errors = array();
 
@@ -18,14 +19,23 @@ class WatermarkGenerator {
      * @param int $position_x x-координата положения водяного знака.
      * @param int $position_y y-координата положения водяного знака.
      * @param int $opacity прозрачность водяного знака.
+     * @param string $mode режим (single - одиночный вотермарк, grid - сетка)
+     * @param int $margin_x величина отступа между картинками вотермарка по горизонтали.
+     * @param int $margin_y величина отступа между картинками вотермарка по вертикали.
      */
-    public function __construct($image, $watermark, $position_x, $position_y, $opacity) {
+    public function __construct($image, $watermark, $position_x, $position_y, $opacity, $mode = 'single', $margin_x = NULL, $margin_y = NULL) {
         $this->image_file = $image;
         $this->watermark_file = $watermark;
         $this->position = array(
             'x' => isset($position_x) ? $position_x : $this->position['x'],
             'y' => isset($position_y) ? $position_y : $this->position['y'],
         );
+        if (isset($margin_x)) {
+            $this->margin['x'] = $margin_x;
+        }
+        if (isset($margin_y)) {
+            $this->margin['y'] = $margin_y;
+        }
         $this->opacity = isset($opacity) ? $opacity : $this->opacity;
     }
 

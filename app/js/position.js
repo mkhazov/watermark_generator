@@ -5,7 +5,7 @@ var position = (function () {
 
     function _addEventListeners () {
         // после загразки файла в инпут включаем позиционирование водяного знака
-        $('#workform').on('file-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
+        $('#workform').on('images-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
             _enablePositioning(sourceContainerSelector, watermarkContainerSelector);
         });
     }
@@ -34,7 +34,9 @@ var position = (function () {
         $('.settings__text').on('input change', _handleTextInput);
 
         watermarkContainer.on('position-change', function(event, x, y) {
-            _changePositionValues(x, y);
+            if (formApp.getMode() == 'single') {
+                _changePositionValues(x, y);
+            }
         });
     }
 
