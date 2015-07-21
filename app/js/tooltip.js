@@ -85,10 +85,9 @@ $.fn.tooltip = function (userOptions) {
     });
 
     //Мониторим ресайз страницы и перепозиционируем
-    $(window).resize(function () {
+    $(window).on('resize scroll', function () {
         _setPosition(object, tooltip, options.position);
     });
-
     return object;
 };
 

@@ -88,6 +88,10 @@
     background: url($img_tmp + 'upload.png') no-repeat;
   }
 }
+.settings__form-file-label.invalid{
+  color: #F97E76;
+  border-color: #F97E76;
+}
 
 
 .settings__tile {
