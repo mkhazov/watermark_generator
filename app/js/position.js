@@ -37,8 +37,10 @@ var position = (function () {
         $('.settings__text').on('input change', _handleTextInput);
 
         watermarkContainer.on('position-change', function(event, x, y) {
+            _changePositionValues(x, y);
+
             if (formApp.getMode() == 'single') {
-                _changePositionValues(x, y);
+                _displayPositionValues(x, y);
             }
         });
     }
@@ -143,9 +145,17 @@ var position = (function () {
     }
 
     /**
-     * Установка значений координат в инпуты.
+     * Установка значений координат в скрытые инпуты.
      */
     function _changePositionValues(x, y) {
+        $('.settings__position_x').val(x);
+        $('.settings__position_y').val(y);
+    }
+
+    /**
+     * Установка значений координат в отображаемые инпуты.
+     */
+    function _displayPositionValues(x, y) {
         // если позиция изменена не с помощью кнопок .settings__position-button,
         // нужно удалить с одной из них активный класс
         if (!stickBlockMode) {
@@ -155,8 +165,6 @@ var position = (function () {
 
         $('.settings__text_x').val(x);
         $('.settings__text_y').val(y);
-        $('.settings__position_x').val(x);
-        $('.settings__position_y').val(y);
     }
 
     /**
