@@ -33,10 +33,10 @@ include_once 'change-lang.php';
                <div class="langs">
                    <ul class="langs_nav">
                        <li class="langs_nav-item">
-                           <a href="index.php?lang=ru" class="langs_nav-link" id="ru-lang">РУС</a>
+                           <a href="/rus" class="langs_nav-link" id="ru-lang">РУС</a>
                        </li>
                        <li class="langs_nav-item">
-                           <a href="index.php?lang=en" class="langs_nav-link" id="en-lang">ENG</a>
+                           <a href="/eng" class="langs_nav-link" id="en-lang">ENG</a>
                        </li>
                    </ul>
                </div>
@@ -67,7 +67,7 @@ include_once 'change-lang.php';
         <div class="page">
             <main class="main">
                 <h1 class="main__title"><?php echo $lang['HEADER']; ?></h1>
-                <div class="image-container">
+                <div class="image-container" id="image_container">
                     <div class="image-container__workspace">
                         <div class="image-container__main-image">
                             <!-- <img src="http://dummyimage.com/600x400/000/0011ff.png" alt="Main Image"> -->
@@ -75,6 +75,9 @@ include_once 'change-lang.php';
                             <div class="image-container__watermark">
                                 <!-- <img src="http://dummyimage.com/100x50/fff/0011ff.png" alt="Watermark"> -->
                             </div>
+                        </div>
+                        <div id="throbber" style="display:none;">
+                             <img src="/img/busy.gif" />
                         </div>
                     </div> 
                 </div>
@@ -135,7 +138,7 @@ include_once 'change-lang.php';
                         <section class="settings__download">
                             <input type="hidden" class="settings__hidden" name="opacity" id="opacity" value="1">
                             <button class="settings__button settings__button_reset"><?php echo $lang['RESET']; ?></button>
-                            <button type="submit" class="settings__button settings__button_download"><?php echo $lang['DOWNLOAD']; ?></button>
+                            <button type="submit" class="settings__button settings__button_download" id="download"><?php echo $lang['DOWNLOAD']; ?></button>
                         </section>
                     </form>
                 </div>
@@ -149,6 +152,7 @@ include_once 'change-lang.php';
     <!-- bower:js -->
     <script src="bower/jquery/dist/jquery.js"></script>
     <script src="bower/jquery-ui/jquery-ui.js"></script>
+    <script src="http://malsup.github.io/jquery.blockUI.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -159,6 +163,7 @@ include_once 'change-lang.php';
     <script src="js/position.js"></script>
     <script src="js/submit.js"></script>
     <script src="js/socials.js"></script>
+    <script src="js/throbber.js"></script>
     <!-- endbuild -->
 </body>
 </html>

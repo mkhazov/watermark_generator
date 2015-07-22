@@ -1,0 +1,4 @@
+RewriteEngine on
+
+RewriteRule ^eng/?$ index.php?lang=eng
+RewriteRule ^rus/?$ index.php?lang=rus
