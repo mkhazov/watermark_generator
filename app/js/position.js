@@ -123,7 +123,6 @@ var position = (function () {
         }
 
         if (axis.length) {
-
             if ($this.hasClass('settings__text_position')) {
                 // текущие координаты
                 var position = block.getPosition();
@@ -132,7 +131,6 @@ var position = (function () {
                 // устанавливаем новые координаты
                 block.setPosition(position['x'], position['y']);
             }
-
             else if ($this.hasClass('settings__text_margin')) {
                 var margin = 0;
                 margin += parseInt(value);
