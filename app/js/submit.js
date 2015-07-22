@@ -6,6 +6,12 @@ var submit = (function($) {
 
     function _submitForm(e) {
         e.preventDefault();
+        
+        var resultValidate = sendFormValidate.validate();
+        if (resultValidate === false) {
+            return false;
+        }
+
         var formData = new FormData($(this)[0]);
 
         // расчет и отправка на сервер реальных координат
