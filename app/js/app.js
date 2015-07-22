@@ -397,20 +397,20 @@ var formApp = (function() {
             widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth)*2,
             heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
 
-        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
+        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight});
         
-            _setMarginView(axis, value);
-            switch (axis) {
-                case 'x':
-                    watermarkImage.css({'margin-left': value, 'margin-right':value});
-                    watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)});
-                    break;
-                case 'y':
-                    watermarkImage.css({'margin-top': value, 'margin-bottom':value});
-                    watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)});
-                    break;
+        _setMarginView(axis, value);
+        switch (axis) {
+            case 'x':
+                watermarkImage.css({'margin-left': value, 'margin-right':value});
+                watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)});
+                break;
+            case 'y':
+                watermarkImage.css({'margin-top': value, 'margin-bottom':value});
+                watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)});
+                break;
 
-            }
+        }
     }
 
     return {
