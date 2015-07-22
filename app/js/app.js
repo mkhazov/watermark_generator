@@ -17,9 +17,11 @@ var formApp = (function() {
         tileLinkSelected = 'settings__tile-link_selected',
         globRatio = 1,
         imagesUploaded = false,
+        inputMode = $('.settings__mode'),
         mode = 'single';
+        
 
-        var _addEventListeners = function() {
+    var _addEventListeners = function() {
             formFile.on('change', _changeFileLabel);
             formFile.on('change', _viewImg);
             runner.slider({min:0, max:100, range:'min'});
@@ -84,17 +86,6 @@ var formApp = (function() {
         _clearWatermark();
     };
 
-    /**
-     * Выключение инпутов.
-     */
-    function _disableInputs() {
-        $('.input_disabled').prop('disabled', true);
-    }
-
-    /**
-     * Включение инпутов.
-     */
- 
 
     var _clearSetMarginView = function(){
         _setMarginView('x',0);
@@ -121,6 +112,21 @@ var formApp = (function() {
         _clearSetMarginView();
     };
 
+
+
+    // Чистка режима
+    var _clearMode = function() {
+        watermarkContainer.off('margin-change');
+        mode = 'single';
+        inputMode.val(mode);
+        $('.settings__text')
+            .addClass('settings__text_position')
+            .removeClass('settings__text_margin');
+        $('.settings__arrow')
+            .addClass('settings__arrow_position')
+            .removeClass('settings__arrow_margin');        
+    }
+
     // Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
@@ -131,10 +137,20 @@ var formApp = (function() {
     };
 
 
+    /**
+     * Выключение инпутов.
+     */
+    function _disableInputs() {
+        $('.input_disabled').prop('disabled', true);
+    }
+
+    /**
+     * Включение инпутов.
+     */
+ 
     function _enableInputs() {
         $('.input_disabled').prop('disabled', false);
     }
-
     // Включение слайдера на изменение прозрачности
     var _opacitySliderOn = function (block) {
         runner.slider({
@@ -194,7 +210,6 @@ var formApp = (function() {
     
     var _changeMode = function() {
         // режим работы (одиночный вотермарк или сетка)
-        var inputMode = $('.settings__mode');
         if (inputMode.val() == 'single') {
             mode = 'grid';
         }
@@ -298,15 +313,20 @@ var formApp = (function() {
                 // вставка картинки
                 $img.addClass('source-img');
                 sourceContainer.append(img);
+
+                _clearMode();
+                _clearTile();
+
                 // задание масштаба основной картинки
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-
+                
                 // включение инпута для загрузки вотермарка
                 watermarkInput.prop('disabled', false);
             }
             // вставка вотермарка
             else if ($this.attr('name') == 'watermark-image') {
                 //предварительная очистка вотермарка
+                _clearMode();
                 _clearPosition();
                 _clearOpacity();
                 
@@ -314,9 +334,13 @@ var formApp = (function() {
 
                 $img.addClass('watermark-img');
                 watermarkContainer.append(img);
+
+               
+                _clearTile();
+
                 // задание масштаба вотермарка
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-                _clearTile();
+                
                 imagesUploaded = true;
                 // вызвать кастомное событие 'images-uploaded'
                 $('#workform').trigger('images-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
@@ -355,11 +379,9 @@ var formApp = (function() {
         
         switch (axis) {
             case 'y':
-                console.log(value);
                 marginSchemeHorizontalSelector.css({'height':value});
             break;
             case 'x':
-            console.log(value);
                 marginSchemeVerticalSelector.css({'width':value});
             break;
         }
