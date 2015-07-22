@@ -3,4 +3,5 @@ app/bower
 app/vendor
 dist
 .idea
+.phpintel
 Thumbs.db
