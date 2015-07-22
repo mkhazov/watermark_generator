@@ -33,7 +33,7 @@ var moveIt = function () {
         container.oY    =  box.top + window.pageYOffset;
     }
     //Коррекция координат в зависимости от режима
-    function getNormalX(axisX) {
+    function _getNormalX(axisX) {
         var x = axisX;
         if (axisX < 0) {
             x = 0;
@@ -43,7 +43,7 @@ var moveIt = function () {
         }
         return x;
     }
-    function getNormalY(axisY) {
+    function _getNormalY(axisY) {
         var y = axisY;
         if (axisY < 0) {
             y = 0;
@@ -53,7 +53,7 @@ var moveIt = function () {
         }
         return y;
     }
-    function getExtraX(axisX) {
+    function _getExtraX(axisX) {
         var x = axisX;
         if (axisX > 0) {
             x = 0;
@@ -63,7 +63,7 @@ var moveIt = function () {
         }
         return x;
     }
-    function getExtraY(axisY) {
+    function _getExtraY(axisY) {
         var y = axisY;
         if (axisY > 0) {
             y = 0;
@@ -73,21 +73,36 @@ var moveIt = function () {
         }
         return y;
     }
+    function _calculateSizes() {
+        block.width         = block.elem.offsetWidth;
+        block.height        = block.elem.offsetHeight;
+        container.width     = container.elem.offsetWidth;
+        container.height    = container.elem.offsetHeight;
+
+        //Если блок больше нашего изображения - включаем другой режим позиционирования
+        if (block.width > container.width ||
+                block.height > container.height) {
+            mode = 'extra-size';
+        } else {
+            mode = 'normal';
+        }
+    }
     //Позиционирует блок по заданным координатам
     function _setPosition(axisX, axisY) {
         var x = axisX,
             y = axisY;
+        _calculateSizes();
         switch (mode) {
         case 'normal':
             //Если выходим за диапазон - применяем макс значения
-            x = getNormalX(axisX);
-            y = getNormalY(axisY);
+            x = _getNormalX(axisX);
+            y = _getNormalY(axisY);
             break;
         case 'extra-size':
             //Если блок шире контейнера по одной из координат
             //Не позволяем ему залезть границей во внутрь
-            x = (block.width > container.width) ? getExtraX(axisX) : getNormalX(axisX);
-            y = (block.height > container.height) ? getExtraY(axisY) : getNormalY(axisY);
+            x = (block.width > container.width) ? _getExtraX(axisX) : _getNormalX(axisX);
+            y = (block.height > container.height) ? _getExtraY(axisY) : _getNormalY(axisY);
             break;
         }
         block.elem.style.left   = x + 'px';
@@ -127,20 +142,11 @@ var moveIt = function () {
                 container.elem.style.position = 'relative';
             }
             //Вычисляем размеры блоков
-            block.width         = block.elem.offsetWidth;
-            block.height        = block.elem.offsetHeight;
-            container.width     = container.elem.offsetWidth;
-            container.height    = container.elem.offsetHeight;
+            _calculateSizes();
 
             //Вычисляем координаты блоков
             _calculateBlockPosition();
             _calculateContainerPosition();
-
-            //Если блок больше нашего изображения - включаем другой режим позиционирования
-            if (block.width > container.width ||
-                    block.height > container.height) {
-                mode = 'extra-size';
-            }
         },
         setPosition: function (axisX, axisY) {
             return _setPosition(axisX, axisY);
@@ -204,6 +210,8 @@ var moveIt = function () {
                 return false;
             };
             block.elem.onmousedown = function (e) {
+                _calculateBlockPosition();
+                _calculateContainerPosition();
                 //Вычисляем смещение курсора от начала блока
                 var shiftX = e.pageX - block.oX,
                     shiftY = e.pageY - block.oY;
@@ -217,6 +225,11 @@ var moveIt = function () {
                     block.elem.onmouseup = null;
                 };
             };
+        },
+        recalc: function () {
+            _calculateBlockPosition();
+            _calculateContainerPosition();
+            _calculateSizes();
         }
     };
 };

@@ -67,7 +67,7 @@ a {
     content: '';
     display: inline-block;
     height: 100%;
-    widht: 0;
+    width: 0;
     vertical-align: middle; }
 
 .page {
@@ -222,6 +222,10 @@ a {
     width: 39px;
     height: 29px;
     background: url("../img/upload.png") no-repeat; }
+
+.settings__form-file-label.invalid {
+  color: #F97E76;
+  border-color: #F97E76; }
 
 .settings__tile {
   position: absolute;

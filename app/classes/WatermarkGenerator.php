@@ -88,8 +88,6 @@ class WatermarkGenerator {
             $count_x = ceil($this->image->getWidth() / $step_x);
             $count_y = ceil($this->image->getHeight() / $step_y);
 
-            //$count = ($count_x > $count_y) ? $count_x : $count_y;
-
             $x = $this->position['x'];
             for ($xi = 0; $xi < $count_x; $xi++) {
                 $y = $this->position['y'];

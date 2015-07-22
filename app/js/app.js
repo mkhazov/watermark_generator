@@ -41,6 +41,7 @@ var formApp = (function() {
             else{
                 fileLabel.text('Вставить файл');
             }
+        $this.tooltip('remove');
     };
 
     // Обнуление прозрачности
@@ -130,6 +131,7 @@ var formApp = (function() {
     // Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
+        sendFormValidate.reset();
         //_clearSourceImage();
         _clearPosition();
         _clearOpacity();

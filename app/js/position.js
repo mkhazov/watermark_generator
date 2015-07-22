@@ -8,7 +8,7 @@ var position = (function () {
 
     function _addEventListeners () {
         // после загразки файла в инпут включаем позиционирование водяного знака
-        $('#workform').on('images-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
+        $('#workform').one('images-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
             _enablePositioning(sourceContainerSelector, watermarkContainerSelector);
         });
     }
