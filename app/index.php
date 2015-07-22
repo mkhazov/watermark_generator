@@ -113,6 +113,8 @@ include_once 'change-lang.php';
                                 <a class="settings__position-button settings__position-button_bottom-left" data-position="left-bottom"></a>
                                 <a class="settings__position-button settings__position-button_bottom-center" data-position="center-bottom"></a>
                                 <a class="settings__position-button settings__position-button_bottom-right" data-position="right-bottom"></a>
+                             <!--    <div class="settings__margin-scheme settings__margin-scheme_horizontal"></div>
+                                <div class="settings__margin-scheme settings__margin-scheme_vertical"></div>   -->                          
                             </div>
                             <div class="settings__form-items">
                                 <div class="settings__form-item">

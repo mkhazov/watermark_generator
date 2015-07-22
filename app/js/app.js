@@ -17,9 +17,11 @@ var formApp = (function() {
         tileLinkSelected = 'settings__tile-link_selected',
         globRatio = 1,
         imagesUploaded = false,
+        inputMode = $('.settings__mode'),
         mode = 'single';
+        
 
-        var _addEventListeners = function() {
+    var _addEventListeners = function() {
             formFile.on('change', _changeFileLabel);
             formFile.on('change', _viewImg);
             runner.slider({min:0, max:100, range:'min'});
@@ -52,7 +54,7 @@ var formApp = (function() {
     
     // Обнуление позиции и отступов
     var _clearPosition = function(){
-        var formPosition = $('.settings__input');
+        var formPosition = $('.settings__text-position');
         var block = moveIt();
         block.init(watermarkContainerSelector, sourceContainerSelector);    
         formPosition.val(0);
@@ -84,28 +86,46 @@ var formApp = (function() {
         _clearWatermark();
     };
 
-    /**
-     * Выключение инпутов.
-     */
-    function _disableInputs() {
-        $('.input_disabled').prop('disabled', true);
-    }
 
-    /**
-     * Включение инпутов.
-     */
-    function _enableInputs() {
-        $('.input_disabled').prop('disabled', false);
+    var _clearSetMarginView = function(){
+        _setMarginView('x',0);
+        _setMarginView('y',0);
     }
 
     // Сброс кнопок замощения
     var _clearTile = function(){
-        var watermarkImage = $(watermarkImgSelector);
-        watermarkImage.css({'margin': 0});
+        var watermarkImageFirst = $(watermarkImgSelector).first(),
+            watermarkImageWidth = watermarkImageFirst.width(),
+            watermarkImageHeight = watermarkImageFirst.height(),
+            formMargin = $('.settings__text');
+            settingsMarginX = $('.settings__margin_x');
+            settingsMarginY = $('.settings__margin_y');
+            watermarkContainer.html('');
+            watermarkContainer.append(watermarkImageFirst);
+            watermarkContainer.css({'width': watermarkImageWidth, 'height': watermarkImageHeight})
+            watermarkImageFirst.css({'margin': 0});
+            formMargin.val(0);
+            settingsMarginX.val(0);
+            settingsMarginY.val(0);
         tileLink.removeClass(tileLinkSelected);
         tileLinkBite.addClass(tileLinkSelected);
-
+        _clearSetMarginView();
     };
+
+
+
+    // Чистка режима
+    var _clearMode = function() {
+        watermarkContainer.off('margin-change');
+        mode = 'single';
+        inputMode.val(mode);
+        $('.settings__text')
+            .addClass('settings__text_position')
+            .removeClass('settings__text_margin');
+        $('.settings__arrow')
+            .addClass('settings__arrow_position')
+            .removeClass('settings__arrow_margin');        
+    }
 
     // Полная очистка формы
     var _clearForm = function(e){
@@ -116,6 +136,21 @@ var formApp = (function() {
         //_clearTile();
     };
 
+
+    /**
+     * Выключение инпутов.
+     */
+    function _disableInputs() {
+        $('.input_disabled').prop('disabled', true);
+    }
+
+    /**
+     * Включение инпутов.
+     */
+ 
+    function _enableInputs() {
+        $('.input_disabled').prop('disabled', false);
+    }
     // Включение слайдера на изменение прозрачности
     var _opacitySliderOn = function (block) {
         runner.slider({
@@ -172,6 +207,26 @@ var formApp = (function() {
         return ratio;
     };
 
+    
+    var _changeMode = function() {
+        // режим работы (одиночный вотермарк или сетка)
+        if (inputMode.val() == 'single') {
+            mode = 'grid';
+        }
+        else {
+            mode = 'single';
+        }
+        inputMode.val(mode);
+
+        // текстовые поля
+        $('.settings__text')
+            .toggleClass('settings__text_position')
+            .toggleClass('settings__text_margin');
+        // стрелки
+        $('.settings__arrow')
+            .toggleClass('settings__arrow_position')
+            .toggleClass('settings__arrow_margin');
+    };
     // Замощение
     var _doTile = function(e){
         e.preventDefault();
@@ -189,12 +244,14 @@ var formApp = (function() {
             watermarkImageWidth = watermarkImage.width(),
             watermarkImageHeight = watermarkImage.height(),
             watermarkHtml = watermarkContainer.html(),
-            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth)*2,
-            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
+            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth) * 2,
+            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight) * 2;
 
         watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
-        for (var i = 0; i <= widthRatio*heightRatio; i++) {
-            watermarkContainer.append(watermarkHtml);
+        for (var i = 0; i <= widthRatio; i++) {
+            for (var j = 0; j <= heightRatio; j++){
+                watermarkContainer.append(watermarkHtml);
+            }
         }
         $(this).addClass(tileLinkSelected);   
     };
@@ -215,38 +272,12 @@ var formApp = (function() {
        /// watermarkContainer.on('position-change');   Видимо, чтобы подключить изменение позиционирования нужно по новой инициировать модуль позиционирования
         _changeMode();
         
-        var watermarkImageFirst = $(watermarkImgSelector).first(),
-            watermarkImageWidth = watermarkImageFirst.width(),
-            watermarkImageHeight = watermarkImageFirst.height();
-        watermarkContainer.html('');
-        watermarkContainer.append(watermarkImageFirst);
-        watermarkContainer.css({'width': watermarkImageWidth, 'height': watermarkImageHeight})
-        $(this).addClass(tileLinkSelected);
     }
     
     /**
      * Смена модификаторов инпутов при переключении режима на замощение и обратно.
      */
-    var _changeMode = function() {
-        // режим работы (одиночный вотермарк или сетка)
-        var inputMode = $('.settings__mode');
-        if (inputMode.val() == 'single') {
-            mode = 'grid';
-        }
-        else {
-            mode = 'single';
-        }
-        inputMode.val(mode);
-
-        // текстовые поля
-        $('.settings__text')
-            .toggleClass('settings__text_position')
-            .toggleClass('settings__text_margin');
-        // стрелки
-        $('.settings__arrow')
-            .toggleClass('settings__arrow_position')
-            .toggleClass('settings__arrow_margin');
-    };
+    
 
     // Вставка изображения в рабочее поле
     var _viewImg = function(e) {
@@ -284,24 +315,34 @@ var formApp = (function() {
                 // вставка картинки
                 $img.addClass('source-img');
                 sourceContainer.append(img);
+
+                _clearMode();
+                _clearTile();
+
                 // задание масштаба основной картинки
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-
+                
                 // включение инпута для загрузки вотермарка
                 watermarkInput.prop('disabled', false);
             }
             // вставка вотермарка
             else if ($this.attr('name') == 'watermark-image') {
                 //предварительная очистка вотермарка
+                _clearMode();
                 _clearPosition();
                 _clearOpacity();
+                
                 $(watermarkImgSelector).remove();
 
                 $img.addClass('watermark-img');
                 watermarkContainer.append(img);
+
+               
+                _clearTile();
+
                 // задание масштаба вотермарка
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-
+                
                 imagesUploaded = true;
                 // вызвать кастомное событие 'images-uploaded'
                 $('#workform').trigger('images-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
@@ -322,7 +363,33 @@ var formApp = (function() {
      * @param {string} axis ось (x или y)
      * @param {int} value значение отступа
      */
-    function _setMargin(axis, value) {
+    var _setMarginView = function (axis,value) {
+        var marginSchemeSelector = '.settings__margin-scheme';
+            marginSchemeHorizontal = $('<div class="settings__margin-scheme_horizontal">'),
+            marginSchemeVertical = $('<div class="settings__margin-scheme_vertical">'),
+            marginSchemeHorizontalSelector = $('.settings__margin-scheme_horizontal'),
+            marginSchemeVerticalSelector = $('.settings__margin-scheme_vertical'),
+            positionButtons = $('.settings__position-buttons');
+
+        marginSchemeHorizontal.addClass('settings__margin-scheme');
+        marginSchemeVertical.addClass('settings__margin-scheme');            
+        if (positionButtons.children(marginSchemeSelector).length===0){
+            
+            positionButtons.append(marginSchemeHorizontal);
+            positionButtons.append(marginSchemeVertical);
+        }
+        
+        switch (axis) {
+            case 'y':
+                marginSchemeHorizontalSelector.css({'height':value});
+            break;
+            case 'x':
+                marginSchemeVerticalSelector.css({'width':value});
+            break;
+        }
+}
+
+    var _setMargin = function (axis, value) {
         value *= globRatio;
         var sourceContainerWidth = sourceContainer.width(),
             sourceContainerHeight = sourceContainer.height(),
@@ -332,20 +399,20 @@ var formApp = (function() {
             widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth)*2,
             heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
 
-        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
-            switch (axis) {
-                case 'x':
-                    watermarkImage.css({'margin-left': value, 'margin-right':value});
-                    watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)})
-                    break;
-                case 'y':
-                    watermarkImage.css({'margin-top': value, 'margin-bottom':value});
-                    watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)})
-                    break;
+        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight});
+        
+        _setMarginView(axis, value);
+        switch (axis) {
+            case 'x':
+                watermarkImage.css({'margin-left': value, 'margin-right':value});
+                watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)});
+                break;
+            case 'y':
+                watermarkImage.css({'margin-top': value, 'margin-bottom':value});
+                watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)});
+                break;
 
-            }
-
-
+        }
     }
 
     return {

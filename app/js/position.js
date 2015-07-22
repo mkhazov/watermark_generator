@@ -69,7 +69,6 @@ var position = (function () {
         if (fileUploaded !== true) {
             return;
         }
-
         var $this = $(this),
             value = 0,
             axis = '';
