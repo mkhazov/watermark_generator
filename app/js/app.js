@@ -244,12 +244,14 @@ var formApp = (function() {
             watermarkImageWidth = watermarkImage.width(),
             watermarkImageHeight = watermarkImage.height(),
             watermarkHtml = watermarkContainer.html(),
-            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth)*2,
-            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
+            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth) * 2,
+            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight) * 2;
 
         watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight})
-        for (var i = 0; i <= widthRatio*heightRatio; i++) {
-            watermarkContainer.append(watermarkHtml);
+        for (var i = 0; i <= widthRatio; i++) {
+            for (var j = 0; j <= heightRatio; j++){
+                watermarkContainer.append(watermarkHtml);
+            }
         }
         $(this).addClass(tileLinkSelected);   
     };
