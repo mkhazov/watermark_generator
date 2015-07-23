@@ -135,6 +135,9 @@ a {
   font-size: 0;
   text-align: left; }
 
+.image-container__watermark:selection {
+  background: transparent; }
+
 .disabled {
   opacity: 0.6; }
 

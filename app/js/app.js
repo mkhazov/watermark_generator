@@ -353,7 +353,7 @@ var formApp = (function() {
 
                 // задание масштаба вотермарка
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-
+                watermarkContainer.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
                 imagesUploaded = true;
                 // вызвать кастомное событие 'images-uploaded'
                 $('#workform').trigger('images-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
