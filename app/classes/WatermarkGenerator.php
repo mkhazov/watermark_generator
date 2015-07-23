@@ -82,7 +82,15 @@ class WatermarkGenerator {
             $step_y = $this->watermark->getHeight() + $this->margin['y'];
 
             $count_x = ceil($this->image->getWidth() / $step_x);
+            // в случае смещения вотермарка влево нужно добавить один ряд справа
+            if ($this->position['x'] < 0) {
+                $count_x++;
+            }
+            // в случае смещения вверх нужно добавить линию снизу
             $count_y = ceil($this->image->getHeight() / $step_y);
+            if ($this->position['y'] < 0) {
+                $count_y++;
+            }
 
             $x = $this->position['x'];
             for ($xi = 0; $xi < $count_x; $xi++) {

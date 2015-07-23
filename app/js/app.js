@@ -414,11 +414,11 @@ var formApp = (function() {
         _setMarginView(axis, value);
         switch (axis) {
             case 'x':
-                watermarkImage.css({'margin-left': value, 'margin-right':value});
+                watermarkImage.css({'margin-right':value});
                 watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)});
                 break;
             case 'y':
-                watermarkImage.css({'margin-top': value, 'margin-bottom':value});
+                watermarkImage.css({'margin-bottom':value});
                 watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)});
                 break;
 
