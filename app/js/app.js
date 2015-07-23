@@ -139,11 +139,13 @@ var formApp = (function() {
     // Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
-        sendFormValidate.reset();
-        //_clearSourceImage();
-        _clearPosition();
-        _clearOpacity();
-        //_clearTile();
+        if (!$(this).hasClass('disabled')) {
+            sendFormValidate.reset();
+            //_clearSourceImage();
+            _clearPosition();
+            _clearOpacity();
+            //_clearTile();
+        }
     };
 
 
@@ -158,6 +160,7 @@ var formApp = (function() {
      * Включение инпутов.
      */
     function _enableInputs() {
+        $('.disabled').removeClass('disabled');
         $('.input_disabled').prop('disabled', false);
     }
 
@@ -330,6 +333,7 @@ var formApp = (function() {
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
 
                 // включение инпута для загрузки вотермарка
+                $('.settings__watermark-image').removeClass('disabled');
                 watermarkInput.prop('disabled', false);
             }
             // вставка вотермарка
