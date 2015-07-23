@@ -50,6 +50,10 @@ var position = (function () {
      * @param {string} position
      */
     function _setPositionArea() {
+        if (formApp.getMode() !== 'single') {
+            return;
+        }
+
         var $this = $(this);
 
         $this.siblings().removeClass(currentPositionClass);
