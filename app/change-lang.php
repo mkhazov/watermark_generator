@@ -1,40 +1,28 @@
 <?php
 
-session_start();
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
 
-if(isSet($_GET['lang']))
-{
-$lang = $_GET['lang'];
+    setcookie('lang', $lang, time() + (3600 * 24 * 30));
+}
 
-$_SESSION['lang'] = $lang;
+elseif (isset($_COOKIE['lang'])) {
+    $lang = $_COOKIE['lang'];
+}
 
-setcookie("lang", $lang, time() + (3600 * 24 * 30));
-}
-else if(isSet($_SESSION['lang']))
-{
-$lang = $_SESSION['lang'];
-}
-else if(isSet($_COOKIE['lang']))
-{
-$lang = $_COOKIE['lang'];
-}
-else
-{
-$lang = 'rus';
+else {
+    $lang = 'rus';
 }
 
 switch ($lang) {
-  case 'eng':
-  $lang_file = 'lang-en.php';
-  break;
+    case 'eng':
+        $lang_file = 'lang-en.php';
+        break;
 
-  case 'rus':
-  $lang_file = 'lang-ru.php';
-  break;
-
-  default:
-  $lang_file = 'lang-ru.php';
-
+    case 'rus':
+    default:
+        $lang_file = 'lang-ru.php';
+        break;
 }
 
 
