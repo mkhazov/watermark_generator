@@ -45,12 +45,8 @@ class WatermarkGenerator {
      * Все действия с картинками.
      */
     public function process_image() {
+        // проверка данных
         if ($this->check_data()) {
-            // объекты картинок
-            $wi = new WideImage\WideImage();
-            $this->image = $wi->load($this->image_file['tmp_name']);
-            $this->watermark = $wi->load($this->watermark_file['tmp_name']);
-
             // генерация изображения
             $result_image = $this->generate_img($this->image, $this->watermark);
             // генерация имени файла, предлагаемого для сохранения
@@ -164,8 +160,8 @@ class WatermarkGenerator {
 
         return
             $passed &&
-            $this->check_position($this->position, $this->image_file['tmp_name']) &&
-            $this->check_opacity($this->opacity);
+            $this->check_position() &&
+            $this->check_opacity();
     }
 
     /**
@@ -253,44 +249,50 @@ class WatermarkGenerator {
     /**
      * Валидация координат положения водяного знака относительно основного изображения.
      *
-     * @param array $position array('x' => $position_x, 'y' => $position_y)
-     * @param string $image_filename
      * @return bool
      */
-    private function check_position($position, $image_filename) {
-        if (!is_array($position) || !is_numeric($position['x']) || !is_numeric($position['y'])) {
+    private function check_position() {
+        if (!is_array($this->position) || !is_numeric($this->position['x']) || !is_numeric($this->position['y'])) {
             $this->set_error('Некорректные координаты');
             return FALSE;
         }
 
-        $position['x'] = (int) $position['x'];
-        $position['y'] = (int) $position['y'];
+        $this->position['x'] = (int) $this->position['x'];
+        $this->position['y'] = (int) $this->position['y'];
 
         $passed = TRUE;
 
+        // объекты картинок
         $wi = new WideImage\WideImage();
-        $image = $wi->load($image_filename);
+        $this->image = $wi->load($this->image_file['tmp_name']);
+        $this->watermark = $wi->load($this->watermark_file['tmp_name']);
 
-        $width = $image->getWidth();
-        $height = $image->getHeight();
+        $image_width = $this->image->getWidth();
+        $image_height = $this->image->getHeight();
+        $watermark_width = $this->watermark->getWidth();
+        $watermark_height = $this->watermark->getHeight();
 
-        if ($position['x'] > $width) {
+        if ($this->position['x'] > $image_width) {
             $this->set_error('Позиция по оси X выходит за границу изображения');
             $passed = FALSE;
         }
-        if ($position['y'] > $height) {
+        if ($this->position['y'] > $image_height) {
             $this->set_error('Позиция по оси Y выходит за границу изображения');
             $passed = FALSE;
         }
         if ($this->mode == 'single') {
-            if ($position['x'] < 0) {
+            if ($this->position['x'] < 0) {
                 $this->set_error('Позиция по оси X не может иметь отрицательное значение');
                 $passed = FALSE;
             }
-            if ($position['y'] < 0) {
+            if ($this->position['y'] < 0) {
                 $this->set_error('Позиция по оси Y не может иметь отрицательное значение');
                 $passed = FALSE;
             }
+        }
+        elseif ($this->mode == 'grid') {
+            $this->position['x'] = $this->position['x'] % $watermark_width;
+            $this->position['y'] = $this->position['y'] % $watermark_height;
         }
 
         return $passed;
@@ -299,25 +301,24 @@ class WatermarkGenerator {
     /**
      * Валидация значения прозрачности.
      *
-     * @param int $opacity
      * @return bool
      */
-    private function check_opacity($opacity) {
-        if (!is_numeric($opacity)) {
+    private function check_opacity() {
+        if (!is_numeric($this->opacity)) {
             $this->set_error('Значение прозрачности должно быть числом');
             return FALSE;
         }
-        elseif ($opacity < 0) {
+        elseif ($this->opacity < 0) {
             $this->set_error('Значение прозрачности не может быть меньше 0');
             return FALSE;
         }
-        elseif ($opacity > 100) {
+        elseif ($this->opacity > 100) {
             $this->set_error('Значение прозрачности не может быть больше 100');
             return FALSE;
         }
 
-        elseif ($opacity <= 1) {
-            $this->opacity = $opacity * 100;
+        elseif ($this->opacity <= 1) {
+            $this->opacity *= 100;
         }
 
         return TRUE;
