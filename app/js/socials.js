@@ -1,4 +1,14 @@
 $(document).ready(function(){
+
+  var newUrl = window.location; 
+
+   
+   if(newUrl == "http://watermark.mkhazov.ru/"){
+    if($("#ru-lang").hasClass("chosen-lang"))
+      window.location.replace("http://watermark.mkhazov.ru/rus");
+    else if($("#en-lang").hasClass("chosen-lang"))
+      window.location.replace("http://watermark.mkhazov.ru/eng");
+   }
   
   if($("html").attr("lang")=="ru"){
     $("#ru-lang").addClass("chosen-lang").removeAttr("href");
@@ -45,5 +55,6 @@ $(document).ready(function(){
    $(".socials-vk").mouseleave(function(){
    	  $(this).children().removeClass("sprite-vk-active");
    });
+  
 
 });

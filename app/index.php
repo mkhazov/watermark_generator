@@ -33,10 +33,10 @@ include_once 'change-lang.php';
                <div class="langs">
                    <ul class="langs_nav">
                        <li class="langs_nav-item">
-                           <a href="index.php?lang=ru" class="langs_nav-link" id="ru-lang">РУС</a>
+                           <a href="/rus" class="langs_nav-link" id="ru-lang">РУС</a>
                        </li>
                        <li class="langs_nav-item">
-                           <a href="index.php?lang=en" class="langs_nav-link" id="en-lang">ENG</a>
+                           <a href="/eng" class="langs_nav-link" id="en-lang">ENG</a>
                        </li>
                    </ul>
                </div>
@@ -67,13 +67,16 @@ include_once 'change-lang.php';
         <div class="page">
             <main class="main">
                 <h1 class="main__title"><?php echo $lang['HEADER']; ?></h1>
-                <div class="image-container">
+                <div class="image-container" id="image_container">
                     <div class="image-container__workspace">
                         <div class="image-container__main-image">
                
                             <div class="image-container__watermark">
                          
                             </div>
+                        </div>
+                        <div id="throbber" style="display:none;">
+                             <img src="/img/busy.gif" />
                         </div>
                     </div> 
                 </div>
@@ -83,18 +86,18 @@ include_once 'change-lang.php';
                     <div class="settings__title"><?php echo $lang['SETTINGS_TITLE']; ?></div>
                     <form class="settings__form" name="workform" id="workform" action="">
                         <section class="settings__upload">
-                            <div class="settings__form-item">
+                            <div class="settings__form-item settings__source-image">
                                 <label for="source-image" class="settings__form-label"><?php echo $lang['IMAGE_LABEL']; ?></label>
                                 <label for="source-image" class="settings__form-file-label"><?php echo $lang['INPUT_PLACEHOLDER']; ?></label>
                                 <input type="file" name="source-image" id="source-image" class="settings__form-file" data-validate-type="file" data-tt-text="Пожалуйста загрузите изображение">
                             </div>
-                            <div class="settings__form-item">
+                            <div class="settings__form-item settings__watermark-image disabled">
                                 <label for="watermark-image" class="settings__form-label"><?php echo $lang['WATERMARK_LABEL']; ?></label>
                                 <label for="watermark-image" class="settings__form-file-label"><?php echo $lang['INPUT_PLACEHOLDER']; ?></label>
                                 <input type="file" name="watermark-image" id="watermark-image" class="settings__form-file input_disabled" disabled data-validate-type="file" data-tt-text="Пожалуйста загрузите изображение">
                             </div>                                
                         </section>                        
-                        <section class="settings__position">
+                        <section class="settings__position disabled">
                             <section class="settings__tile">
                                 <ul class="settins__tile-items">
                                     <li class="settings__tile-item"><a href="" class="settings__tile-link settings__tile-link_tile">Замостить</a></li>
@@ -139,15 +142,15 @@ include_once 'change-lang.php';
                                 </div>
                             </div>
                         </section>
-                        <section class="settings__opacity">
+                        <section class="settings__opacity disabled">
                             <div class="settings__section-title"><?php echo $lang['TRSPRNC_TITLE']; ?></div>
                             <!-- Сюда встанет бегунок -->
                             <div class="settings__runner"></div>
                             <input type="hidden" class="settings__hidden" name="opacity" id="opacity" value="1">
                         </section>
-                        <section class="settings__download">
+                        <section class="settings__download disabled">
                             <button class="settings__button settings__button_reset"><?php echo $lang['RESET']; ?></button>
-                            <button type="submit" class="settings__button settings__button_download"><?php echo $lang['DOWNLOAD']; ?></button>
+                            <button type="submit" class="settings__button settings__button_download" id="download"><?php echo $lang['DOWNLOAD']; ?></button>
                         </section>
                     </form>
                 </div>
@@ -162,6 +165,7 @@ include_once 'change-lang.php';
     <script src="bower/jquery/dist/jquery.js"></script>
     <script src="bower/jquery-ui/jquery-ui.js"></script>
     <!-- endbower -->
+    <script src="js/jquery.blockUI.js"></script>
     <!-- endbuild -->
 
     <!-- build:js js/main.min.js -->
@@ -173,6 +177,7 @@ include_once 'change-lang.php';
     <script src="js/position.js"></script>
     <script src="js/submit.js"></script>
     <script src="js/socials.js"></script>
+    <script src="js/throbber.js"></script>
     <!-- endbuild -->
 </body>
 </html>

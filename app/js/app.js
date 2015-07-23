@@ -65,8 +65,16 @@ var formApp = (function() {
     // Чистка вотермарка
     var _clearWatermark = function(){         
         var watermarkInputLabel = watermarkInput.parent().find('.settings__form-file-label');
+        var text = '';
+        var lang = $('html').attr('lang');
+        if (lang == 'ru') {
+            text = 'Вставить файл';
+        }
+        else if (lang == 'en') {
+            text = 'Insert file';
+        }
         watermarkInput.val('');
-        watermarkInputLabel.text('Вставить файл');
+        watermarkInputLabel.text(text);
         $(watermarkImgSelector).remove();
 
         _clearPosition();
@@ -83,7 +91,6 @@ var formApp = (function() {
         $(sourceImgSelector).remove();
         globRatio = 1;
         _disableInputs();
-
         _clearWatermark();
     };
 
@@ -132,11 +139,13 @@ var formApp = (function() {
     // Полная очистка формы
     var _clearForm = function(e){
         e.preventDefault();
-        sendFormValidate.reset();
-        //_clearSourceImage();
-        _clearPosition();
-        _clearOpacity();
-        //_clearTile();
+        if (!$(this).hasClass('disabled')) {
+            sendFormValidate.reset();
+            //_clearSourceImage();
+            _clearPosition();
+            _clearOpacity();
+            //_clearTile();
+        }
     };
 
 
@@ -151,6 +160,7 @@ var formApp = (function() {
      * Включение инпутов.
      */
     function _enableInputs() {
+        $('.disabled').removeClass('disabled');
         $('.input_disabled').prop('disabled', false);
     }
 
@@ -323,6 +333,7 @@ var formApp = (function() {
                 $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
 
                 // включение инпута для загрузки вотермарка
+                $('.settings__watermark-image').removeClass('disabled');
                 watermarkInput.prop('disabled', false);
             }
             // вставка вотермарка

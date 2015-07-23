@@ -4,8 +4,6 @@
 html,
 body {
   height: 100%;
-
-  
 }
 html {
   background: url($img_tmp + 'page_bg.jpg') fixed;
@@ -156,4 +154,8 @@ a {
 	cursor: move;
 	font-size: 0;
 	text-align: left;
+}
+
+.disabled {
+    opacity: 0.6;
 }

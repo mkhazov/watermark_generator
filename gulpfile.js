@@ -152,7 +152,7 @@ gulp.task('build', ['clean'], function () {
 // PHP
 gulp.task('php-dist', function() {
     php.server({
-        base: 'app',
+        base: 'dist',
         port: 8020,
         keepalive: true
     });

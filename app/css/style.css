@@ -135,6 +135,9 @@ a {
   font-size: 0;
   text-align: left; }
 
+.disabled {
+  opacity: 0.6; }
+
 @font-face {
   font-family: roboto-light-webfont;
   src: url("../fonts/roboto-light-webfont.eot");
