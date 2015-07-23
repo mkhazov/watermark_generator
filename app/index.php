@@ -165,8 +165,8 @@ include_once 'change-lang.php';
     <script src="bower/jquery/dist/jquery.js"></script>
     <script src="bower/jquery-ui/jquery-ui.js"></script>
     <!-- endbower -->
-    <script src="http://malsup.github.io/jquery.blockUI.js"></script>
     <!-- endbuild -->
+    <script src="http://malsup.github.io/jquery.blockUI.js"></script>
 
     <!-- build:js js/main.min.js -->
     <script src="js/app.js"></script>
