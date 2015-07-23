@@ -54,7 +54,13 @@ var formApp = (function() {
             watermarkFileLabel = formFileWatermark.parent().find('.settings__form-file-label');
 
         formFileWatermark.val('');
-        watermarkFileLabel.text('Вставить файл');  
+        if($("html").attr("lang")=="ru"){
+    watermarkFileLabel.text('Вставить файл');  
+  }
+  else if($("html").attr("lang")=="en"){
+    watermarkFileLabel.text('Insert file');  
+  }
+        
         watermarkContainer.children('img').remove(); 
 
         _clearPosition();
@@ -68,7 +74,13 @@ var formApp = (function() {
             sourceFileLabel = formFileSourceImage.parent().find('.settings__form-file-label');
 
         formFileSourceImage.val('');
-        sourceFileLabel.text('Вставить файл');  
+        if($("html").attr("lang")=="ru"){
+   sourceFileLabel.text('Вставить файл');  
+  }
+  else if($("html").attr("lang")=="en"){
+   sourceFileLabel.text('Insert file');  
+  }
+        
         sourceContainer.children('img').remove();
         globRatio = 1; 
 
