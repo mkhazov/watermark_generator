@@ -267,7 +267,8 @@ a {
   height: 101px;
   display: inline-block;
   vertical-align: top;
-  position: relative; }
+  position: relative;
+  overflow: hidden; }
 
 .settings__position-button {
   display: inline-block;
@@ -465,7 +466,8 @@ a {
 .navigation {
   position: absolute;
   left: 0;
-  top: 20%; }
+  top: 20%;
+  z-index: 20; }
 
 .langs_nav {
   margin-bottom: 18px; }
