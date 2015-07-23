@@ -65,8 +65,16 @@ var formApp = (function() {
     // Чистка вотермарка
     var _clearWatermark = function(){         
         var watermarkInputLabel = watermarkInput.parent().find('.settings__form-file-label');
+        var text = '';
+        var lang = $('html').attr('lang');
+        if (lang == 'ru') {
+            text = 'Вставить файл';
+        }
+        else if (lang == 'en') {
+            text = 'Insert file';
+        }
         watermarkInput.val('');
-        watermarkInputLabel.text('Вставить файл');
+        watermarkInputLabel.text(text);
         $(watermarkImgSelector).remove();
 
         _clearPosition();
@@ -83,7 +91,6 @@ var formApp = (function() {
         $(sourceImgSelector).remove();
         globRatio = 1;
         _disableInputs();
-
         _clearWatermark();
     };
 

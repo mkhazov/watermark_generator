@@ -1,6 +1,6 @@
 <?php
+
 session_start();
-header('Cache-control: private'); // IE 6 FIX
 
 if(isSet($_GET['lang']))
 {
@@ -20,15 +20,15 @@ $lang = $_COOKIE['lang'];
 }
 else
 {
-$lang = 'ru';
+$lang = 'rus';
 }
 
 switch ($lang) {
-  case 'en':
+  case 'eng':
   $lang_file = 'lang-en.php';
   break;
 
-  case 'ru':
+  case 'rus':
   $lang_file = 'lang-ru.php';
   break;
 
@@ -37,5 +37,7 @@ switch ($lang) {
 
 }
 
+
 include_once 'languages/'.$lang_file;
+
 ?>

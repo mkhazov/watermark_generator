@@ -29,7 +29,6 @@ var submit = (function($) {
         xhr.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var blob = this.response;
-
                 // we got JSON response from server
                 if (blob.type == 'text/html') {
                     var fr = new FileReader();
@@ -75,6 +74,7 @@ var submit = (function($) {
      * @param {string} filename
      */
     function _downloadBlob(blob, filename) {
+
         if (typeof window.navigator.msSaveBlob !== 'undefined') {
             // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
             window.navigator.msSaveBlob(blob, filename);
@@ -88,11 +88,13 @@ var submit = (function($) {
                 // safari doesn't support this yet
                 if (typeof a.download === 'undefined') {
                     window.location = downloadUrl;
+                    $('#image_container').unblock();
                 } else {
                     a.href = downloadUrl;
                     a.download = filename;
                     document.body.appendChild(a);
                     a.click();
+                    $('#image_container').unblock();
                 }
             } else {
                 window.location = downloadUrl;
