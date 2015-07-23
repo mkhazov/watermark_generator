@@ -282,13 +282,15 @@ class WatermarkGenerator {
             $this->set_error('Позиция по оси Y выходит за границу изображения');
             $passed = FALSE;
         }
-        if ($position['x'] < 0) {
-            $this->set_error('Позиция по оси X не может иметь отрицательное значение');
-            $passed = FALSE;
-        }
-        if ($position['y'] < 0) {
-            $this->set_error('Позиция по оси Y не может иметь отрицательное значение');
-            $passed = FALSE;
+        if ($this->mode == 'single') {
+            if ($position['x'] < 0) {
+                $this->set_error('Позиция по оси X не может иметь отрицательное значение');
+                $passed = FALSE;
+            }
+            if ($position['y'] < 0) {
+                $this->set_error('Позиция по оси Y не может иметь отрицательное значение');
+                $passed = FALSE;
+            }
         }
 
         return $passed;
