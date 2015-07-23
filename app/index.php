@@ -42,23 +42,23 @@ include_once 'change-lang.php';
                </div>
                <div class="socials">
                        <div class="socials_like">
-                           <a href="#" class="socials_like-link"><div class="socials_like-icon sprite sprite-like"></div></a>
+                           <a href="#" class="socials_like-link"><div class="socials_like-icon sprite sprite-like-active"></div></a>
                        </div>
-                       <ul class="socials_inner">
-                               <li class="socials_inner-item">
+                       <ul class="socials__inner">
+                               <li class="socials__inner-item">
                                      <a href="https://www.facebook.com/sharer/sharer.php?u=http://watermark.mkhazov.ru/&t=Watermark Generator"
    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
-   target="_blank" class="socials_inner-link socials-fb"><div class="socials_inner-icon sprite sprite-fb"></div></a>
+   target="_blank" class="socials__inner-link"><div class="socials__inner-icon sprite sprite-fb-active"></div></a>
                               </li>
-                              <li class="socials_inner-item">
+                              <li class="socials__inner-item">
                                      <a href="https://twitter.com/share?url=http://watermark.mkhazov.ru/&text=Watermark Generator"
    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
-   target="_blank" class="socials_inner-link socials-tw"><div class="socials_inner-icon sprite sprite-tw"></div></a>
+   target="_blank" class="socials__inner-link"><div class="socials__inner-icon sprite sprite-tw-active"></div></a>
                               </li>
-                              <li class="socials_inner-item">
+                              <li class="socials__inner-item">
                                      <a href="http://vk.com/share.php?url=http://watermark.mkhazov.ru/" 
                           onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" 
-                          target="_blank" class="socials_inner-link socials-vk"><div class="socials_inner-icon sprite sprite-vk"></div></a>
+                          target="_blank" class="socials__inner-link"><div class="socials__inner-icon sprite sprite-vk-active"></div></a>
                               </li>  
                        </ul>
                </div>

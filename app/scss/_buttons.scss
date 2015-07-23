@@ -45,22 +45,22 @@ color: rgb(68, 74, 83);
   border:none;
 }
 
-.socials_like-link, .socials_inner-link {
+.socials_like-link, .socials__inner-link {
   display: table-cell;
   width: 43px;
   height: 41px;
   background-color: rgba(241, 241, 245, 0.702);
   vertical-align: middle; }
 
-.socials_inner-icon {
+.socials__inner-icon, .socials_like-icon {
   left: 0;
   right: 0;
-  margin: auto; }
+  margin: auto; 
+  opacity: .5;}
 
-.socials_like-icon {
-  left: 0;
-  right: 0;
-  margin: auto; }
+.socials__inner-link:hover div, .socials_like-link:hover div{
+opacity: 1;
+}  
 
 .socials_like {
   position: absolute;
@@ -72,7 +72,7 @@ color: rgb(68, 74, 83);
   width: 44px;
 } 
 
-.socials_inner {
+.socials__inner {
   
   width: 43px; }
 
