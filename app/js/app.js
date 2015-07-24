@@ -1,4 +1,4 @@
-var formApp = (function() {
+var formApp = (function () {
 
     // menuButton = $('.menu-button'),
     var formFile = $('.settings__form-file'),
@@ -19,58 +19,116 @@ var formApp = (function() {
         imagesUploaded = false,
         inputMode = $('.settings__mode'),
         mode = 'single';
-        
 
-    var _addEventListeners = function() {
-            formFile.on('change', _changeFileLabel);
-            formFile.on('change', _viewImg);
-            runner.slider({min:0, max:100, range:'min'});
-            buttonReset.on('click', _clearForm);
-            tileLinkTile.on('click', _doTile);
-            tileLinkBite.on('click', _doBite);
-        };
 
     // Изменение лейбла при выборе файла
-    var _changeFileLabel = function() {
+    var _changeFileLabel = function () {
         var $this = $(this),
             fileValue = $this.val(),
             fileLabel = $(this).parent().find('.settings__form-file-label');
-            if(fileValue){
-                fileLabel.text(fileValue);
-            }
-            else{
-                fileLabel.text('Вставить файл');
-            }
+        if (fileValue) {
+            fileLabel.text(fileValue);
+        } else {
+            fileLabel.text('Вставить файл');
+        }
         $this.tooltip('remove');
     };
 
+      /**
+     * Выключение инпутов.
+     */
+    function _disableInputs() {
+        $('.input_disabled').prop('disabled', true);
+    }
+
+    /**
+     * Включение инпутов.
+     */
+    function _enableInputs() {
+        $('.disabled').removeClass('disabled');
+        $('.input_disabled').prop('disabled', false);
+    }
+
+
+
+    var _setMarginView = function (axis, value) {
+        var marginSchemeSelector = '.settings__margin-scheme',
+            marginSchemeHorizontal = $('<div class="settings__margin-scheme_horizontal">'),
+            marginSchemeVertical = $('<div class="settings__margin-scheme_vertical">'),
+            marginSchemeHorizontalSelector = $('.settings__margin-scheme_horizontal'),
+            marginSchemeVerticalSelector = $('.settings__margin-scheme_vertical'),
+            positionButtons = $('.settings__position-buttons');
+
+        marginSchemeHorizontal.addClass('settings__margin-scheme');
+        marginSchemeVertical.addClass('settings__margin-scheme');
+        if (positionButtons.children(marginSchemeSelector).length === 0) {
+            positionButtons.append(marginSchemeHorizontal);
+            positionButtons.append(marginSchemeVertical);
+        }
+
+        switch (axis) {
+        case 'y':
+            marginSchemeHorizontalSelector.css({'height': value});
+            break;
+        case 'x':
+            marginSchemeVerticalSelector.css({'width': value});
+            break;
+        }
+    };
+
+
+    var _setMargin = function (axis, value) {
+        value *= globRatio;
+        var sourceContainerWidth = sourceContainer.width(),
+            sourceContainerHeight = sourceContainer.height(),
+            watermarkImage = $(watermarkImgSelector),
+            watermarkImageWidth = watermarkImage.width(),
+            watermarkImageHeight = watermarkImage.height(),
+            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth) * 2,
+            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight) * 2;
+
+        watermarkContainer.css({'width': widthRatio * watermarkImageWidth, 'height': heightRatio * watermarkImageHeight});
+
+        _setMarginView(axis, value);
+        switch (axis) {
+        case 'x':
+            watermarkImage.css({'margin-right': value});
+            watermarkContainer.css({'width': widthRatio * (watermarkImageWidth + value)});
+            break;
+        case 'y':
+            watermarkImage.css({'margin-bottom': value});
+            watermarkContainer.css({'height': heightRatio * (watermarkImageHeight + value)});
+            break;
+
+        }
+    };
+
     // Обнуление прозрачности
-    var _clearOpacity = function(){
+    var _clearOpacity = function () {
         var block = $('.image-container__watermark');
         runner.slider("value", 0);
         var opacity = 1;
         $(block).css('opacity', opacity);
         $('#opacity').val(opacity);
     };
-    
+
     // Обнуление позиции и отступов
-    var _clearPosition = function(){
+    var _clearPosition = function () {
         var formPosition = $('.settings__text-position');
         var block = moveIt();
         block.init(watermarkContainerSelector, sourceContainerSelector);
         formPosition.val(0);
-        block.setPosition(0,0);
+        block.setPosition(0, 0);
     };
 
     // Чистка вотермарка
-    var _clearWatermark = function(){         
+    var _clearWatermark = function () {
         var watermarkInputLabel = watermarkInput.parent().find('.settings__form-file-label');
         var text = '';
         var lang = $('html').attr('lang');
-        if (lang == 'ru') {
+        if (lang === 'ru') {
             text = 'Вставить файл';
-        }
-        else if (lang == 'en') {
+        } else if (lang === 'en') {
             text = 'Insert file';
         }
         watermarkInput.val('');
@@ -82,7 +140,7 @@ var formApp = (function() {
     };
 
     // Чистка главного изображения
-    var _clearSourceImage = function (){
+    var _clearSourceImage = function () {
         var sourceInput = $('#source-image'),
             sourceInputLabel = sourceInput.parent().find('.settings__form-file-label');
 
@@ -95,13 +153,13 @@ var formApp = (function() {
     };
 
 
-    var _clearSetMarginView = function(){
-        _setMarginView('x',0);
-        _setMarginView('y',0);
+    var _clearSetMarginView = function () {
+        _setMarginView('x', 0);
+        _setMarginView('y', 0);
     };
 
     // Сброс кнопок замощения
-    var _clearTile = function(){
+    var _clearTile = function () {
         var watermarkImageFirst = $(watermarkImgSelector).first(),
             watermarkImageWidth = watermarkImageFirst.width(),
             watermarkImageHeight = watermarkImageFirst.height(),
@@ -124,7 +182,7 @@ var formApp = (function() {
 
 
     // Чистка режима
-    var _clearMode = function() {
+    var _clearMode = function () {
         watermarkContainer.off('margin-change');
         mode = 'single';
         inputMode.val(mode);
@@ -137,7 +195,7 @@ var formApp = (function() {
     };
 
     // Полная очистка формы
-    var _clearForm = function(e){
+    var _clearForm = function (e) {
         e.preventDefault();
         if (!$(this).hasClass('disabled')) {
             sendFormValidate.reset();
@@ -148,45 +206,27 @@ var formApp = (function() {
         }
     };
 
-
-    /**
-     * Выключение инпутов.
-     */
-    function _disableInputs() {
-        $('.input_disabled').prop('disabled', true);
-    }
-
-    /**
-     * Включение инпутов.
-     */
-    function _enableInputs() {
-        $('.disabled').removeClass('disabled');
-        $('.input_disabled').prop('disabled', false);
-    }
-
     // Включение слайдера на изменение прозрачности
     var _opacitySliderOn = function (block) {
         runner.slider({
-            slide: function(event, ui) {
+            slide: function (event, ui) {
                 var opacity = (100 - ui.value) / 100;
                 $(block).css('opacity', opacity);
                 $('.settings__hidden').val(opacity).attr('value', opacity);
             }
-        })
+        });
     };
 
     // Проверка файла по типу или наличию
-    var _checkFormat = function(file) {
+    var _checkFormat = function (file) {
         var mimeTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/vnd.wap.wbmp', 'image/pjpeg', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon'];
 
-        if (!file){
+        if (!file) {
             return false;
-        }
-        else {       
-            if($.inArray(file.type, mimeTypes) !== -1) {
+        } else {
+            if ($.inArray(file.type, mimeTypes) !== -1) {
                 return true;
-            }
-            else {
+            } else {
                 alert('Не тот формат!');
                 return false;
             }
@@ -194,7 +234,7 @@ var formApp = (function() {
     };
 
     // вычисление коэффициента масшатбирования
-    var _getRatio = function(img){
+    var _getRatio = function (img) {
         var workSpace = $('.image-container__workspace'),
             workSpaceWidth = workSpace.width(),
             workSpaceHeight = workSpace.height(),
@@ -210,11 +250,10 @@ var formApp = (function() {
             heightRatio = workSpaceHeight / imageHeight;
             if (widthRatio < heightRatio) {
                 ratio = widthRatio;
-            }
-            else {
+            } else {
                 ratio = heightRatio;
             }
-        }   
+        }
         // console.log(ratio);
         return ratio;
     };
@@ -222,12 +261,11 @@ var formApp = (function() {
     /**
      * Смена модификаторов инпутов при переключении режима на замощение и обратно.
      */
-    var _changeMode = function() {
+    var _changeMode = function () {
         // режим работы (одиночный вотермарк или сетка)
-        if (inputMode.val() == 'single') {
+        if (inputMode.val() === 'single') {
             mode = 'grid';
-        }
-        else {
+        } else {
             mode = 'single';
         }
         inputMode.val(mode);
@@ -243,7 +281,7 @@ var formApp = (function() {
     };
 
     // Замощение
-    var _doTile = function(e){
+    var _doTile = function (e) {
         e.preventDefault();
         if ($(this).hasClass(tileLinkSelected) || !imagesUploaded) {
             return false;
@@ -262,7 +300,7 @@ var formApp = (function() {
             widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth) * 2,
             heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight) * 2;
 
-        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight});
+        watermarkContainer.css({'width': widthRatio * watermarkImageWidth, 'height': heightRatio * watermarkImageHeight});
         for (var i = 0; i <= widthRatio; i++) {
             for (var j = 0; j <= heightRatio; j++){
                 watermarkContainer.append(watermarkHtml);
@@ -274,8 +312,8 @@ var formApp = (function() {
 
 
     // Размощение
-    var _doBite = function(e){
-        e.preventDefault();               
+    var _doBite = function (e) {
+        e.preventDefault();
         if ($(this).hasClass(tileLinkSelected) || !imagesUploaded) {
             return false;
         }
@@ -286,11 +324,10 @@ var formApp = (function() {
         watermarkContainer.off('margin-change');
        /// watermarkContainer.on('position-change');   Видимо, чтобы подключить изменение позиционирования нужно по новой инициировать модуль позиционирования
         _changeMode();
-        
     };
 
     // Вставка изображения в рабочее поле
-    var _viewImg = function(e) {
+    var _viewImg = function (e) {
         var $this = $(this),
             file = $this[0].files[0],
             img = document.createElement('img'),
@@ -299,22 +336,21 @@ var formApp = (function() {
 
         // попробовать опустить        
         if (!_checkFormat(file)) {
-            if ($this.attr('name') == 'source-image') {
-               _clearSourceImage();
-               _clearTile();
-            }
-            else if($this.attr('name') == 'watermark-image'){
+            if ($this.attr('name') === 'source-image') {
+                _clearSourceImage();
+                _clearTile();
+            } else if ($this.attr('name') === 'watermark-image') {
                 _clearWatermark();
                 _clearTile();
             }
             return false;
         }
-        
-        reader.onload = function(event) {
+
+        reader.onload = function (event) {
             img.src = event.target.result;
             img.setAttribute('draggable', 'false');
             // вставка главного изображения
-            if ($this.attr('name') == 'source-image') {
+            if ($this.attr('name') === 'source-image') {
                 // Предварительная очистка приложения
                 _clearWatermark();
                 $(sourceImgSelector).remove();
@@ -330,30 +366,28 @@ var formApp = (function() {
                 _clearTile();
 
                 // задание масштаба основной картинки
-                $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                $img.css({'width': (img.width * globRatio) + 'px', 'height': (img.height * globRatio) + 'px'});
 
                 // включение инпута для загрузки вотермарка
                 $('.settings__watermark-image').removeClass('disabled');
                 watermarkInput.prop('disabled', false);
-            }
-            // вставка вотермарка
-            else if ($this.attr('name') == 'watermark-image') {
+            } else if ($this.attr('name') === 'watermark-image') {
+                // вставка вотермарка
                 //предварительная очистка вотермарка
                 _clearMode();
                 _clearPosition();
                 _clearOpacity();
-                
+
                 $(watermarkImgSelector).remove();
 
                 $img.addClass('watermark-img');
                 watermarkContainer.append(img);
 
-               
                 _clearTile();
 
                 // задание масштаба вотермарка
-                $img.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
-                watermarkContainer.css({'width': (img.width * globRatio) +'px','height': (img.height * globRatio) + 'px'});
+                $img.css({'width': (img.width * globRatio) + 'px', 'height': (img.height * globRatio) + 'px'});
+                watermarkContainer.css({'width': (img.width * globRatio) + 'px', 'height': (img.height * globRatio) + 'px'});
                 imagesUploaded = true;
                 // вызвать кастомное событие 'images-uploaded'
                 $('#workform').trigger('images-uploaded', [sourceContainerSelector, watermarkContainerSelector]);
@@ -363,7 +397,7 @@ var formApp = (function() {
             }
         };
 
-        reader.onerror = function() {
+        reader.onerror = function () {
             alert('Файл не может быть прочитан!' + event.target.error.code);
         };
         reader.readAsDataURL(file);
@@ -374,74 +408,33 @@ var formApp = (function() {
      * @param {string} axis ось (x или y)
      * @param {int} value значение отступа
      */
-    var _setMarginView = function (axis,value) {
-        var marginSchemeSelector = '.settings__margin-scheme';
-            marginSchemeHorizontal = $('<div class="settings__margin-scheme_horizontal">'),
-            marginSchemeVertical = $('<div class="settings__margin-scheme_vertical">'),
-            marginSchemeHorizontalSelector = $('.settings__margin-scheme_horizontal'),
-            marginSchemeVerticalSelector = $('.settings__margin-scheme_vertical'),
-            positionButtons = $('.settings__position-buttons');
 
-        marginSchemeHorizontal.addClass('settings__margin-scheme');
-        marginSchemeVertical.addClass('settings__margin-scheme');
-        if (positionButtons.children(marginSchemeSelector).length === 0) {
-            positionButtons.append(marginSchemeHorizontal);
-            positionButtons.append(marginSchemeVertical);
-        }
-
-        switch (axis) {
-            case 'y':
-                marginSchemeHorizontalSelector.css({'height':value});
-            break;
-            case 'x':
-                marginSchemeVerticalSelector.css({'width':value});
-            break;
-        }
-    };
-
-    var _setMargin = function (axis, value) {
-        value *= globRatio;
-        var sourceContainerWidth = sourceContainer.width(),
-            sourceContainerHeight = sourceContainer.height(),
-            watermarkImage = $(watermarkImgSelector),
-            watermarkImageWidth = watermarkImage.width(),
-            watermarkImageHeight = watermarkImage.height(),
-            widthRatio = Math.ceil(sourceContainerWidth / watermarkImageWidth)*2,
-            heightRatio = Math.ceil(sourceContainerHeight / watermarkImageHeight)*2;
-
-        watermarkContainer.css({'width': widthRatio*watermarkImageWidth, 'height': heightRatio*watermarkImageHeight});
-
-        _setMarginView(axis, value);
-        switch (axis) {
-            case 'x':
-                watermarkImage.css({'margin-right':value});
-                watermarkContainer.css({'width': widthRatio*(watermarkImageWidth + 2*value)});
-                break;
-            case 'y':
-                watermarkImage.css({'margin-bottom':value});
-                watermarkContainer.css({'height': heightRatio*(watermarkImageHeight + 2*value)});
-                break;
-
-        }
+    var _addEventListeners = function () {
+        formFile.on('change', _changeFileLabel);
+        formFile.on('change', _viewImg);
+        runner.slider({min: 0, max: 100, range: 'min'});
+        buttonReset.on('click', _clearForm);
+        tileLinkTile.on('click', _doTile);
+        tileLinkBite.on('click', _doBite);
     };
 
     return {
-        init: function() {
+        init: function () {
             _addEventListeners();
             _opacitySliderOn(watermarkContainerSelector);
             tileLinkBite.addClass(tileLinkSelected);
         },
         // метод получения последнего коэффициента
-        getRatio: function() {
+        getRatio: function () {
             return globRatio;
         },
         // установка отступов между картинками в сетке вотермарка
-        setMargin: function(axis, value) {
+        setMargin: function (axis, value) {
             _setMargin(axis, value);
         },
         // текущий режим работы
-        getMode: function() {
+        getMode: function () {
             return mode;
         }
-    }
-})();
+    };
+})()
