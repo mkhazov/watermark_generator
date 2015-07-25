@@ -1,12 +1,12 @@
-var submit = (function($) {
+var submit = (function () {
 
-    function _addEventListeners() {
-        $('#workform').on('submit', _submitForm);
+    function addEventListeners() {
+        $('#workform').on('submit', submitForm);
     }
 
-    function _submitForm(e) {
+    function submitForm(e) {
         e.preventDefault();
-        
+
         var resultValidate = sendFormValidate.validate();
         if (resultValidate === false) {
             return false;
@@ -15,36 +15,35 @@ var submit = (function($) {
         var formData = new FormData($(this)[0]);
 
         // расчет и отправка на сервер реальных координат
-        var x = $('#position-x').val();
-        var y = $('#position-y').val();
-        var scaleRatio = formApp.getRatio();
-        var realX = ~~(x / scaleRatio);
-        var realY = ~~(y / scaleRatio);
+        var x = $('#position-x').val(),
+            y = $('#position-y').val(),
+            scaleRatio = formApp.getRatio(),
+            realX = ~~(x / scaleRatio),
+            realY = ~~(y / scaleRatio),
+            // jQuery ajax can't retrieve data as blob,
+            // so use native XMLHttpresuest
+            xhr = new XMLHttpRequest();
+
         formData.append('position-x', realX);
         formData.append('position-y', realY);
 
-        // jQuery ajax can't retrieve data as blob,
-        // so use native XMLHttpresuest
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
                 var blob = this.response;
                 // we got JSON response from server
-                if (blob.type == 'text/html') {
+                if (blob.type === 'text/html') {
                     var fr = new FileReader();
-                    fr.onload = $.proxy(function(e) {
+                    fr.onload = $.proxy(function (e) {
                         var response = JSON.parse(e.target.result);
                         console.log(response);
                     }, this);
                     fr.readAsText(blob);
-                }
-                // we got an image
-                else {
-                    var filename = _generateFilename(xhr);
-                    _downloadBlob(xhr.response, filename);
+                } else { // we got an image
+                    var filename = generateFilename(xhr);
+                    downloadBlob(xhr.response, filename);
                 }
             }
-        }
+        };
         xhr.open('POST', 'generate-img.php');
         xhr.responseType = 'blob';
         xhr.send(formData);
@@ -55,13 +54,16 @@ var submit = (function($) {
      * @param {XMLHttpRequest} xhr
      * @return {string} filename
      */
-    function _generateFilename(xhr) {
-        var filename = "";
-        var disposition = xhr.getResponseHeader('Content-Disposition');
+    function generateFilename(xhr) {
+        var filename = '',
+            disposition = xhr.getResponseHeader('Content-Disposition'),
+            filenameRegex,
+            matches;
+
         if (disposition && disposition.indexOf('attachment') !== -1) {
-            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-            var matches = filenameRegex.exec(disposition);
-            if (matches != null && matches[1]) {
+            filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+            matches = filenameRegex.exec(disposition);
+            if (matches !== null && matches[1]) {
                 filename = matches[1].replace(/['"]/g, '');
             }
         }
@@ -73,18 +75,19 @@ var submit = (function($) {
      * @param {blob} blob
      * @param {string} filename
      */
-    function _downloadBlob(blob, filename) {
+    function downloadBlob(blob, filename) {
 
         if (typeof window.navigator.msSaveBlob !== 'undefined') {
             // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
             window.navigator.msSaveBlob(blob, filename);
         } else {
-            var URL = window.URL || window.webkitURL;
-            var downloadUrl = URL.createObjectURL(blob);
+            var URL = window.URL || window.webkitURL,
+                downloadUrl = URL.createObjectURL(blob),
+                a;
 
             if (filename) {
                 // use HTML5 a[download] attribute to specify filename
-                var a = document.createElement("a");
+                a = document.createElement('a');
                 // safari doesn't support this yet
                 if (typeof a.download === 'undefined') {
                     window.location = downloadUrl;
@@ -105,8 +108,8 @@ var submit = (function($) {
     }
 
     return {
-        init: function() {
-            _addEventListeners();
+        init: function () {
+            addEventListeners();
         }
-    }
-})(jQuery);
+    };
+}());
