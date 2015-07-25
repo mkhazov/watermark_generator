@@ -437,4 +437,4 @@ var formApp = (function () {
             return mode;
         }
     };
-})()
+})();
