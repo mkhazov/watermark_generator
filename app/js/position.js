@@ -6,10 +6,10 @@ var position = (function () {
         currentPositionClass = 'settings__position-button_current',
         currentPositionSelector = '.' + currentPositionClass;
 
-    function _addEventListeners () {
+    function addEventListeners() {
         // после загразки файла в инпут включаем позиционирование водяного знака
         $('#workform').one('images-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
-            _enablePositioning(sourceContainerSelector, watermarkContainerSelector);
+            enablePositioning(sourceContainerSelector, watermarkContainerSelector);
         });
     }
 
@@ -18,7 +18,7 @@ var position = (function () {
      * @param {string} sourceContainerSelector
      * @param {string} watermarkContainerSelector
      */
-    function _enablePositioning(sourceContainerSelector, watermarkContainerSelector) {
+    function enablePositioning(sourceContainerSelector, watermarkContainerSelector) {
         fileUploaded = true;
         var watermarkContainer = $(watermarkContainerSelector);
 
@@ -28,19 +28,19 @@ var position = (function () {
         block.dragNDropEnable();
 
         // по клику на кнопку позиционирования переместить водяной знак в требуемую секцию
-        $('.settings__position-button').on('click', _setPositionArea);
+        $('.settings__position-button').on('click', setPositionArea);
 
         // по клику на стрелку
-        $('.settings__arrow').on('click', _handleArrow);
+        $('.settings__arrow').on('click', handleArrow);
 
         // по вводу значения в текстовое поле
-        $('.settings__text').on('input change', _handleTextInput);
+        $('.settings__text').on('input change', handleTextInput);
 
-        watermarkContainer.on('position-change', function(event, x, y) {
-            _changePositionValues(x, y);
+        watermarkContainer.on('position-change', function (event, x, y) {
+            changePositionValues(x, y);
 
-            if (formApp.getMode() == 'single') {
-                _displayPositionValues(x, y);
+            if (formApp.getMode() === 'single') {
+                displayPositionValues(x, y);
             }
         });
     }
@@ -49,17 +49,17 @@ var position = (function () {
      * Поместить водяной знак в одну из 9 секций.
      * @param {string} position
      */
-    function _setPositionArea() {
+    function setPositionArea() {
         if (formApp.getMode() !== 'single') {
             return;
         }
 
-        var $this = $(this);
+        var $this = $(this),
+            position = $this.data('position');
 
         $this.siblings().removeClass(currentPositionClass);
         $this.addClass(currentPositionClass);
 
-        var position = $this.data('position');
         if (block.stickBlock !== undefined) {
             stickBlockMode = true;
             block.stickBlock(position);
@@ -69,7 +69,7 @@ var position = (function () {
     /**
      * Обработчик клика по стрелкам позиционирования.
      */
-    function _handleArrow() {
+    function handleArrow() {
         if (fileUploaded !== true) {
             return;
         }
@@ -79,15 +79,13 @@ var position = (function () {
 
         if ($this.hasClass('settings__arrow-up')) {
             value = 1;
-        }
-        else if ($this.hasClass('settings__arrow-down')) {
+        } else if ($this.hasClass('settings__arrow-down')) {
             value = -1;
         }
 
         if ($this.hasClass('settings__axis_x')) {
             axis = 'x';
-        }
-        else if ($this.hasClass('settings__axis_y')) {
+        } else if ($this.hasClass('settings__axis_y')) {
             axis = 'y';
         }
 
@@ -100,29 +98,26 @@ var position = (function () {
                 // изменяем значение по требуемой оси
                 position[axis] += value;
                 // устанавливаем новые координаты
-                block.setPosition(position['x'], position['y']);
-            }
-
+                block.setPosition(position.x, position.y);
             // изменение отступа
-            else if ($this.hasClass('settings__arrow_margin')) {
+            } else if ($this.hasClass('settings__arrow_margin')) {
                 var margin = parseInt($('.settings__margin_' + axis).val());
                 margin += parseInt(value);
-                _changeMarginValue(axis, margin);
+                changeMarginValue(axis, margin);
                 formApp.setMargin(axis, margin);
             }
 
         }
     }
 
-    function _handleTextInput() {
+    function handleTextInput() {
         var $this = $(this),
             value = $this.val(),
             axis = '';
 
         if ($this.hasClass('settings__axis_x')) {
             axis = 'x';
-        }
-        else if ($this.hasClass('settings__axis_y')) {
+        } else if ($this.hasClass('settings__axis_y')) {
             axis = 'y';
         }
 
@@ -133,12 +128,11 @@ var position = (function () {
                 // изменяем значение по требуемой оси
                 position[axis] = value;
                 // устанавливаем новые координаты
-                block.setPosition(position['x'], position['y']);
-            }
-            else if ($this.hasClass('settings__text_margin')) {
+                block.setPosition(position.x, position.y);
+            } else if ($this.hasClass('settings__text_margin')) {
                 var margin = 0;
                 margin += parseInt(value);
-                _changeMarginValue(axis, margin);
+                changeMarginValue(axis, margin);
                 formApp.setMargin(axis, margin);
             }
 
@@ -148,7 +142,7 @@ var position = (function () {
     /**
      * Установка значений координат в скрытые инпуты.
      */
-    function _changePositionValues(x, y) {
+    function changePositionValues(x, y) {
         $('.settings__position_x').val(x);
         $('.settings__position_y').val(y);
     }
@@ -156,7 +150,7 @@ var position = (function () {
     /**
      * Установка значений координат в отображаемые инпуты.
      */
-    function _displayPositionValues(x, y) {
+    function displayPositionValues(x, y) {
         // если позиция изменена не с помощью кнопок .settings__position-button,
         // нужно удалить с одной из них активный класс
         if (!stickBlockMode) {
@@ -171,15 +165,15 @@ var position = (function () {
     /**
      * Установка значений отступов в инпуты.
      */
-    function _changeMarginValue(axis, value) {
+    function changeMarginValue(axis, value) {
         $('.settings__text_' + axis).val(value);
         $('.settings__margin_' + axis).val(value);
     }
 
     return {
         init: function () {
-            _addEventListeners();
+            addEventListeners();
         }
-    }
+    };
 
-})();
+}());
