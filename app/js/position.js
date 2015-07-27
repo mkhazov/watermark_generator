@@ -8,7 +8,7 @@ var position = (function () {
 
     function addEventListeners() {
         // после загразки файла в инпут включаем позиционирование водяного знака
-        $('#workform').one('images-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
+        $('#workform').on('images-uploaded', function (event, sourceContainerSelector, watermarkContainerSelector) {
             enablePositioning(sourceContainerSelector, watermarkContainerSelector);
         });
     }
@@ -19,30 +19,38 @@ var position = (function () {
      * @param {string} watermarkContainerSelector
      */
     function enablePositioning(sourceContainerSelector, watermarkContainerSelector) {
-        fileUploaded = true;
         var watermarkContainer = $(watermarkContainerSelector);
 
-        // подключаем модуль позиционирования
-        block = moveIt();
-        block.init(watermarkContainerSelector, sourceContainerSelector);
-        block.dragNDropEnable();
+        if (!fileUploaded) {
+            // подключаем модуль позиционирования
+            block = moveIt();
+            block.init(watermarkContainerSelector, sourceContainerSelector);
+            block.dragNDropEnable();
 
-        // по клику на кнопку позиционирования переместить водяной знак в требуемую секцию
-        $('.settings__position-button').on('click', setPositionArea);
+            // по клику на кнопку позиционирования переместить водяной знак в требуемую секцию
+            $('.settings__position-button').on('click', setPositionArea);
 
-        // по клику на стрелку
-        $('.settings__arrow').on('click', handleArrow);
+            // по клику на стрелку
+            $('.settings__arrow').on('click', handleArrow);
 
-        // по вводу значения в текстовое поле
-        $('.settings__text').on('input change', handleTextInput);
+            // по вводу значения в текстовое поле
+            $('.settings__text').on('input change', handleTextInput);
 
-        watermarkContainer.on('position-change', function (event, x, y) {
-            changePositionValues(x, y);
+            watermarkContainer.on('position-change', function (event, x, y) {
+                changePositionValues(x, y);
 
-            if (formApp.getMode() === 'single') {
-                displayPositionValues(x, y);
-            }
-        });
+                if (formApp.getMode() === 'single') {
+                    displayPositionValues(x, y);
+                }
+            });
+
+            fileUploaded = true;
+        }
+
+        else {
+            // картинки загружены не в первый раз, нужно пересчитать
+            block.recalc();
+        }
     }
 
     /**
