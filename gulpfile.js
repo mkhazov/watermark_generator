@@ -12,9 +12,7 @@ var gulp = require('gulp'),
     size = require('gulp-size'),
     imagemin = require('gulp-imagemin'),
     minifyCss = require('gulp-minify-css'),
-    gutil = require('gulp-util'),
-    args = require('yargs').argv,
-    ftp = require('vinyl-ftp');
+    gutil = require('gulp-util');
 
 
 // Задача по умолчанию
@@ -166,26 +164,6 @@ gulp.task('server-dist', ['php-dist'], function () {
         open: true,
         notify: false,
     });
-});
-
-
-// ==================== Отправка проекта на сервер ====================
-
-gulp.task('deploy', function () {
-    var conn = ftp.create({
-        host:     'lshw2.kvasyuk.com',
-        user:     'ch26175_ls',
-        password: args.password,
-        parallel: 10,
-        log: gutil.log
-    });
-
-    var globs = [
-        'dist/**/*'
-    ];
-
-    return gulp.src(globs, { base: 'dist/', buffer: false })
-        .pipe(conn.dest('lshw2/public_html/lshw3/'));
 });
 
 
