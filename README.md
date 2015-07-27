@@ -1,7 +1,7 @@
 # watermark_generator
 # Генератор водяных знаков
 
-### Требования
+### Requirements
 
  - PHP 5.3+ with GD and mbstring
 
@@ -12,3 +12,10 @@
 - bower i && npm i
 - composer install
 - gulp
+
+### Authors
+
+- **Mikhail Khazov** - teamlead, PHP, JS
+- **Evgeniy Kvasyuk** - HTML, CSS, JS
+- **Aleksandr Ivanov** - JS
+- **Tural Mehdi** - PHP, JS
