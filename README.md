@@ -5,7 +5,7 @@
 
  - PHP 5.3+ with GD and mbstring
 
-### Установка и запуск
+### How to install and launch
 
 - git clone https://github.com/T-34/watermark_generator
 - cd watermark_generator
