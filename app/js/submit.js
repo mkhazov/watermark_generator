@@ -12,7 +12,7 @@ var submit = (function () {
             return false;
         }
 
-        var formData = new FormData($(this)[0]);
+        var formData = new FormData(this);
 
         // расчет и отправка на сервер реальных координат
         var x = $('#position-x').val(),
