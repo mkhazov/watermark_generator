@@ -1,11 +1,6 @@
 {
     "name": "loftschool3/watermark-generator",
-    "authors": [
-        {
-            "name": "Mikhail Khazov",
-            "email": "mikhailkhazov@gmail.com"
-        }
-    ],
+
     "require": {
         "smottt/wideimage": "dev-master"
     },
